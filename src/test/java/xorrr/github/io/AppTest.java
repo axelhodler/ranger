@@ -22,22 +22,22 @@ public class AppTest {
     private DBCollection media;
 
     private BasicDBObject createMediaDbo() {
-        return new BasicDBObject(MediaCol.URL, "www.test.org")
-        .append(MediaCol.RANGES, new ArrayList<BasicDBObject>());
+        return new BasicDBObject(MediaCol.URL, "www.test.org").append(
+                MediaCol.RANGES, new ArrayList<BasicDBObject>());
     }
 
     private BasicDBObject createRangeDbo() {
-        return new BasicDBObject(MediaCol.RANGES,
-                new BasicDBObject(MediaCol.USER, "userid").append(
-                        MediaCol.RANGE, new BasicDBObject(MediaCol.START_TIME,
-                                "27:11").append(MediaCol.END_TIME, "28:22")));
+        return new BasicDBObject(MediaCol.RANGES, new BasicDBObject(
+                MediaCol.USER, "userid").append(MediaCol.RANGE,
+                new BasicDBObject(MediaCol.START_TIME, "27:11").append(
+                        MediaCol.END_TIME, "28:22")));
     }
 
     @SuppressWarnings("unchecked")
     private List<DBObject> getRangesList() {
         return (List<DBObject>) media.findOne(
                 new BasicDBObject(MediaCol.URL, "www.test.org")).get(
-                        MediaCol.RANGES);
+                MediaCol.RANGES);
     }
 
     private DBObject getFirstRange(List<DBObject> dbo) {
@@ -69,7 +69,6 @@ public class AppTest {
         assertEquals(mediaDbo, media.findOne(mediaDbo));
     }
 
-
     @Test
     public void canUpdateMedia() throws Exception {
         DBObject mediaDbo = createMediaDbo();
@@ -77,7 +76,8 @@ public class AppTest {
         DBObject rangeToPush = new BasicDBObject("$push", rangeDbo);
 
         media.insert(mediaDbo);
-        media.update(new BasicDBObject(MediaCol.URL, "www.test.org"), rangeToPush);
+        media.update(new BasicDBObject(MediaCol.URL, "www.test.org"),
+                rangeToPush);
         List<DBObject> dbo = getRangesList();
         DBObject foundRangeDbo = getFirstRange(dbo);
 
