@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNull;
 import java.net.UnknownHostException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import xorrr.github.io.RangerDB;
@@ -18,8 +20,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import de.flapdoodle.embed.mongo.MongodExecutable;
+
 public class TestUserMongoDatastore {
 
+    private static MongodExecutable mongodExe;
     private MongoClient client;
     private UserDatastore ds;
     private DBCollection userCol;
@@ -45,9 +50,15 @@ public class TestUserMongoDatastore {
                 .findOne(new BasicDBObject(UserCol.NAME, "xorrr"));
     }
 
+    @BeforeClass
+    public static void setUpEmbeddedMongo() throws Exception {
+        mongodExe = EmbeddedMongo.getEmbeddedMongoExecutable();
+        mongodExe.start();
+    }
+
     @Before
     public void setUp() throws UnknownHostException {
-        client = new MongoClient("localhost");
+        client = new MongoClient("localhost", 12345);
         ds = new UserMongoDatastore();
         userCol = client.getDB(RangerDB.NAME).getCollection(RangerDB.USER_COL);
     }
@@ -81,5 +92,10 @@ public class TestUserMongoDatastore {
     @After
     public void tearDown() {
         userCol.drop();
+    }
+
+    @AfterClass
+    public static void stopEmbeddedMongo() {
+        mongodExe.stop();
     }
 }

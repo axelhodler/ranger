@@ -18,7 +18,7 @@ public class UserMongoDatastore implements UserDatastore {
     private DBCollection col;
 
     public UserMongoDatastore() throws UnknownHostException {
-        MongoClient client = new MongoClient("localhost");
+        MongoClient client = new MongoClient("localhost", 12345);
         col = client.getDB(RangerDB.NAME).getCollection(RangerDB.USER_COL);
     }
 
