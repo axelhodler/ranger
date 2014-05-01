@@ -7,16 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import xorrr.github.io.db.EmbeddedMongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import de.flapdoodle.embed.mongo.MongodExecutable;
+
 public class AppTest {
 
+    private static MongodExecutable mongodExe;
     private MongoClient client;
     private DBCollection users;
     private DBCollection media;
@@ -42,6 +49,12 @@ public class AppTest {
 
     private DBObject getFirstRange(List<DBObject> dbo) {
         return (DBObject) dbo.get(0).get(MediaCol.RANGE);
+    }
+
+    @BeforeClass
+    public static void setUpEmbeddedMongo() throws Exception {
+        mongodExe = EmbeddedMongo.getEmbeddedMongoExecutable();
+        mongodExe.start();
     }
 
     @Before
@@ -88,5 +101,10 @@ public class AppTest {
     @After
     public void tearDown() {
         client.getDB(RangerDB.NAME).dropDatabase();
+    }
+
+    @AfterClass
+    public static void stopEmbeddedMongo() {
+        mongodExe.stop();
     }
 }
