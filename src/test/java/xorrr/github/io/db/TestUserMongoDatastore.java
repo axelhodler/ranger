@@ -10,10 +10,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import xorrr.github.io.RangerDB;
 import xorrr.github.io.UserCol;
 import xorrr.github.io.model.User;
+import xorrr.github.io.utils.IntegrationTest;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -22,6 +24,7 @@ import com.mongodb.MongoClient;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
+@Category(IntegrationTest.class)
 public class TestUserMongoDatastore {
 
     private static MongodExecutable mongodExe;

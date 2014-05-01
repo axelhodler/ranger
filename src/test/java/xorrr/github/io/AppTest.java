@@ -11,8 +11,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import xorrr.github.io.db.EmbeddedMongo;
+import xorrr.github.io.utils.IntegrationTest;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -21,6 +23,7 @@ import com.mongodb.MongoClient;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
+@Category(IntegrationTest.class)
 public class AppTest {
 
     private static MongodExecutable mongodExe;
