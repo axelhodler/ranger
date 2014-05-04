@@ -1,6 +1,7 @@
 package xorrr.github.io;
 
 public abstract class MediaCol {
+    public static final String ID = "_id";
     public static final String RANGES = "ranges";
     public static final String RANGE = "range";
     public static final String START_TIME = "startTime";
