@@ -2,25 +2,25 @@ package xorrr.github.io.model;
 
 public class Range {
 
-    private String startTime;
-    private String endTime;
+    private int startTime;
+    private int endTime;
 
-    public Range(String startTime, String endTime) {
+    public Range(int startTime, int endTime) {
         super();
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public String getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
-    public void setStartTime(String startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
-    public String getEndTime() {
+    public int getEndTime() {
         return endTime;
     }
-    public void setEndTime(String endTime) {
+    public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
 
@@ -28,9 +28,8 @@ public class Range {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
-        result = prime * result
-                + ((startTime == null) ? 0 : startTime.hashCode());
+        result = prime * result + endTime;
+        result = prime * result + startTime;
         return result;
     }
 
@@ -43,15 +42,9 @@ public class Range {
         if (getClass() != obj.getClass())
             return false;
         Range other = (Range) obj;
-        if (endTime == null) {
-            if (other.endTime != null)
-                return false;
-        } else if (!endTime.equals(other.endTime))
+        if (endTime != other.endTime)
             return false;
-        if (startTime == null) {
-            if (other.startTime != null)
-                return false;
-        } else if (!startTime.equals(other.startTime))
+        if (startTime != other.startTime)
             return false;
         return true;
     }
