@@ -10,6 +10,7 @@ import xorrr.github.io.MediaCol;
 import xorrr.github.io.RangerDB;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
+import xorrr.github.io.utils.EmbeddedMongoProperties;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

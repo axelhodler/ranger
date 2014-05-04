@@ -1,4 +1,4 @@
-package xorrr.github.io.db;
+package xorrr.github.io.utils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

@@ -1,4 +1,4 @@
-package xorrr.github.io.db;
+package xorrr.github.io.utils;
 
 public class EmbeddedMongoProperties {
 

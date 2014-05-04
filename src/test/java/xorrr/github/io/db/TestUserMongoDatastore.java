@@ -15,6 +15,7 @@ import org.junit.experimental.categories.Category;
 import xorrr.github.io.RangerDB;
 import xorrr.github.io.UserCol;
 import xorrr.github.io.model.User;
+import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
 
 import com.mongodb.BasicDBObject;
