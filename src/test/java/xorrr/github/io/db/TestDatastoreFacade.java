@@ -14,17 +14,17 @@ import org.mockito.runners.MockitoJUnitRunner;
 import xorrr.github.io.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestUserDatastoreFacade {
+public class TestDatastoreFacade {
 
     @Mock
     UserDatastore ds;
 
-    private UserDatastoreFacade facade;
+    private DatastoreFacade facade;
     private final String ID = "1234";
 
     @Before
     public void setUp() {
-        facade = new UserDatastoreFacade(ds);
+        facade = new DatastoreFacade(ds);
     }
 
     @Test

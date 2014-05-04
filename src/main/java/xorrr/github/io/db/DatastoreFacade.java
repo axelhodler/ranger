@@ -2,11 +2,11 @@ package xorrr.github.io.db;
 
 import xorrr.github.io.model.User;
 
-public class UserDatastoreFacade {
+public class DatastoreFacade {
 
     private UserDatastore ds;
 
-    public UserDatastoreFacade(UserDatastore ds) {
+    public DatastoreFacade(UserDatastore ds) {
         this.ds = ds;
     }
 
