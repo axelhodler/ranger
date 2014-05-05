@@ -3,8 +3,11 @@ package xorrr.github.io.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Media {
 
+    private String objectId;
     private String url;
     private List<Range> ranges;
 
@@ -12,6 +15,15 @@ public class Media {
         super();
         this.url = url;
         this.ranges = new ArrayList<>();
+    }
+
+    @JsonProperty("_id")
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getUrl() {
@@ -34,6 +46,8 @@ public class Media {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result
+                + ((objectId == null) ? 0 : objectId.hashCode());
         result = prime * result + ((ranges == null) ? 0 : ranges.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
         return result;
@@ -48,6 +62,11 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
+        if (objectId == null) {
+            if (other.objectId != null)
+                return false;
+        } else if (!objectId.equals(other.objectId))
+            return false;
         if (ranges == null) {
             if (other.ranges != null)
                 return false;
@@ -63,7 +82,7 @@ public class Media {
 
     @Override
     public String toString() {
-        return "Media [url=" + url + ", ranges=" + ranges + "]";
+        return "Media [objectId=" + objectId + ", url=" + url + ", ranges="
+                + ranges + "]";
     }
-
 }
