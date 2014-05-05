@@ -5,6 +5,10 @@ public class Range {
     private int startTime;
     private int endTime;
 
+    public Range() {
+
+    }
+
     public Range(int startTime, int endTime) {
         super();
         this.startTime = startTime;
