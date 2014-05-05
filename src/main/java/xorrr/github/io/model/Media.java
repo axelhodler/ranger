@@ -11,6 +11,10 @@ public class Media {
     private String url;
     private List<Range> ranges;
 
+    public Media() {
+
+    }
+
     public Media(String url) {
         super();
         this.url = url;
