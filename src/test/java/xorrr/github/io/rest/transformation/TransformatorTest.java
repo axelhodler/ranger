@@ -10,6 +10,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
+import xorrr.github.io.model.Media;
+import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 public class TransformatorTest {
@@ -24,6 +26,13 @@ public class TransformatorTest {
         return u;
     }
 
+    private Media createExampleMedia() {
+        Media m = new Media("www.url.org");
+        Range r = new Range(60, 80);
+        m.addRange(r);
+        return m;
+    }
+
     @Before
     public void setUp() {
         t = new Transformator();
@@ -35,7 +44,7 @@ public class TransformatorTest {
             JsonMappingException, IOException {
         User u = createExampleUser();
 
-        assertEquals(t.toJson(u), mapper.writeValueAsString(u));
+        assertEquals(t.toUserJson(u), mapper.writeValueAsString(u));
     }
 
     @Test
@@ -46,5 +55,23 @@ public class TransformatorTest {
         String jsonUser = mapper.writeValueAsString(u);
 
         assertEquals(u, t.toUserPojo(jsonUser));
+    }
+
+    @Test
+    public void canTransformMediaToJson() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        Media m = createExampleMedia();
+
+        assertEquals(t.toMediaJson(m), mapper.writeValueAsString(m));
+    }
+
+    @Test
+    public void canTransformMediaJsonToPojo() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        Media m = createExampleMedia();
+
+        String jsonMedia = mapper.writeValueAsString(m);
+
+        assertEquals(m, t.toMediaPojo(jsonMedia));
     }
 }
