@@ -65,28 +65,24 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToGetMediaById() {
-        String id = "1234";
-        facade.getMediaById(id);
+        facade.getMediaById(ID);
 
-        verify(mediaDs, times(1)).getMediaById(id);
+        verify(mediaDs, times(1)).getMediaById(ID);
     }
 
     @Test
     public void canTriggerToAddRangeToMedia() {
         Range r = new Range(42,43);
-        String id = "1234";
 
-        facade.addRangeToMedia(id, r);
+        facade.addRangeToMedia(ID, r);
 
-        verify(mediaDs, times(1)).addRangeToMedia(id, r);
+        verify(mediaDs, times(1)).addRangeToMedia(ID, r);
     }
 
     @Test
     public void canTriggerToGetAverageRange() {
-        String id = "1234";
+        facade.getAverageRangeFor(ID);
 
-        facade.getAverageRangeFor(id);
-
-        verify(mediaDs, times(1)).getAverageRange(id);
+        verify(mediaDs, times(1)).getAverageRange(ID);
     }
 }
