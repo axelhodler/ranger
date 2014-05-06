@@ -64,6 +64,14 @@ public class TestDatastoreFacade {
     }
 
     @Test
+    public void canTriggerToGetMediaById() {
+        String id = "1234";
+        facade.getMediaById(id);
+
+        verify(mediaDs, times(1)).getMediaById(id);
+    }
+
+    @Test
     public void canTriggerToAddRangeToMedia() {
         Range r = new Range(42,43);
         String id = "1234";
