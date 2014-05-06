@@ -38,8 +38,7 @@ public class TestMediaMongoDatastore {
 
     @SuppressWarnings("unchecked")
     private List<DBObject> getMediaRanges() {
-        return (List<DBObject>) mediaCol.findOne().get(
-                MediaCol.RANGES);
+        return (List<DBObject>) mediaCol.findOne().get(MediaCol.RANGES);
     }
 
     private void storeSampleMedia() {
@@ -54,6 +53,12 @@ public class TestMediaMongoDatastore {
         ds.addRangeToMedia(id, r);
         ds.addRangeToMedia(id, r2);
         ds.addRangeToMedia(id, r3);
+    }
+
+    private String getStoredSampleMediaId() {
+        DBObject dbo = mediaCol.findOne();
+        String id = dbo.get(MediaCol.ID).toString();
+        return id;
     }
 
     @BeforeClass
@@ -86,8 +91,7 @@ public class TestMediaMongoDatastore {
     public void canAddRanges() {
         storeSampleMedia();
 
-        DBObject dbo = mediaCol.findOne();
-        String id = dbo.get(MediaCol.ID).toString();
+        String id = getStoredSampleMediaId();
 
         addSampleRangesToMedia(id);
 
@@ -102,8 +106,7 @@ public class TestMediaMongoDatastore {
     public void canGetAverageRange() {
         storeSampleMedia();
 
-        DBObject dbo = mediaCol.findOne();
-        String id = dbo.get(MediaCol.ID).toString();
+        String id = getStoredSampleMediaId();
 
         addSampleRangesToMedia(id);
 
@@ -111,6 +114,20 @@ public class TestMediaMongoDatastore {
 
         assertEquals(70, r.getStartTime());
         assertEquals(130, r.getEndTime());
+    }
+
+    @Test
+    public void canGetMediaById() {
+        storeSampleMedia();
+
+        String id = getStoredSampleMediaId();
+        addSampleRangesToMedia(id);
+
+        Media m = ds.getMediaById(id);
+        assertEquals("www.foobar.org", m.getUrl());
+        assertEquals(60, m.getRanges().get(0).getStartTime());
+        assertEquals(120, m.getRanges().get(0).getEndTime());
+        assertEquals(90, m.getRanges().get(1).getStartTime());
     }
 
     @After

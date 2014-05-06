@@ -11,4 +11,6 @@ public interface MediaDatastore {
 
     Range getAverageRange(String id);
 
+    Media getMediaById(String id);
+
 }

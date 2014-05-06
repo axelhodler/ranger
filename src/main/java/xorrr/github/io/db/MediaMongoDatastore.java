@@ -41,6 +41,17 @@ public class MediaMongoDatastore implements MediaDatastore {
         return Integer.valueOf(range.get(MediaCol.END_TIME).toString());
     }
 
+    @SuppressWarnings("unchecked")
+    private void addRangesToMedia(DBObject dbo, Media m) {
+        List<DBObject> ranges = (List<DBObject>) dbo.get(MediaCol.RANGES);
+
+        for (DBObject range : ranges) {
+            Range r = new Range((int) range.get(MediaCol.START_TIME),
+                    (int) range.get(MediaCol.END_TIME));
+            m.addRange(r);
+        }
+    }
+
     public MediaMongoDatastore() throws UnknownHostException {
         MongoClient client = new MongoClient("localhost",
                 EmbeddedMongoProperties.PORT);
@@ -77,4 +88,18 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         return createAverageRange(ranges, avgStart, avgEnd);
     }
+
+    @Override
+    public Media getMediaById(String id) {
+        DBObject dbo = col.findOne(new BasicDBObject(MediaCol.ID, new ObjectId(
+                id)));
+
+        Media m = new Media(dbo.get(MediaCol.URL).toString());
+        m.setObjectId(dbo.get(MediaCol.ID).toString());
+
+        addRangesToMedia(dbo, m);
+
+        return m;
+    }
+
 }
