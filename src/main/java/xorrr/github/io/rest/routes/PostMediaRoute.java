@@ -1,10 +1,5 @@
 package xorrr.github.io.rest.routes;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -26,16 +21,12 @@ public class PostMediaRoute extends Route {
 
     @Override
     public Object handle(Request req, Response resp) {
-        try {
-            facade.storeMedia(createMediaFromRequestBody(req));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        facade.storeMedia(createMediaFromRequestBody(req));
+
         return req.body();
     }
 
-    private Media createMediaFromRequestBody(Request req)
-            throws JsonParseException, JsonMappingException, IOException {
+    private Media createMediaFromRequestBody(Request req) {
         return transformator.toMediaPojo(req.body());
     }
 }

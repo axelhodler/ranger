@@ -6,10 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,15 +47,14 @@ public class TestPostMediaRoute {
     }
 
     @Test
-    public void bodyIsAccessed() throws JsonParseException,
-            JsonMappingException, IOException {
+    public void bodyIsAccessed() {
         pmr.handle(req, resp);
 
         verify(req, times(2)).body();
     }
 
     @Test
-    public void bodyIsDeserializedToPojo() throws Exception {
+    public void bodyIsDeserializedToPojo() {
         when(req.body()).thenReturn(json);
 
         pmr.handle(req, resp);
@@ -68,7 +63,7 @@ public class TestPostMediaRoute {
     }
 
     @Test
-    public void mediaIsStored() throws Exception {
+    public void mediaIsStored() {
         when(req.body()).thenReturn(json);
         when(transformator.toMediaPojo(json)).thenReturn(media);
 
