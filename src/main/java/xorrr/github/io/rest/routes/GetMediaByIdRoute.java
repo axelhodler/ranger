@@ -15,7 +15,7 @@ public class GetMediaByIdRoute extends Route {
     private Transformator transformator;
 
     public GetMediaByIdRoute(DatastoreFacade f, Transformator t) {
-        super(MappedRoutes.MEDIA);
+        super(MappedRoutes.MEDIA_BY_ID);
         this.facade = f;
         this.transformator = t;
     }
