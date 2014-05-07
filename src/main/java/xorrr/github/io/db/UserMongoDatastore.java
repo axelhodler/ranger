@@ -4,9 +4,9 @@ import java.net.UnknownHostException;
 
 import org.bson.types.ObjectId;
 
-import xorrr.github.io.RangerDB;
-import xorrr.github.io.UserCol;
 import xorrr.github.io.model.User;
+import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.UserCol;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

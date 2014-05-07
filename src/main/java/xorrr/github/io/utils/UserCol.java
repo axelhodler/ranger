@@ -1,4 +1,4 @@
-package xorrr.github.io;
+package xorrr.github.io.utils;
 
 public abstract class UserCol {
     public static final String ID = "_id";

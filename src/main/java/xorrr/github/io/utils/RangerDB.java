@@ -1,4 +1,4 @@
-package xorrr.github.io;
+package xorrr.github.io.utils;
 
 public abstract class RangerDB {
     public static final String NAME = "ranger";

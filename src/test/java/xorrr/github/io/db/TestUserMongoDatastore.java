@@ -12,11 +12,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import xorrr.github.io.RangerDB;
-import xorrr.github.io.UserCol;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
+import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.UserCol;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
