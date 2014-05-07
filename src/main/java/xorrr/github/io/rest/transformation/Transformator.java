@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import xorrr.github.io.model.Media;
+import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 public class Transformator {
@@ -37,6 +38,36 @@ public class Transformator {
         Media media = null;
         media = deserializeJsonToMedia(jsonMedia, media);
         return media;
+    }
+
+    public Range toRangePojo(String jsonRange) {
+        Range range = null;
+        range = deserializeRange(jsonRange, range);
+        return range;
+    }
+
+    public String toRangeJson(Range r) {
+        String rangeJson = null;
+        rangeJson = serializeRangeToJson(r, rangeJson);
+        return rangeJson;
+    }
+
+    private String serializeRangeToJson(Range r, String rangeJson) {
+        try {
+            rangeJson = mapper.writeValueAsString(r);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rangeJson;
+    }
+
+    private Range deserializeRange(String jsonRange, Range range) {
+        try {
+            range = mapper.readValue(jsonRange, Range.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return range;
     }
 
     private String serializeUserToJson(User u, String userJson) {
@@ -74,4 +105,5 @@ public class Transformator {
         }
         return media;
     }
+
 }

@@ -74,4 +74,22 @@ public class TransformatorTest {
 
         assertEquals(m, t.toMediaPojo(jsonMedia));
     }
+
+    @Test
+    public void canTransformRangeToJson() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        Range r = new Range(1, 2);
+
+        String jsonRange = mapper.writeValueAsString(r);
+
+        assertEquals(r, t.toRangePojo(jsonRange));
+    }
+
+    @Test
+    public void canTransformJsonToRange() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        Range r = new Range(1, 2);
+
+        assertEquals(t.toRangeJson(r), mapper.writeValueAsString(r));
+    }
 }
