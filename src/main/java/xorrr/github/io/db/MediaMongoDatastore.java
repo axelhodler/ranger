@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
-import xorrr.github.io.utils.EmbeddedMongoProperties;
+import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.MediaCol;
 import xorrr.github.io.utils.RangerDB;
 
@@ -53,8 +53,7 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     public MediaMongoDatastore() throws UnknownHostException {
-        MongoClient client = new MongoClient("localhost",
-                EmbeddedMongoProperties.PORT);
+        MongoClient client = new MongoClient("localhost", EnvVars.MONGO_PORT);
         col = client.getDB(RangerDB.NAME).getCollection(RangerDB.MEDIA_COL);
     }
 

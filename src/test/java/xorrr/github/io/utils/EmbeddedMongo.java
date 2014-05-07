@@ -17,7 +17,7 @@ public abstract class EmbeddedMongo {
             throws UnknownHostException, IOException {
         IMongodConfig mongodConfig = new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
-                .net(new Net(EmbeddedMongoProperties.PORT, Network
+                .net(new Net(EnvVars.MONGO_PORT, Network
                         .localhostIsIPv6())).build();
 
         MongodStarter runtime = MongodStarter.getDefaultInstance();

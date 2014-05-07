@@ -17,7 +17,7 @@ import org.junit.experimental.categories.Category;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.utils.EmbeddedMongo;
-import xorrr.github.io.utils.EmbeddedMongoProperties;
+import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.IntegrationTest;
 import xorrr.github.io.utils.MediaCol;
 import xorrr.github.io.utils.RangerDB;
@@ -70,8 +70,7 @@ public class TestMediaMongoDatastore {
 
     @Before
     public void setUp() throws UnknownHostException {
-        MongoClient client = new MongoClient("localhost",
-                EmbeddedMongoProperties.PORT);
+        MongoClient client = new MongoClient("localhost", EnvVars.MONGO_PORT);
         mediaCol = client.getDB(RangerDB.NAME)
                 .getCollection(RangerDB.MEDIA_COL);
 
