@@ -35,7 +35,7 @@ public class Transformator {
 
     public Media toMediaPojo(String jsonMedia) {
         Media media = null;
-        deserializeJsonToMedia(jsonMedia, media);
+        media = deserializeJsonToMedia(jsonMedia, media);
         return media;
     }
 
