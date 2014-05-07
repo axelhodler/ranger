@@ -1,7 +1,9 @@
 package xorrr.github.io.db;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.net.UnknownHostException;
 
@@ -26,6 +28,16 @@ public class TestDatastoreFacade {
     private DatastoreFacade facade;
     private final String ID = "1234";
 
+    private User createExemplaryUser() {
+        User u = new User();
+        u.setName("xorrr");
+        return u;
+    }
+
+    private Media createExemplaryMedia() {
+        return new Media("www.url.org");
+    }
+
     @Before
     public void setUp() {
         facade = new DatastoreFacade(userDs, mediaDs);
@@ -33,8 +45,7 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToStoreUser() throws UnknownHostException {
-        User u = new User();
-        u.setName("xorrr");
+        User u = createExemplaryUser();
 
         facade.storeUser(u);
 
@@ -43,9 +54,13 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToGetUser() {
-        facade.getUserById(ID);
+        User exampleUser = createExemplaryUser();
+        when(facade.getUserById(ID)).thenReturn(exampleUser);
+
+        User u = facade.getUserById(ID);
 
         verify(userDs, times(1)).getUserById(ID);
+        assertEquals("Correct user is returned", exampleUser, u);
     }
 
     @Test
@@ -57,7 +72,7 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToStoreMedia() {
-        Media m = new Media("www.url.org");
+        Media m = createExemplaryMedia();
         facade.storeMedia(m);
 
         verify(mediaDs, times(1)).storeMedia(m);
@@ -65,9 +80,13 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToGetMediaById() {
-        facade.getMediaById(ID);
+        Media exampleMedia = createExemplaryMedia();
+        when(mediaDs.getMediaById(ID)).thenReturn(exampleMedia);
+
+        Media m = facade.getMediaById(ID);
 
         verify(mediaDs, times(1)).getMediaById(ID);
+        assertEquals("Correct media is returned", exampleMedia, m);
     }
 
     @Test
@@ -81,8 +100,12 @@ public class TestDatastoreFacade {
 
     @Test
     public void canTriggerToGetAverageRange() {
-        facade.getAverageRangeFor(ID);
+        Range exampleRange = new Range(1, 2);
+        when(facade.getAverageRangeFor(ID)).thenReturn(exampleRange);
+
+        Range r = facade.getAverageRangeFor(ID);
 
         verify(mediaDs, times(1)).getAverageRange(ID);
+        assertEquals("Correct range is returned", exampleRange, r);
     }
 }

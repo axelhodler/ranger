@@ -18,8 +18,8 @@ public class DatastoreFacade {
         ds.storeUser(u);
     }
 
-    public void getUserById(String id) {
-        ds.getUserById(id);
+    public User getUserById(String id) {
+        return ds.getUserById(id);
     }
 
     public void deleteUserById(String id) {
@@ -34,11 +34,11 @@ public class DatastoreFacade {
         mds.addRangeToMedia(id, r);
     }
 
-    public void getAverageRangeFor(String id) {
-        mds.getAverageRange(id);
+    public Range getAverageRangeFor(String id) {
+        return mds.getAverageRange(id);
     }
 
-    public void getMediaById(String id) {
-        mds.getMediaById(id);
+    public Media getMediaById(String id) {
+        return mds.getMediaById(id);
     }
 }
