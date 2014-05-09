@@ -116,6 +116,27 @@ public class TestMediaMongoDatastore {
     }
 
     @Test
+    public void canGetAnotherAverageRange() {
+        storeSampleMedia();
+
+        String id = getStoredSampleMediaId();
+
+        Range r1 = new Range(1, 120);
+        Range r2 = new Range(3, 150);
+        Range r3 = new Range(5, 121);
+        Range r4 = new Range(2, 130);
+        ds.addRangeToMedia(id, r1);
+        ds.addRangeToMedia(id, r2);
+        ds.addRangeToMedia(id, r3);
+        ds.addRangeToMedia(id, r4);
+
+        Range r = ds.getAverageRange(id);
+
+        assertEquals(3, r.getStartTime());
+        assertEquals(130, r.getEndTime());
+    }
+
+    @Test
     public void canGetMediaById() {
         storeSampleMedia();
 

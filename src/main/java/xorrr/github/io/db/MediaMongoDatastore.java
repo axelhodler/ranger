@@ -30,7 +30,9 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     private Range createAverageRange(List<DBObject> ranges, int avgStart,
             int avgEnd) {
-        return new Range(avgStart / ranges.size(), avgEnd / ranges.size());
+        float startTime = (float) avgStart / (float) ranges.size();
+        float endTime = (float) avgEnd / (float) ranges.size();
+        return new Range(Math.round(startTime), Math.round(endTime));
     }
 
     private Integer currentStartTime(DBObject range) {
