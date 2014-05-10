@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
@@ -19,6 +21,7 @@ import com.mongodb.MongoClient;
 
 public class MediaMongoDatastore implements MediaDatastore {
 
+    final Logger logger = LoggerFactory.getLogger(MediaMongoDatastore.class);
     private DBCollection col;
 
     @SuppressWarnings("unchecked")
@@ -63,6 +66,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     public void storeMedia(Media m) {
         col.insert(new BasicDBObject(MediaCol.URL, m.getUrl()).append(
                 MediaCol.RANGES, new ArrayList<DBObject>()));
+
+        logger.info("Stored new media object with url: " + m.getUrl());
     }
 
     @Override
@@ -75,6 +80,10 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         col.update(new BasicDBObject(MediaCol.ID, new ObjectId(id)),
                 rangeToPush);
+
+        logger.info("Added range with startTime: " + r.getStartTime()
+                + " and endTime: " + r.getEndTime() + " to media with id: "
+                + id);
     }
 
     @Override
@@ -99,6 +108,8 @@ public class MediaMongoDatastore implements MediaDatastore {
         m.setObjectId(dbo.get(MediaCol.ID).toString());
 
         addRangesToMedia(dbo, m);
+
+        logger.info("Media with id: " + id + " was requested");
 
         return m;
     }
