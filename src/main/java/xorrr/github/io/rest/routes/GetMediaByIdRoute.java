@@ -5,10 +5,8 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
-import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutes;
 import xorrr.github.io.rest.MappedRoutesParams;
-import xorrr.github.io.rest.QueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class GetMediaByIdRoute extends Route {
@@ -25,22 +23,7 @@ public class GetMediaByIdRoute extends Route {
     @Override
     public String handle(Request request, Response response) {
         String id = request.params(MappedRoutesParams.ID);
-        String json = "";
-
-        if (request.queryParams().size() > 0) {
-            if (avgRangeQryParamIsTrue(request)) {
-                json = returnAvgRangeJson(id);
-            }
-        } else {
-            json = returnMediaJson(id);
-        }
-        return json;
-    }
-
-    private String returnAvgRangeJson(String id) {
-        String json;
-        Range avg= facade.getAverageRangeFor(id);
-        json = transformator.toRangeJson(avg);
+        String json = returnMediaJson(id);
         return json;
     }
 
@@ -49,10 +32,6 @@ public class GetMediaByIdRoute extends Route {
         Media m = facade.getMediaById(id);
         json = transformator.toMediaJson(m);
         return json;
-    }
-
-    private boolean avgRangeQryParamIsTrue(Request request) {
-        return request.queryParams(QueryParams.AVG_RANGE).equals("true");
     }
 
 }
