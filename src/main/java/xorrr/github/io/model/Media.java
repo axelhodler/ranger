@@ -1,15 +1,14 @@
 package xorrr.github.io.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Media {
 
     private String objectId;
     private String url;
-    private List<Range> ranges;
+    private int choicesByUsers;
+    private int startTime;
+    private int avgStartTime;
 
     public Media() {
 
@@ -18,7 +17,6 @@ public class Media {
     public Media(String url) {
         super();
         this.url = url;
-        this.ranges = new ArrayList<>();
     }
 
     @JsonProperty("_id")
@@ -38,21 +36,39 @@ public class Media {
         this.url = url;
     }
 
-    public List<Range> getRanges() {
-        return ranges;
+    public int getChoicesByUsers() {
+        return choicesByUsers;
     }
 
-    public void addRange(Range range) {
-        ranges.add(range);
+    public void setChoicesByUsers(int choicesByUsers) {
+        this.choicesByUsers = choicesByUsers;
+    }
+
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getAvgStartTime() {
+        return avgStartTime;
+    }
+
+    public void setAvgStartTime(int avgStartTime) {
+        this.avgStartTime = avgStartTime;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + avgStartTime;
+        result = prime * result + choicesByUsers;
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
-        result = prime * result + ((ranges == null) ? 0 : ranges.hashCode());
+        result = prime * result + startTime;
         result = prime * result + ((url == null) ? 0 : url.hashCode());
         return result;
     }
@@ -66,15 +82,16 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
+        if (avgStartTime != other.avgStartTime)
+            return false;
+        if (choicesByUsers != other.choicesByUsers)
+            return false;
         if (objectId == null) {
             if (other.objectId != null)
                 return false;
         } else if (!objectId.equals(other.objectId))
             return false;
-        if (ranges == null) {
-            if (other.ranges != null)
-                return false;
-        } else if (!ranges.equals(other.ranges))
+        if (startTime != other.startTime)
             return false;
         if (url == null) {
             if (other.url != null)
@@ -86,7 +103,9 @@ public class Media {
 
     @Override
     public String toString() {
-        return "Media [objectId=" + objectId + ", url=" + url + ", ranges="
-                + ranges + "]";
+        return "Media [objectId=" + objectId + ", url=" + url
+                + ", choicesByUsers=" + choicesByUsers + ", startTime="
+                + startTime + ", avgStartTime=" + avgStartTime + "]";
     }
+
 }
