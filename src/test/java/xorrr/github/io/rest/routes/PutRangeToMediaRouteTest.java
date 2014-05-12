@@ -45,7 +45,6 @@ public class PutRangeToMediaRouteTest {
         when(req.body()).thenReturn(JSON_RANGE);
         when(facade.getMediaById(ID)).thenReturn(m);
         when(transformator.toRangePojo(JSON_RANGE)).thenReturn(r);
-        
     }
 
     @Before
@@ -53,7 +52,9 @@ public class PutRangeToMediaRouteTest {
         p = new PutRangeToMediaRoute(facade, transformator);
 
         m = new Media("www.random.org");
-        r = new Range(1, 2);
+        m.setAvgStartTime(5);
+        m.setAvgEndTime(10);
+        m.setChoicesByUsers(25);
     }
 
     @Test
@@ -102,12 +103,12 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void rangeAddedToMedia() {
+    public void rangeAppliedToMedia() {
         setNecessaryBehaviour();
 
         p.handle(req, resp);
 
-        verify(facade, times(1)).addRangeToMedia(ID, r);
+        verify(facade, times(1)).applyRangeToMedia(ID, r);
     }
 
     @Test
@@ -115,8 +116,8 @@ public class PutRangeToMediaRouteTest {
         Transformator t = new Transformator();
         setNecessaryBehaviour();
         String correctMediaJson = t.toMediaJson(m);
+
         when(transformator.toMediaJson(m)).thenReturn(correctMediaJson);
-        m.addRange(r);
 
         String changedMedia = p.handle(req, resp);
 

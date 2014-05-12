@@ -26,9 +26,7 @@ public class PutRangeToMediaRoute extends Route {
         String mediaId = req.params(MappedRoutesParams.ID);
         Media m = facade.getMediaById(mediaId);
         Range r = transformator.toRangePojo(req.body());
-        facade.addRangeToMedia(mediaId, r);
-
-        m.addRange(r);
+        facade.applyRangeToMedia(mediaId, r);
 
         return transformator.toMediaJson(m);
     }
