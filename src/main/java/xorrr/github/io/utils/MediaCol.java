@@ -2,10 +2,8 @@ package xorrr.github.io.utils;
 
 public abstract class MediaCol {
     public static final String ID = "_id";
-    public static final String RANGES = "ranges";
-    public static final String RANGE = "range";
-    public static final String START_TIME = "startTime";
-    public static final String END_TIME = "endTime";
     public static final String URL = "url";
-    public static final String USER = "user";
+    public static final String AVG_START_TIME = "avgStartTime";
+    public static final String AVG_END_TIME= "avgEndTime";
+    public static final String CHOICES_BY_USERS = "choicesByUsers";
 }
