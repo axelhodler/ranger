@@ -93,7 +93,7 @@ public class TestDatastoreFacade {
     public void canTriggerToAddRangeToMedia() {
         Range r = new Range(42,43);
 
-        facade.addRangeToMedia(ID, r);
+        facade.applyRangeToMedia(ID, r);
 
         verify(mediaDs, times(1)).applyRangeToMedia(ID, r);
     }

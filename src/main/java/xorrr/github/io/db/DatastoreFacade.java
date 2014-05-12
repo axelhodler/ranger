@@ -30,7 +30,7 @@ public class DatastoreFacade {
         mds.storeMedia(m);
     }
 
-    public void addRangeToMedia(String id, Range r) {
+    public void applyRangeToMedia(String id, Range r) {
         mds.applyRangeToMedia(id, r);
     }
 
