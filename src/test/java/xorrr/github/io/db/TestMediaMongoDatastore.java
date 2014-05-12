@@ -85,12 +85,28 @@ public class TestMediaMongoDatastore {
         String mediaId = getStoredSampleMediaId();
         Range r = new Range(20, 40);
 
-        ds.addRangeToMedia(mediaId, r);
+        ds.applyRangeToMedia(mediaId, r);
 
         Media m = ds.getMediaById(mediaId);
         assertEquals(20, m.getAvgStartTime());
         assertEquals(40, m.getAvgEndTime());
         assertEquals(1, m.getChoicesByUsers());
+    }
+
+    @Test
+    public void canApplyMultipleRangesToMediaAfterAnother() {
+        storeSampleMedia();
+        String mediaId = getStoredSampleMediaId();
+        Range r = new Range(20, 40);
+        Range r2 = new Range(40, 60);
+
+        ds.applyRangeToMedia(mediaId, r);
+        ds.applyRangeToMedia(mediaId, r2);
+
+        Media m = ds.getMediaById(mediaId);
+        assertEquals(30, m.getAvgStartTime());
+        assertEquals(50, m.getAvgEndTime());
+        assertEquals("Two users have provided ranges", 2, m.getChoicesByUsers());
     }
 
     @After

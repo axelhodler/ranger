@@ -95,6 +95,6 @@ public class TestDatastoreFacade {
 
         facade.addRangeToMedia(ID, r);
 
-        verify(mediaDs, times(1)).addRangeToMedia(ID, r);
+        verify(mediaDs, times(1)).applyRangeToMedia(ID, r);
     }
 }

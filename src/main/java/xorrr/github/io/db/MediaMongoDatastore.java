@@ -29,25 +29,18 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     @Override
     public void storeMedia(Media m) {
-        col.insert(new BasicDBObject(MediaCol.URL, m.getUrl())
-                .append(MediaCol.CHOICES_BY_USERS, 0)
-                .append(MediaCol.AVG_START_TIME, 0)
-                .append(MediaCol.AVG_END_TIME, 0));
+        col.insert(createBasicDboFromMedia(m));
 
         logger.info("Stored new media object with url: " + m.getUrl());
     }
 
     @Override
-    public void addRangeToMedia(String id, Range r) {
-        DBObject mediaToChange = col.findOne(new BasicDBObject(MediaCol.ID,
-                new ObjectId(id)));
+    public void applyRangeToMedia(String id, Range r) {
+        DBObject mediaToChange = findMediaById(id);
 
-        mediaToChange.put(MediaCol.AVG_START_TIME, r.getStartTime());
-        mediaToChange.put(MediaCol.AVG_END_TIME, r.getEndTime());
-        mediaToChange.put(MediaCol.CHOICES_BY_USERS, 1);
+        calculateNewAverages(r, mediaToChange);
 
-        col.update(new BasicDBObject(MediaCol.ID, new ObjectId(id)),
-                mediaToChange);
+        col.update(queryDbForMediaId(id), mediaToChange);
 
         logger.info("Added range with startTime: " + r.getStartTime()
                 + " and endTime: " + r.getEndTime() + " to media with id: "
@@ -56,20 +49,52 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     @Override
     public Media getMediaById(String id) {
-        DBObject dbo = col.findOne(new BasicDBObject(MediaCol.ID, new ObjectId(
-                id)));
+        DBObject dbo = findMediaById(id);
 
-        Media m = new Media(dbo.get(MediaCol.URL).toString());
-        m.setObjectId(dbo.get(MediaCol.ID).toString());
-        m.setAvgStartTime(Integer.valueOf(dbo.get(MediaCol.AVG_START_TIME)
-                .toString()));
-        m.setAvgEndTime(Integer.valueOf(dbo.get(MediaCol.AVG_END_TIME)
-                .toString()));
-        m.setChoicesByUsers(1);
+        Media m = createMediaFromDbo(dbo);
 
         logger.info("Media with id: " + id + " was requested");
 
         return m;
     }
 
+    private DBObject findMediaById(String id) {
+        return col.findOne(queryDbForMediaId(id));
+    }
+
+    private Media createMediaFromDbo(DBObject dbo) {
+        Media m = new Media(dbo.get(MediaCol.URL).toString());
+        m.setObjectId(dbo.get(MediaCol.ID).toString());
+        m.setAvgStartTime((int) dbo.get(MediaCol.AVG_START_TIME));
+        m.setAvgEndTime((int) dbo.get(MediaCol.AVG_END_TIME));
+        m.setChoicesByUsers((int) dbo.get(MediaCol.CHOICES_BY_USERS));
+        return m;
+    }
+
+    private void calculateNewAverages(Range r, DBObject mediaToChange) {
+        int divisor = (int) mediaToChange.get(MediaCol.CHOICES_BY_USERS);
+        divisor++;
+        int currentAvgStartTime = (int) mediaToChange
+                .get(MediaCol.AVG_START_TIME);
+        int currentAvgEndTime = (int) mediaToChange.get(MediaCol.AVG_END_TIME);
+
+        int nextAvgStartTime = (r.getStartTime() + currentAvgStartTime)
+                / divisor;
+        int nextAvgEndTime = (r.getEndTime() + currentAvgEndTime) / divisor;
+
+        mediaToChange.put(MediaCol.AVG_START_TIME, nextAvgStartTime);
+        mediaToChange.put(MediaCol.AVG_END_TIME, nextAvgEndTime);
+        mediaToChange.put(MediaCol.CHOICES_BY_USERS, divisor);
+    }
+
+    private BasicDBObject createBasicDboFromMedia(Media m) {
+        return new BasicDBObject(MediaCol.URL, m.getUrl())
+                .append(MediaCol.CHOICES_BY_USERS, 0)
+                .append(MediaCol.AVG_START_TIME, 0)
+                .append(MediaCol.AVG_END_TIME, 0);
+    }
+
+    private BasicDBObject queryDbForMediaId(String id) {
+        return new BasicDBObject(MediaCol.ID, new ObjectId(id));
+    }
 }

@@ -7,7 +7,7 @@ public interface MediaDatastore {
 
     void storeMedia(Media m);
 
-    void addRangeToMedia(String id, Range r);
+    void applyRangeToMedia(String id, Range r);
 
     Media getMediaById(String id);
 
