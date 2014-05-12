@@ -7,8 +7,8 @@ public class Media {
     private String objectId;
     private String url;
     private int choicesByUsers;
-    private int startTime;
     private int avgStartTime;
+    private int avgEndTime;
 
     public Media() {
 
@@ -44,14 +44,6 @@ public class Media {
         this.choicesByUsers = choicesByUsers;
     }
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
     public int getAvgStartTime() {
         return avgStartTime;
     }
@@ -60,15 +52,23 @@ public class Media {
         this.avgStartTime = avgStartTime;
     }
 
+    public int getAvgEndTime() {
+        return avgEndTime;
+    }
+
+    public void setAvgEndTime(int avgEndTime) {
+        this.avgEndTime = avgEndTime;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + avgEndTime;
         result = prime * result + avgStartTime;
         result = prime * result + choicesByUsers;
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
-        result = prime * result + startTime;
         result = prime * result + ((url == null) ? 0 : url.hashCode());
         return result;
     }
@@ -82,6 +82,8 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
+        if (avgEndTime != other.avgEndTime)
+            return false;
         if (avgStartTime != other.avgStartTime)
             return false;
         if (choicesByUsers != other.choicesByUsers)
@@ -90,8 +92,6 @@ public class Media {
             if (other.objectId != null)
                 return false;
         } else if (!objectId.equals(other.objectId))
-            return false;
-        if (startTime != other.startTime)
             return false;
         if (url == null) {
             if (other.url != null)
@@ -104,8 +104,7 @@ public class Media {
     @Override
     public String toString() {
         return "Media [objectId=" + objectId + ", url=" + url
-                + ", choicesByUsers=" + choicesByUsers + ", startTime="
-                + startTime + ", avgStartTime=" + avgStartTime + "]";
+                + ", choicesByUsers=" + choicesByUsers + ", avgStartTime="
+                + avgStartTime + ", avgEndTime=" + avgEndTime + "]";
     }
-
 }
