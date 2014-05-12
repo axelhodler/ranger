@@ -97,15 +97,4 @@ public class TestDatastoreFacade {
 
         verify(mediaDs, times(1)).addRangeToMedia(ID, r);
     }
-
-    @Test
-    public void canTriggerToGetAverageRange() {
-        Range exampleRange = new Range(1, 2);
-        when(facade.getAverageRangeFor(ID)).thenReturn(exampleRange);
-
-        Range r = facade.getAverageRangeFor(ID);
-
-        verify(mediaDs, times(1)).getAverageRange(ID);
-        assertEquals("Correct range is returned", exampleRange, r);
-    }
 }
