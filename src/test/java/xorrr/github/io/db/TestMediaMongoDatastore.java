@@ -1,11 +1,9 @@
 package xorrr.github.io.db;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -36,23 +34,9 @@ public class TestMediaMongoDatastore {
     private DBCollection mediaCol;
     private MediaDatastore ds;
 
-    @SuppressWarnings("unchecked")
-    private List<DBObject> getMediaRanges() {
-        return (List<DBObject>) mediaCol.findOne().get(MediaCol.RANGES);
-    }
-
     private void storeSampleMedia() {
         Media m = new Media("www.foobar.org");
         ds.storeMedia(m);
-    }
-
-    private void addSampleRangesToMedia(String id) {
-        Range r = new Range(60, 120);
-        Range r2 = new Range(90, 150);
-        Range r3 = new Range(61, 121);
-        ds.addRangeToMedia(id, r);
-        ds.addRangeToMedia(id, r2);
-        ds.addRangeToMedia(id, r3);
     }
 
     private String getStoredSampleMediaId() {
@@ -83,57 +67,6 @@ public class TestMediaMongoDatastore {
 
         assertEquals("www.foobar.org", mediaCol.findOne().get(MediaCol.URL)
                 .toString());
-        assertNotNull(mediaCol.findOne().get(MediaCol.RANGES));
-    }
-
-    @Test
-    public void canAddRanges() {
-        storeSampleMedia();
-
-        String id = getStoredSampleMediaId();
-
-        addSampleRangesToMedia(id);
-
-        List<DBObject> ranges = getMediaRanges();
-        assertEquals(60, ranges.get(0).get(MediaCol.START_TIME));
-        assertEquals(120, ranges.get(0).get(MediaCol.END_TIME));
-        assertEquals(90, ranges.get(1).get(MediaCol.START_TIME));
-        assertEquals(150, ranges.get(1).get(MediaCol.END_TIME));
-    }
-
-    @Test
-    public void canGetAverageRange() {
-        storeSampleMedia();
-
-        String id = getStoredSampleMediaId();
-
-        addSampleRangesToMedia(id);
-
-        Range r = ds.getAverageRange(id);
-
-        assertEquals(70, r.getStartTime());
-        assertEquals(130, r.getEndTime());
-    }
-
-    @Test
-    public void canGetAnotherAverageRange() {
-        storeSampleMedia();
-
-        String id = getStoredSampleMediaId();
-
-        Range r1 = new Range(1, 120);
-        Range r2 = new Range(3, 150);
-        Range r3 = new Range(5, 121);
-        Range r4 = new Range(2, 130);
-        ds.addRangeToMedia(id, r1);
-        ds.addRangeToMedia(id, r2);
-        ds.addRangeToMedia(id, r3);
-        ds.addRangeToMedia(id, r4);
-
-        Range r = ds.getAverageRange(id);
-
-        assertEquals(3, r.getStartTime());
-        assertEquals(130, r.getEndTime());
     }
 
     @Test
@@ -141,13 +74,23 @@ public class TestMediaMongoDatastore {
         storeSampleMedia();
 
         String id = getStoredSampleMediaId();
-        addSampleRangesToMedia(id);
 
         Media m = ds.getMediaById(id);
         assertEquals("www.foobar.org", m.getUrl());
-        assertEquals(60, m.getRanges().get(0).getStartTime());
-        assertEquals(120, m.getRanges().get(0).getEndTime());
-        assertEquals(90, m.getRanges().get(1).getStartTime());
+    }
+
+    @Test
+    public void canApplyNewRangeToMedia() {
+        storeSampleMedia();
+        String mediaId = getStoredSampleMediaId();
+        Range r = new Range(20, 40);
+
+        ds.addRangeToMedia(mediaId, r);
+
+        Media m = ds.getMediaById(mediaId);
+        assertEquals(20, m.getAvgStartTime());
+        assertEquals(40, m.getAvgEndTime());
+        assertEquals(1, m.getChoicesByUsers());
     }
 
     @After

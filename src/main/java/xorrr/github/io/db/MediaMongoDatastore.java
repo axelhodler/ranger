@@ -1,7 +1,6 @@
 package xorrr.github.io.db;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -30,22 +29,25 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     @Override
     public void storeMedia(Media m) {
-        col.insert(new BasicDBObject(MediaCol.URL, m.getUrl()).append(
-                MediaCol.RANGES, new ArrayList<DBObject>()));
+        col.insert(new BasicDBObject(MediaCol.URL, m.getUrl())
+                .append(MediaCol.CHOICES_BY_USERS, 0)
+                .append(MediaCol.AVG_START_TIME, 0)
+                .append(MediaCol.AVG_END_TIME, 0));
 
         logger.info("Stored new media object with url: " + m.getUrl());
     }
 
     @Override
     public void addRangeToMedia(String id, Range r) {
-        DBObject rangeDbo = new BasicDBObject(MediaCol.RANGES,
-                new BasicDBObject(MediaCol.START_TIME, r.getStartTime())
-                        .append(MediaCol.END_TIME, r.getEndTime()));
+        DBObject mediaToChange = col.findOne(new BasicDBObject(MediaCol.ID,
+                new ObjectId(id)));
 
-        DBObject rangeToPush = new BasicDBObject("$push", rangeDbo);
+        mediaToChange.put(MediaCol.AVG_START_TIME, r.getStartTime());
+        mediaToChange.put(MediaCol.AVG_END_TIME, r.getEndTime());
+        mediaToChange.put(MediaCol.CHOICES_BY_USERS, 1);
 
         col.update(new BasicDBObject(MediaCol.ID, new ObjectId(id)),
-                rangeToPush);
+                mediaToChange);
 
         logger.info("Added range with startTime: " + r.getStartTime()
                 + " and endTime: " + r.getEndTime() + " to media with id: "
@@ -59,6 +61,11 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
+        m.setAvgStartTime(Integer.valueOf(dbo.get(MediaCol.AVG_START_TIME)
+                .toString()));
+        m.setAvgEndTime(Integer.valueOf(dbo.get(MediaCol.AVG_END_TIME)
+                .toString()));
+        m.setChoicesByUsers(1);
 
         logger.info("Media with id: " + id + " was requested");
 
