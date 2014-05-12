@@ -28,8 +28,10 @@ public class TransformatorTest {
 
     private Media createExampleMedia() {
         Media m = new Media("www.url.org");
-        Range r = new Range(60, 80);
-        m.addRange(r);
+        m.setAvgStartTime(20);
+        m.setAvgEndTime(40);
+        m.setChoicesByUsers(10);
+
         return m;
     }
 
