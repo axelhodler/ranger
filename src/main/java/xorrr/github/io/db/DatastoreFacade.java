@@ -34,10 +34,6 @@ public class DatastoreFacade {
         mds.addRangeToMedia(id, r);
     }
 
-    public Range getAverageRangeFor(String id) {
-        return mds.getAverageRange(id);
-    }
-
     public Media getMediaById(String id) {
         return mds.getMediaById(id);
     }

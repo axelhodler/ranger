@@ -2,7 +2,6 @@ package xorrr.github.io.db;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -23,39 +22,6 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     final Logger logger = LoggerFactory.getLogger(MediaMongoDatastore.class);
     private DBCollection col;
-
-    @SuppressWarnings("unchecked")
-    private List<DBObject> findRanges(String id) {
-        return (List<DBObject>) col.findOne(
-                new BasicDBObject(MediaCol.ID, new ObjectId(id))).get(
-                MediaCol.RANGES);
-    }
-
-    private Range createAverageRange(List<DBObject> ranges, int avgStart,
-            int avgEnd) {
-        float startTime = (float) avgStart / (float) ranges.size();
-        float endTime = (float) avgEnd / (float) ranges.size();
-        return new Range(Math.round(startTime), Math.round(endTime));
-    }
-
-    private Integer currentStartTime(DBObject range) {
-        return Integer.valueOf(range.get(MediaCol.START_TIME).toString());
-    }
-
-    private Integer currentEndTime(DBObject range) {
-        return Integer.valueOf(range.get(MediaCol.END_TIME).toString());
-    }
-
-    @SuppressWarnings("unchecked")
-    private void addRangesToMedia(DBObject dbo, Media m) {
-        List<DBObject> ranges = (List<DBObject>) dbo.get(MediaCol.RANGES);
-
-        for (DBObject range : ranges) {
-            Range r = new Range((int) range.get(MediaCol.START_TIME),
-                    (int) range.get(MediaCol.END_TIME));
-            m.addRange(r);
-        }
-    }
 
     public MediaMongoDatastore() throws UnknownHostException {
         MongoClient client = new MongoClient("localhost", EnvVars.MONGO_PORT);
@@ -87,27 +53,12 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     @Override
-    public Range getAverageRange(String id) {
-        List<DBObject> ranges = findRanges(id);
-
-        int avgStart = 0, avgEnd = 0;
-        for (DBObject range : ranges) {
-            avgStart += currentStartTime(range);
-            avgEnd += currentEndTime(range);
-        }
-
-        return createAverageRange(ranges, avgStart, avgEnd);
-    }
-
-    @Override
     public Media getMediaById(String id) {
         DBObject dbo = col.findOne(new BasicDBObject(MediaCol.ID, new ObjectId(
                 id)));
 
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
-
-        addRangesToMedia(dbo, m);
 
         logger.info("Media with id: " + id + " was requested");
 

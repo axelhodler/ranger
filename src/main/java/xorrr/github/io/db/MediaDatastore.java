@@ -9,8 +9,6 @@ public interface MediaDatastore {
 
     void addRangeToMedia(String id, Range r);
 
-    Range getAverageRange(String id);
-
     Media getMediaById(String id);
 
 }
