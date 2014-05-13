@@ -65,8 +65,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     private Media createMediaFromDbo(DBObject dbo) {
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
-        m.setAvgStartTime((int) dbo.get(MediaCol.AVG_START_TIME));
-        m.setAvgEndTime((int) dbo.get(MediaCol.AVG_END_TIME));
+        m.setAvgStartTime((double) dbo.get(MediaCol.AVG_START_TIME));
+        m.setAvgEndTime((double) dbo.get(MediaCol.AVG_END_TIME));
         m.setChoicesByUsers((int) dbo.get(MediaCol.CHOICES_BY_USERS));
         return m;
     }
@@ -74,13 +74,13 @@ public class MediaMongoDatastore implements MediaDatastore {
     private void calculateNewAverages(Range r, DBObject mediaToChange) {
         int divisor = (int) mediaToChange.get(MediaCol.CHOICES_BY_USERS);
         divisor++;
-        int currentAvgStartTime = (int) mediaToChange
+        double currentAvgStartTime = (double) mediaToChange
                 .get(MediaCol.AVG_START_TIME);
-        int currentAvgEndTime = (int) mediaToChange.get(MediaCol.AVG_END_TIME);
+        double currentAvgEndTime = (double) mediaToChange.get(MediaCol.AVG_END_TIME);
 
-        int nextAvgStartTime = (r.getStartTime() + currentAvgStartTime)
+        double nextAvgStartTime = (r.getStartTime() + currentAvgStartTime)
                 / divisor;
-        int nextAvgEndTime = (r.getEndTime() + currentAvgEndTime) / divisor;
+        double nextAvgEndTime = (r.getEndTime() + currentAvgEndTime) / divisor;
 
         mediaToChange.put(MediaCol.AVG_START_TIME, nextAvgStartTime);
         mediaToChange.put(MediaCol.AVG_END_TIME, nextAvgEndTime);
@@ -90,8 +90,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     private BasicDBObject createBasicDboFromMedia(Media m) {
         return new BasicDBObject(MediaCol.URL, m.getUrl())
                 .append(MediaCol.CHOICES_BY_USERS, 0)
-                .append(MediaCol.AVG_START_TIME, 0)
-                .append(MediaCol.AVG_END_TIME, 0);
+                .append(MediaCol.AVG_START_TIME, 0.0)
+                .append(MediaCol.AVG_END_TIME, 0.0);
     }
 
     private BasicDBObject queryDbForMediaId(String id) {

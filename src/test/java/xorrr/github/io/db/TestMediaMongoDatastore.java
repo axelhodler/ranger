@@ -109,6 +109,21 @@ public class TestMediaMongoDatastore {
         assertEquals("Two users have provided ranges", 2, m.getChoicesByUsers());
     }
 
+    @Test
+    public void canDealWithRangesCreatingFloats() {
+        storeSampleMedia();
+        String mediaId = getStoredSampleMediaId();
+        Range r = new Range(20, 40);
+        Range r2 = new Range(25, 45);
+
+        ds.applyRangeToMedia(mediaId, r);
+        ds.applyRangeToMedia(mediaId, r2);
+
+        Media m = ds.getMediaById(mediaId);
+        assertEquals(22.5, m.getAvgStartTime(), 0.2);
+        assertEquals(42.5, m.getAvgEndTime(), 0.2);
+    }
+
     @After
     public void tearDown() {
         mediaCol.drop();
