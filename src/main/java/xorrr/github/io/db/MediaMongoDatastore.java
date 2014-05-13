@@ -65,8 +65,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     private Media createMediaFromDbo(DBObject dbo) {
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
-        m.setAvgStartTime((double) dbo.get(MediaCol.AVG_START_TIME));
-        m.setAvgEndTime((double) dbo.get(MediaCol.AVG_END_TIME));
+        m.setAvgStartTime(getCurrentAvgStartTime(dbo));
+        m.setAvgEndTime(getCurrentAvgEndTime(dbo));
         m.setChoicesByUsers((int) dbo.get(MediaCol.CHOICES_BY_USERS));
         return m;
     }
@@ -74,9 +74,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     private void calculateNewAverages(Range r, DBObject mediaToChange) {
         int divisor = (int) mediaToChange.get(MediaCol.CHOICES_BY_USERS);
         divisor++;
-        double currentAvgStartTime = (double) mediaToChange
-                .get(MediaCol.AVG_START_TIME);
-        double currentAvgEndTime = (double) mediaToChange.get(MediaCol.AVG_END_TIME);
+        double currentAvgStartTime = getCurrentAvgStartTime(mediaToChange);
+        double currentAvgEndTime = getCurrentAvgEndTime(mediaToChange);
 
         double nextAvgStartTime = (r.getStartTime() + currentAvgStartTime)
                 / divisor;
@@ -96,5 +95,14 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     private BasicDBObject queryDbForMediaId(String id) {
         return new BasicDBObject(MediaCol.ID, new ObjectId(id));
+    }
+
+    private double getCurrentAvgEndTime(DBObject mediaToChange) {
+        return (double) mediaToChange.get(MediaCol.AVG_END_TIME);
+    }
+
+    private double getCurrentAvgStartTime(DBObject mediaToChange) {
+        return (double) mediaToChange
+                .get(MediaCol.AVG_START_TIME);
     }
 }

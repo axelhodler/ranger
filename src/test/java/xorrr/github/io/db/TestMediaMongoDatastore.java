@@ -80,20 +80,6 @@ public class TestMediaMongoDatastore {
     }
 
     @Test
-    public void canApplyNewRangeToMedia() {
-        storeSampleMedia();
-        String mediaId = getStoredSampleMediaId();
-        Range r = new Range(20, 40);
-
-        ds.applyRangeToMedia(mediaId, r);
-
-        Media m = ds.getMediaById(mediaId);
-        assertEquals(20, m.getAvgStartTime(), 1);
-        assertEquals(40, m.getAvgEndTime(), 1);
-        assertEquals(1, m.getChoicesByUsers());
-    }
-
-    @Test
     public void canApplyMultipleRangesToMediaAfterAnother() {
         storeSampleMedia();
         String mediaId = getStoredSampleMediaId();
