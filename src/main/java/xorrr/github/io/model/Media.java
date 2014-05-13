@@ -7,8 +7,8 @@ public class Media {
     private String objectId;
     private String url;
     private int choicesByUsers;
-    private int avgStartTime;
-    private int avgEndTime;
+    private float avgStartTime;
+    private float avgEndTime;
 
     public Media() {
 
@@ -44,19 +44,19 @@ public class Media {
         this.choicesByUsers = choicesByUsers;
     }
 
-    public int getAvgStartTime() {
+    public float getAvgStartTime() {
         return avgStartTime;
     }
 
-    public void setAvgStartTime(int avgStartTime) {
+    public void setAvgStartTime(float avgStartTime) {
         this.avgStartTime = avgStartTime;
     }
 
-    public int getAvgEndTime() {
+    public float getAvgEndTime() {
         return avgEndTime;
     }
 
-    public void setAvgEndTime(int avgEndTime) {
+    public void setAvgEndTime(float avgEndTime) {
         this.avgEndTime = avgEndTime;
     }
 
@@ -64,8 +64,8 @@ public class Media {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + avgEndTime;
-        result = prime * result + avgStartTime;
+        result = prime * result + Float.floatToIntBits(avgEndTime);
+        result = prime * result + Float.floatToIntBits(avgStartTime);
         result = prime * result + choicesByUsers;
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
@@ -82,9 +82,11 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
-        if (avgEndTime != other.avgEndTime)
+        if (Float.floatToIntBits(avgEndTime) != Float
+                .floatToIntBits(other.avgEndTime))
             return false;
-        if (avgStartTime != other.avgStartTime)
+        if (Float.floatToIntBits(avgStartTime) != Float
+                .floatToIntBits(other.avgStartTime))
             return false;
         if (choicesByUsers != other.choicesByUsers)
             return false;
