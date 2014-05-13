@@ -88,8 +88,8 @@ public class TestMediaMongoDatastore {
         ds.applyRangeToMedia(mediaId, r);
 
         Media m = ds.getMediaById(mediaId);
-        assertEquals(20, m.getAvgStartTime());
-        assertEquals(40, m.getAvgEndTime());
+        assertEquals(20, m.getAvgStartTime(), 1);
+        assertEquals(40, m.getAvgEndTime(), 1);
         assertEquals(1, m.getChoicesByUsers());
     }
 
@@ -104,8 +104,8 @@ public class TestMediaMongoDatastore {
         ds.applyRangeToMedia(mediaId, r2);
 
         Media m = ds.getMediaById(mediaId);
-        assertEquals(30, m.getAvgStartTime());
-        assertEquals(50, m.getAvgEndTime());
+        assertEquals(30, m.getAvgStartTime(), 1);
+        assertEquals(50, m.getAvgEndTime(), 1);
         assertEquals("Two users have provided ranges", 2, m.getChoicesByUsers());
     }
 
