@@ -7,8 +7,8 @@ public class Media {
     private String objectId;
     private String url;
     private int choicesByUsers;
-    private float avgStartTime;
-    private float avgEndTime;
+    private double avgStartTime;
+    private double avgEndTime;
 
     public Media() {
 
@@ -44,19 +44,19 @@ public class Media {
         this.choicesByUsers = choicesByUsers;
     }
 
-    public float getAvgStartTime() {
+    public double getAvgStartTime() {
         return avgStartTime;
     }
 
-    public void setAvgStartTime(float avgStartTime) {
+    public void setAvgStartTime(double avgStartTime) {
         this.avgStartTime = avgStartTime;
     }
 
-    public float getAvgEndTime() {
+    public double getAvgEndTime() {
         return avgEndTime;
     }
 
-    public void setAvgEndTime(float avgEndTime) {
+    public void setAvgEndTime(double avgEndTime) {
         this.avgEndTime = avgEndTime;
     }
 
@@ -64,8 +64,11 @@ public class Media {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(avgEndTime);
-        result = prime * result + Float.floatToIntBits(avgStartTime);
+        long temp;
+        temp = Double.doubleToLongBits(avgEndTime);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(avgStartTime);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + choicesByUsers;
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
@@ -82,11 +85,11 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
-        if (Float.floatToIntBits(avgEndTime) != Float
-                .floatToIntBits(other.avgEndTime))
+        if (Double.doubleToLongBits(avgEndTime) != Double
+                .doubleToLongBits(other.avgEndTime))
             return false;
-        if (Float.floatToIntBits(avgStartTime) != Float
-                .floatToIntBits(other.avgStartTime))
+        if (Double.doubleToLongBits(avgStartTime) != Double
+                .doubleToLongBits(other.avgStartTime))
             return false;
         if (choicesByUsers != other.choicesByUsers)
             return false;
