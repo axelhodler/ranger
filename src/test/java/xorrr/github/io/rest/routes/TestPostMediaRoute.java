@@ -43,7 +43,7 @@ public class TestPostMediaRoute {
 
     @Test
     public void postRouteSubsRoute() {
-        assertTrue(Route.class.isAssignableFrom(PostMediaRoute.class));
+        assertTrue(pmr instanceof Route);
     }
 
     @Test

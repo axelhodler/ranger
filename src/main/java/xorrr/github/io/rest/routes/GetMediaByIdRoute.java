@@ -5,17 +5,15 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
-import xorrr.github.io.rest.MappedRoutes;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class GetMediaByIdRoute extends Route {
+public class GetMediaByIdRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
     public GetMediaByIdRoute(DatastoreFacade f, Transformator t) {
-        super(MappedRoutes.MEDIA_BY_ID);
         this.facade = f;
         this.transformator = t;
     }

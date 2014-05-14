@@ -59,7 +59,7 @@ public class PutRangeToMediaRouteTest {
 
     @Test
     public void canCreatePutRangeToMediaRoute() {
-        assertTrue(Route.class.isAssignableFrom(PutRangeToMediaRoute.class));
+        assertTrue(p instanceof Route);
     }
 
     @Test

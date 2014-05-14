@@ -55,7 +55,7 @@ public class GetMediaByIdRouteTest {
 
     @Test
     public void getMediaByIdRouteSubsRoute() {
-        assertTrue(Route.class.isAssignableFrom(GetMediaByIdRoute.class));
+        assertTrue(r instanceof Route);
     }
 
     @Test

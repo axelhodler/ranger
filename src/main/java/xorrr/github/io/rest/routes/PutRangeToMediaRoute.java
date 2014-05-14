@@ -6,17 +6,15 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
-import xorrr.github.io.rest.MappedRoutes;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class PutRangeToMediaRoute extends Route {
+public class PutRangeToMediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
     public PutRangeToMediaRoute(DatastoreFacade facade, Transformator t) {
-        super(MappedRoutes.MEDIA_BY_ID);
         this.facade = facade;
         this.transformator = t;
     }

@@ -5,16 +5,14 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
-import xorrr.github.io.rest.MappedRoutes;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class PostMediaRoute extends Route {
+public class PostMediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
     public PostMediaRoute(DatastoreFacade facade, Transformator transformator) {
-        super(MappedRoutes.MEDIA);
         this.facade = facade;
         this.transformator = transformator;
     }
