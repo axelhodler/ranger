@@ -1,7 +1,5 @@
 package xorrr.github.io.rest;
 
-import static org.mockito.Matchers.anyInt;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,29 +35,29 @@ public class SparkFacadeTest {
 
     @Test
     public void canSetPort() {
-        facade.setPort(anyInt());
+        facade.setPort(1111);
         PowerMockito.verifyStatic();
-        Spark.setPort(anyInt());
+        Spark.setPort(1111);
     }
 
     @Test
     public void canSetGetMediaByIdRoute() {
         facade.setGetMediaByIdRoute(getMediaById);
         PowerMockito.verifyStatic();
-        Spark.get(getMediaById);
+        Spark.get(MappedRoutes.MEDIA_BY_ID, getMediaById);
     }
 
     @Test
     public void canSetPostMediaRoute() {
         facade.setPostMediaRoute(postMedia);
         PowerMockito.verifyStatic();
-        Spark.post(postMedia);
+        Spark.post(MappedRoutes.MEDIA, postMedia);
     }
 
     @Test
     public void canSetPutRangeToMediaRoute() {
         facade.setPutRangeToMediaRoute(putRangeToMedia);
         PowerMockito.verifyStatic();
-        Spark.put(putRangeToMedia);
+        Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
     }
 }

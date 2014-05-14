@@ -12,15 +12,15 @@ public class SparkFacade {
     }
 
     public void setGetMediaByIdRoute(GetMediaByIdRoute getMediaById) {
-        Spark.get(getMediaById);
+        Spark.get(MappedRoutes.MEDIA_BY_ID, getMediaById);
     }
 
     public void setPostMediaRoute(PostMediaRoute postMedia) {
-        Spark.post(postMedia);
+        Spark.post(MappedRoutes.MEDIA, postMedia);
     }
 
     public void setPutRangeToMediaRoute(PutRangeToMediaRoute putRangeToMedia) {
-        Spark.put(putRangeToMedia);
+        Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
     }
 
 }
