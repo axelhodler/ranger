@@ -11,6 +11,17 @@
   <url>http://maven.apache.org</url>
 
   <properties>
+    <!-- versions -->
+    <powermock-api-mockito.version>1.5.4</powermock-api-mockito.version>
+    <powermock-module-junit4.version>1.5.4</powermock-module-junit4.version>
+    <mockito-all.version>1.9.5</mockito-all.version>
+    <de.flapdoodle.embed.mongo.version>1.43</de.flapdoodle.embed.mongo.version>
+    <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
+    <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
+    <spark-core.version>1.1.1</spark-core.version>
+    <mongo-java-driver.version>2.12.0</mongo-java-driver.version>
+    <junit.version>4.11</junit.version>
+    <!-- project -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -19,51 +30,51 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongo-java-driver</artifactId>
-      <version>2.12.0</version>
+      <version>${mongo-java-driver.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sparkjava</groupId>
       <artifactId>spark-core</artifactId>
-      <version>1.1.1</version>
+      <version>${spark-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.13</version>
+      <version>${jackson-mapper-asl.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.7</version>
+      <version>${slf4j-log4j12.version}</version>
     </dependency>
     <dependency>
       <groupId>de.flapdoodle.embed</groupId>
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
-      <version>1.43</version>
+      <version>${de.flapdoodle.embed.mongo.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
+      <version>${mockito-all.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
-      <version>1.5.4</version>
+      <version>${powermock-module-junit4.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
-      <version>1.5.4</version>
+      <version>${powermock-api-mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
