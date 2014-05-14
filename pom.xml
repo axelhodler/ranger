@@ -18,7 +18,7 @@
     <de.flapdoodle.embed.mongo.version>1.43</de.flapdoodle.embed.mongo.version>
     <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
     <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
-    <spark-core.version>1.1.1</spark-core.version>
+    <spark-core.version>2.0.0</spark-core.version>
     <mongo-java-driver.version>2.12.0</mongo-java-driver.version>
     <junit.version>4.11</junit.version>
     <!-- project -->
