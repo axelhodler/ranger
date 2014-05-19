@@ -78,4 +78,11 @@ public class TestPostMediaRoute {
 
         assertEquals(json, pmr.handle(req, resp));
     }
+
+    @Test
+    public void responseStatusIs201() {
+        pmr.handle(req, resp);
+
+        verify(resp, times(1)).status(201);
+    }
 }

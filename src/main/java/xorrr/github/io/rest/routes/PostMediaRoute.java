@@ -21,6 +21,8 @@ public class PostMediaRoute implements Route {
     public Object handle(Request req, Response resp) {
         facade.storeMedia(createMediaFromRequestBody(req));
 
+        resp.status(201);
+
         return req.body();
     }
 
