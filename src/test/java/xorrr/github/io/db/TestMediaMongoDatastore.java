@@ -34,9 +34,10 @@ public class TestMediaMongoDatastore {
     private DBCollection mediaCol;
     private MediaDatastore ds;
 
-    private void storeSampleMedia() {
+    private String storeSampleMedia() {
         Media m = new Media("www.foobar.org");
-        ds.storeMedia(m);
+        String id = ds.storeMedia(m);
+        return id;
     }
 
     private String getStoredSampleMediaId() {
@@ -108,6 +109,15 @@ public class TestMediaMongoDatastore {
         Media m = ds.getMediaById(mediaId);
         assertEquals(22.5, m.getAvgStartTime(), 0.2);
         assertEquals(42.5, m.getAvgEndTime(), 0.2);
+    }
+
+    @Test
+    public void storeSampleMediaReturnsId() {
+        String id = storeSampleMedia();
+
+        String mediaId = getStoredSampleMediaId();
+
+        assertEquals(id, mediaId);
     }
 
     @After

@@ -28,10 +28,14 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     @Override
-    public void storeMedia(Media m) {
-        col.insert(createBasicDboFromMedia(m));
+    public String storeMedia(Media m) {
+        ObjectId id = new ObjectId();
+
+        col.insert(createBasicDboFromMedia(id, m));
 
         logger.info("Stored new media object with url: " + m.getUrl());
+
+        return id.toString();
     }
 
     @Override
@@ -86,8 +90,9 @@ public class MediaMongoDatastore implements MediaDatastore {
         mediaToChange.put(MediaCol.CHOICES_BY_USERS, divisor);
     }
 
-    private BasicDBObject createBasicDboFromMedia(Media m) {
-        return new BasicDBObject(MediaCol.URL, m.getUrl())
+    private BasicDBObject createBasicDboFromMedia(ObjectId id, Media m) {
+        return new BasicDBObject(MediaCol.ID, id)
+                .append(MediaCol.URL, m.getUrl())
                 .append(MediaCol.CHOICES_BY_USERS, 0)
                 .append(MediaCol.AVG_START_TIME, 0.0)
                 .append(MediaCol.AVG_END_TIME, 0.0);
@@ -102,7 +107,6 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     private double getCurrentAvgStartTime(DBObject mediaToChange) {
-        return (double) mediaToChange
-                .get(MediaCol.AVG_START_TIME);
+        return (double) mediaToChange.get(MediaCol.AVG_START_TIME);
     }
 }

@@ -5,7 +5,7 @@ import xorrr.github.io.model.Range;
 
 public interface MediaDatastore {
 
-    void storeMedia(Media m);
+    String storeMedia(Media m);
 
     void applyRangeToMedia(String id, Range r);
 
