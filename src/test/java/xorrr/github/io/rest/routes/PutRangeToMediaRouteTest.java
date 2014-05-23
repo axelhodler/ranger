@@ -40,6 +40,7 @@ public class PutRangeToMediaRouteTest {
     private Range r;
 
     private void mockBehaviour() {
+        when (req.contentLength()).thenReturn(1);
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
         when(req.body()).thenReturn(JSON_RANGE);
         when(facade.getMediaById(ID)).thenReturn(m);
@@ -105,9 +106,20 @@ public class PutRangeToMediaRouteTest {
 
     @Test
     public void statusCode200() {
+        when (req.contentLength()).thenReturn(1);
+
         handleRequest();
 
         verify(resp, times(1)).status(200);
     }
 
+    @Test
+    public void statusCode204IfNoContent() {
+        when(req.contentLength()).thenReturn(-1);
+
+        handleRequest();
+
+        verify(resp, times(1)).status(204);
+        verify(transformator, times(0)).toRangePojo(JSON_RANGE);
+    }
 }

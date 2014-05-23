@@ -20,12 +20,16 @@ public class PutRangeToMediaRoute implements Route {
 
     @Override
     public String handle(Request req, Response resp) {
-        String mediaId = req.params(MappedRoutesParams.ID);
+        String mediaId = "";
 
-        Range r = transformator.toRangePojo(req.body());
-        facade.applyRangeToMedia(mediaId, r);
-
-        resp.status(200);
+        if (req.contentLength() < 1)
+            resp.status(204);
+        else {
+            resp.status(200);
+            Range r = transformator.toRangePojo(req.body());
+            mediaId = req.params(MappedRoutesParams.ID);
+            facade.applyRangeToMedia(mediaId, r);
+        }
 
         return mediaId;
     }
