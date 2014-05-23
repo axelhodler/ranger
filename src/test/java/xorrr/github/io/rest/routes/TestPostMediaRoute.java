@@ -94,4 +94,21 @@ public class TestPostMediaRoute {
 
         assertEquals(ID, mediaId);
     }
+
+    @Test
+    public void locationHeaderSet() {
+        when(req.body()).thenReturn(json);
+        when(transformator.toMediaPojo(json)).thenReturn(media);
+        when(facade.storeMedia(media)).thenReturn(ID);
+        String host = "localhost:port";
+        String pathInfo = "/media";
+        when(req.host()).thenReturn(host);
+        when(req.pathInfo()).thenReturn(pathInfo);
+
+        handleRequest();
+
+        verify(req, times(1)).host();
+        verify(req, times(1)).pathInfo();
+        verify(resp, times(1)).header("Location", "http://localhost:port/media/" + ID);
+    }
 }

@@ -21,6 +21,7 @@ public class PostMediaRoute implements Route {
     public Object handle(Request req, Response resp) {
         String id = facade.storeMedia(createMediaFromRequestBody(req));
 
+        resp.header("Location", "http://" + req.host() + req.pathInfo() + "/" + id);
         resp.status(201);
 
         return id;
