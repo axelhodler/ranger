@@ -19,12 +19,27 @@ public class PostMediaRoute implements Route {
 
     @Override
     public Object handle(Request req, Response resp) {
-        String id = facade.storeMedia(createMediaFromRequestBody(req));
+        String mediaId = "";
+        if (noContent(req))
+            resp.status(204);
+        else {
+            mediaId = dealWithContent(req, resp);
+        }
 
-        resp.header("Location", "http://" + req.host() + req.pathInfo() + "/" + id);
+        return mediaId;
+    }
+
+    private String dealWithContent(Request req, Response resp) {
+        String mediaId;
         resp.status(201);
+        mediaId = facade.storeMedia(createMediaFromRequestBody(req));
+        resp.header("Location", "http://" + req.host() + req.pathInfo()
+                + "/" + mediaId);
+        return mediaId;
+    }
 
-        return id;
+    private boolean noContent(Request req) {
+        return req.contentLength() < 1;
     }
 
     private Media createMediaFromRequestBody(Request req) {

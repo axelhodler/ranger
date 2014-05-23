@@ -43,6 +43,7 @@ public class POSTmediaRouteTest {
     }
 
     private void prepareRequest() {
+        when(req.contentLength()).thenReturn(1);
         when(req.body()).thenReturn(json);
         when(transformator.toMediaPojo(json)).thenReturn(media);
         when(facade.storeMedia(media)).thenReturn(ID);
@@ -51,6 +52,8 @@ public class POSTmediaRouteTest {
     @Before
     public void setUp() {
         pmr = new PostMediaRoute(facade, transformator);
+
+        prepareRequest();
     }
 
     @Test
@@ -67,8 +70,6 @@ public class POSTmediaRouteTest {
 
     @Test
     public void bodyDeserializedToPojo() {
-        when(req.body()).thenReturn(json);
-
         handleRequest();
 
         verify(transformator, times(1)).toMediaPojo(json);
@@ -76,9 +77,6 @@ public class POSTmediaRouteTest {
 
     @Test
     public void mediaStored() {
-        when(req.body()).thenReturn(json);
-        when(transformator.toMediaPojo(json)).thenReturn(media);
-
         handleRequest();
 
         verify(facade, times(1)).storeMedia(media);
@@ -93,8 +91,6 @@ public class POSTmediaRouteTest {
 
     @Test
     public void idReturned() {
-        prepareRequest();
-
         String mediaId = (String) pmr.handle(req, resp);
 
         assertEquals(ID, mediaId);
@@ -102,7 +98,6 @@ public class POSTmediaRouteTest {
 
     @Test
     public void locationHeaderSet() {
-        prepareRequest();
         String host = "localhost:port";
         String pathInfo = "/media";
         when(req.host()).thenReturn(host);
@@ -114,5 +109,17 @@ public class POSTmediaRouteTest {
         verify(req, times(1)).pathInfo();
         verify(resp, times(1)).header("Location",
                 "http://" + host + pathInfo + "/" + ID);
+    }
+
+    @Test
+    public void dealWithNoContent() {
+        when(req.contentLength()).thenReturn(-1);
+
+        handleRequest();
+
+        verify(resp, times(1)).status(204);
+        verify(facade, times(0)).storeMedia(media);
+        verify(req, times(0)).host();
+        verify(req, times(0)).pathInfo();
     }
 }
