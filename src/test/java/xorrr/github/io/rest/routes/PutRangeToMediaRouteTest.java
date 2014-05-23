@@ -52,7 +52,7 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Before
-    public void setup() {
+    public void setUp() {
         p = new PutRangeToMediaRoute(facade, transformator);
 
         m = new Media("www.random.org");
@@ -62,12 +62,12 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void canCreatePutRangeToMediaRoute() {
+    public void implementsRoute() {
         assertTrue(p instanceof Route);
     }
 
     @Test
-    public void bodyIsAccessed() {
+    public void bodyAccessed() {
         mockBehaviour();
         when(transformator.toMediaJson(any(Media.class))).thenReturn("");
 
@@ -77,7 +77,7 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void idParamIsAccessed() {
+    public void idParamChecked() {
         mockBehaviour();
         when(transformator.toMediaJson(any(Media.class))).thenReturn("");
 
@@ -87,7 +87,7 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void bodyTransformedAndAddedToMedia() {
+    public void bodyTransformedToRange() {
         mockBehaviour();
 
         handleRequest();
@@ -96,7 +96,7 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void rangeAppliedToMedia() {
+    public void applyRange() {
         mockBehaviour();
 
         handleRequest();
