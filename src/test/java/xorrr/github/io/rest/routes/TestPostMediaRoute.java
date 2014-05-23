@@ -34,7 +34,12 @@ public class TestPostMediaRoute {
     Media media;
 
     private final String json = "asdf";
+    private final String ID = "id";
     private PostMediaRoute pmr;
+
+    private void handleRequest() {
+        pmr.handle(req, resp);
+    }
 
     @Before
     public void setUp() {
@@ -48,16 +53,16 @@ public class TestPostMediaRoute {
 
     @Test
     public void bodyIsAccessed() {
-        pmr.handle(req, resp);
+        handleRequest();
 
-        verify(req, times(2)).body();
+        verify(req, times(1)).body();
     }
 
     @Test
     public void bodyIsDeserializedToPojo() {
         when(req.body()).thenReturn(json);
 
-        pmr.handle(req, resp);
+        handleRequest();
 
         verify(transformator, times(1)).toMediaPojo(json);
     }
@@ -67,22 +72,26 @@ public class TestPostMediaRoute {
         when(req.body()).thenReturn(json);
         when(transformator.toMediaPojo(json)).thenReturn(media);
 
-        pmr.handle(req, resp);
+        handleRequest();
 
         verify(facade, times(1)).storeMedia(media);
     }
 
     @Test
-    public void bodyIsReturned() {
-        when(req.body()).thenReturn(json);
+    public void responseStatusIs201() {
+        handleRequest();
 
-        assertEquals(json, pmr.handle(req, resp));
+        verify(resp, times(1)).status(201);
     }
 
     @Test
-    public void responseStatusIs201() {
-        pmr.handle(req, resp);
+    public void idReturned() {
+        when(req.body()).thenReturn(json);
+        when(transformator.toMediaPojo(json)).thenReturn(media);
+        when(facade.storeMedia(media)).thenReturn(ID);
 
-        verify(resp, times(1)).status(201);
+        String mediaId = (String) pmr.handle(req, resp);
+
+        assertEquals(ID, mediaId);
     }
 }
