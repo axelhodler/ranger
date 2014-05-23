@@ -35,10 +35,17 @@ public class TestPostMediaRoute {
 
     private final String json = "asdf";
     private final String ID = "id";
+
     private PostMediaRoute pmr;
 
     private void handleRequest() {
         pmr.handle(req, resp);
+    }
+
+    private void prepareRequest() {
+        when(req.body()).thenReturn(json);
+        when(transformator.toMediaPojo(json)).thenReturn(media);
+        when(facade.storeMedia(media)).thenReturn(ID);
     }
 
     @Before
@@ -52,14 +59,14 @@ public class TestPostMediaRoute {
     }
 
     @Test
-    public void bodyIsAccessed() {
+    public void bodyAccessed() {
         handleRequest();
 
         verify(req, times(1)).body();
     }
 
     @Test
-    public void bodyIsDeserializedToPojo() {
+    public void bodyDeserializedToPojo() {
         when(req.body()).thenReturn(json);
 
         handleRequest();
@@ -68,7 +75,7 @@ public class TestPostMediaRoute {
     }
 
     @Test
-    public void mediaIsStored() {
+    public void mediaStored() {
         when(req.body()).thenReturn(json);
         when(transformator.toMediaPojo(json)).thenReturn(media);
 
@@ -78,7 +85,7 @@ public class TestPostMediaRoute {
     }
 
     @Test
-    public void responseStatusIs201() {
+    public void responseStatus201() {
         handleRequest();
 
         verify(resp, times(1)).status(201);
@@ -86,9 +93,7 @@ public class TestPostMediaRoute {
 
     @Test
     public void idReturned() {
-        when(req.body()).thenReturn(json);
-        when(transformator.toMediaPojo(json)).thenReturn(media);
-        when(facade.storeMedia(media)).thenReturn(ID);
+        prepareRequest();
 
         String mediaId = (String) pmr.handle(req, resp);
 
@@ -97,9 +102,7 @@ public class TestPostMediaRoute {
 
     @Test
     public void locationHeaderSet() {
-        when(req.body()).thenReturn(json);
-        when(transformator.toMediaPojo(json)).thenReturn(media);
-        when(facade.storeMedia(media)).thenReturn(ID);
+        prepareRequest();
         String host = "localhost:port";
         String pathInfo = "/media";
         when(req.host()).thenReturn(host);
@@ -109,6 +112,7 @@ public class TestPostMediaRoute {
 
         verify(req, times(1)).host();
         verify(req, times(1)).pathInfo();
-        verify(resp, times(1)).header("Location", "http://localhost:port/media/" + ID);
+        verify(resp, times(1)).header("Location",
+                "http://" + host + pathInfo + "/" + ID);
     }
 }
