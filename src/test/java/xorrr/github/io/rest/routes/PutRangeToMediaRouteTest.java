@@ -1,6 +1,5 @@
 package xorrr.github.io.rest.routes;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
@@ -87,17 +86,6 @@ public class PutRangeToMediaRouteTest {
     }
 
     @Test
-    public void mediaIsFoundById() throws Exception {
-        mockBehaviour();
-        when(transformator.toMediaJson(any(Media.class))).thenReturn("");
-        when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
-
-        handleRequest();
-
-        verify(facade, times(1)).getMediaById(ID);
-    }
-
-    @Test
     public void bodyTransformedAndAddedToMedia() {
         mockBehaviour();
 
@@ -113,20 +101,6 @@ public class PutRangeToMediaRouteTest {
         handleRequest();
 
         verify(facade, times(1)).applyRangeToMedia(ID, r);
-    }
-
-    @Test
-    public void changedMediaIsReturned() {
-        Transformator t = new Transformator();
-        mockBehaviour();
-        String correctMediaJson = t.toMediaJson(m);
-
-        when(transformator.toMediaJson(m)).thenReturn(correctMediaJson);
-
-        String changedMedia = p.handle(req, resp);
-
-        assertEquals("Changed media i returned in json", changedMedia,
-                correctMediaJson);
     }
 
 }
