@@ -26,8 +26,8 @@ public class DatastoreFacade {
         ds.deleteUserById(id);
     }
 
-    public void storeMedia(Media m) {
-        mds.storeMedia(m);
+    public String storeMedia(Media m) {
+        return mds.storeMedia(m);
     }
 
     public void applyRangeToMedia(String id, Range r) {

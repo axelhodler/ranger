@@ -79,6 +79,14 @@ public class TestDatastoreFacade {
     }
 
     @Test
+    public void storedMediaIdReturned() {
+        Media m = createExemplaryMedia();
+        when(mediaDs.storeMedia(m)).thenReturn(ID);
+
+        assertEquals("storeMedia returns id", ID, facade.storeMedia(m));
+    }
+
+    @Test
     public void canTriggerToGetMediaById() {
         Media exampleMedia = createExemplaryMedia();
         when(mediaDs.getMediaById(ID)).thenReturn(exampleMedia);
