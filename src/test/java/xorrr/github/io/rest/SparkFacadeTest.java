@@ -11,7 +11,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import spark.Spark;
 import xorrr.github.io.rest.routes.GetMediaByIdRoute;
 import xorrr.github.io.rest.routes.PostMediaRoute;
-import xorrr.github.io.rest.routes.PutRangeToMediaRoute;
+import xorrr.github.io.rest.routes.PutOnMediaRoute;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
@@ -22,7 +22,7 @@ public class SparkFacadeTest {
     @Mock
     PostMediaRoute postMedia;
     @Mock
-    PutRangeToMediaRoute putRangeToMedia;
+    PutOnMediaRoute putRangeToMedia;
 
     private SparkFacade facade;
 

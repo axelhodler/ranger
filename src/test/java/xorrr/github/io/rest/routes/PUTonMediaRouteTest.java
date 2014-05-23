@@ -22,7 +22,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PutRangeToMediaRouteTest {
+public class PUTonMediaRouteTest {
 
     @Mock
     Request req;
@@ -35,7 +35,7 @@ public class PutRangeToMediaRouteTest {
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
     private final String ID = "536a6107ccf258bb9041663a";
-    private PutRangeToMediaRoute p;
+    private PutOnMediaRoute p;
     private Media m;
     private Range r;
 
@@ -53,7 +53,7 @@ public class PutRangeToMediaRouteTest {
 
     @Before
     public void setUp() {
-        p = new PutRangeToMediaRoute(facade, transformator);
+        p = new PutOnMediaRoute(facade, transformator);
 
         m = new Media("www.random.org");
         m.setAvgStartTime(5);

@@ -23,7 +23,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetMediaByIdRouteTest {
+public class GETmediaByIdRouteTest {
 
     @Mock
     DatastoreFacade facade;

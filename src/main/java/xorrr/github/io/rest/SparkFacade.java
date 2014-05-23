@@ -3,7 +3,7 @@ package xorrr.github.io.rest;
 import spark.Spark;
 import xorrr.github.io.rest.routes.GetMediaByIdRoute;
 import xorrr.github.io.rest.routes.PostMediaRoute;
-import xorrr.github.io.rest.routes.PutRangeToMediaRoute;
+import xorrr.github.io.rest.routes.PutOnMediaRoute;
 
 public class SparkFacade {
 
@@ -19,7 +19,7 @@ public class SparkFacade {
         Spark.post(MappedRoutes.MEDIA, postMedia);
     }
 
-    public void setPutRangeToMediaRoute(PutRangeToMediaRoute putRangeToMedia) {
+    public void setPutRangeToMediaRoute(PutOnMediaRoute putRangeToMedia) {
         Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
     }
 

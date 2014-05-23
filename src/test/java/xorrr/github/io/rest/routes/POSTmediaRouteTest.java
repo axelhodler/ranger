@@ -20,7 +20,7 @@ import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestPostMediaRoute {
+public class POSTmediaRouteTest {
 
     @Mock
     DatastoreFacade facade;
