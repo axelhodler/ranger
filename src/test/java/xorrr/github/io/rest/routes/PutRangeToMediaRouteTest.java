@@ -103,4 +103,11 @@ public class PutRangeToMediaRouteTest {
         verify(facade, times(1)).applyRangeToMedia(ID, r);
     }
 
+    @Test
+    public void statusCode200() {
+        handleRequest();
+
+        verify(resp, times(1)).status(200);
+    }
+
 }

@@ -25,6 +25,8 @@ public class PutRangeToMediaRoute implements Route {
         Range r = transformator.toRangePojo(req.body());
         facade.applyRangeToMedia(mediaId, r);
 
+        resp.status(200);
+
         return mediaId;
     }
 
