@@ -40,11 +40,15 @@ public class PutRangeToMediaRouteTest {
     private Media m;
     private Range r;
 
-    private void setNecessaryBehaviour() {
+    private void mockBehaviour() {
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
         when(req.body()).thenReturn(JSON_RANGE);
         when(facade.getMediaById(ID)).thenReturn(m);
         when(transformator.toRangePojo(JSON_RANGE)).thenReturn(r);
+    }
+
+    private void handleRequest() {
+        p.handle(req, resp);
     }
 
     @Before
@@ -64,49 +68,49 @@ public class PutRangeToMediaRouteTest {
 
     @Test
     public void bodyIsAccessed() {
-        setNecessaryBehaviour();
+        mockBehaviour();
         when(transformator.toMediaJson(any(Media.class))).thenReturn("");
 
-        p.handle(req, resp);
+        handleRequest();
 
         verify(req, times(1)).body();
     }
 
     @Test
     public void idParamIsAccessed() {
-        setNecessaryBehaviour();
+        mockBehaviour();
         when(transformator.toMediaJson(any(Media.class))).thenReturn("");
 
-        p.handle(req, resp);
+        handleRequest();
 
         verify(req, times(1)).params(MappedRoutesParams.ID);
     }
 
     @Test
     public void mediaIsFoundById() throws Exception {
-        setNecessaryBehaviour();
+        mockBehaviour();
         when(transformator.toMediaJson(any(Media.class))).thenReturn("");
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
 
-        p.handle(req, resp);
+        handleRequest();
 
         verify(facade, times(1)).getMediaById(ID);
     }
 
     @Test
     public void bodyTransformedAndAddedToMedia() {
-        setNecessaryBehaviour();
+        mockBehaviour();
 
-        p.handle(req, resp);
+        handleRequest();
 
         verify(transformator, times(1)).toRangePojo(JSON_RANGE);
     }
 
     @Test
     public void rangeAppliedToMedia() {
-        setNecessaryBehaviour();
+        mockBehaviour();
 
-        p.handle(req, resp);
+        handleRequest();
 
         verify(facade, times(1)).applyRangeToMedia(ID, r);
     }
@@ -114,7 +118,7 @@ public class PutRangeToMediaRouteTest {
     @Test
     public void changedMediaIsReturned() {
         Transformator t = new Transformator();
-        setNecessaryBehaviour();
+        mockBehaviour();
         String correctMediaJson = t.toMediaJson(m);
 
         when(transformator.toMediaJson(m)).thenReturn(correctMediaJson);
