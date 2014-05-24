@@ -33,7 +33,7 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         col.insert(createBasicDboFromMedia(id, m));
 
-        logger.info("Stored new media object with url: " + m.getUrl());
+        logger.info("Stored new media object with url: {}", m.getUrl());
 
         return id.toString();
     }
@@ -46,9 +46,9 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         col.update(queryDbForMediaId(id), mediaToChange);
 
-        logger.info("Added range with startTime: " + r.getStartTime()
-                + " and endTime: " + r.getEndTime() + " to media with id: "
-                + id);
+        logger.info(
+                "Added range with startTime: {} and endTime: {} to media with id: {}",
+                r.getStartTime(), r.getEndTime(), id);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MediaMongoDatastore implements MediaDatastore {
 
         Media m = createMediaFromDbo(dbo);
 
-        logger.info("Media with id: " + id + " was requested");
+        logger.info("Media with id: {} was requested", id);
 
         return m;
     }
