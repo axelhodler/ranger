@@ -21,7 +21,9 @@ public class SparkFacade {
 
     public void setPutRangeToMediaRoute(PutOnMediaRoute putRangeToMedia) {
         Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
+    }
 
+    public void setWildcardRoutes() {
         Spark.get("*", (request, response) -> {
             return "404";
         });

@@ -35,6 +35,7 @@ public class BasicIntegrationTest {
         rest.setGetMediaByIdRoute(new GetMediaByIdRoute(facade, transformator));
         rest.setPutRangeToMediaRoute(new PutOnMediaRoute(facade,
                 transformator));
+        rest.setWildcardRoutes();
         RestAssured.port = 1337;
     }
 
