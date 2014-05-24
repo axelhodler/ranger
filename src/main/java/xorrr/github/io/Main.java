@@ -2,6 +2,8 @@ package xorrr.github.io;
 
 import java.net.UnknownHostException;
 
+import org.apache.log4j.BasicConfigurator;
+
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.db.MediaDatastore;
 import xorrr.github.io.db.MediaMongoDatastore;
@@ -15,6 +17,8 @@ import xorrr.github.io.rest.transformation.Transformator;
 
 public class Main {
     public static void main(String[] args) throws UnknownHostException {
+        BasicConfigurator.configure();
+
         UserDatastore uds = new UserMongoDatastore();
         MediaDatastore mds = new MediaMongoDatastore();
         DatastoreFacade facade = new DatastoreFacade(uds, mds);
