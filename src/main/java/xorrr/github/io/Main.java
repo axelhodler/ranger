@@ -3,6 +3,8 @@ package xorrr.github.io;
 import java.net.UnknownHostException;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.db.MediaDatastore;
@@ -18,6 +20,7 @@ import xorrr.github.io.rest.transformation.Transformator;
 public class Main {
     public static void main(String[] args) throws UnknownHostException {
         BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
 
         UserDatastore uds = new UserMongoDatastore();
         MediaDatastore mds = new MediaMongoDatastore();
