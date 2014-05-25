@@ -54,12 +54,18 @@ public class MediaMongoDatastore implements MediaDatastore {
     @Override
     public Media getMediaById(String id) {
         DBObject dbo = findMediaById(id);
-
-        Media m = createMediaFromDbo(dbo);
-
-        logger.info("Media with id: {} was requested", id);
+        Media m = null;
+        if (idExists(dbo)) {
+            m = createMediaFromDbo(dbo);
+            logger.info("Media with id: {} was FOUND", id);
+        } else
+            logger.info("Media with id: {} was NOT FOUND", id);
 
         return m;
+    }
+
+    private boolean idExists(DBObject dbo) {
+        return dbo != null;
     }
 
     private DBObject findMediaById(String id) {
@@ -67,8 +73,6 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     private Media createMediaFromDbo(DBObject dbo) {
-        if (dbo == null)
-            return null;
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
         m.setAvgStartTime(getCurrentAvgStartTime(dbo));
