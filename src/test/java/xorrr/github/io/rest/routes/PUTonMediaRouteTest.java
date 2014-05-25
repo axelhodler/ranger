@@ -2,6 +2,7 @@ package xorrr.github.io.rest.routes;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,7 +41,7 @@ public class PUTonMediaRouteTest {
     private Range r;
 
     private void mockBehaviour() {
-        when (req.contentLength()).thenReturn(1);
+        when(req.contentLength()).thenReturn(1);
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
         when(req.body()).thenReturn(JSON_RANGE);
         when(facade.getMediaById(ID)).thenReturn(m);
@@ -106,7 +107,9 @@ public class PUTonMediaRouteTest {
 
     @Test
     public void statusCode200() {
-        when (req.contentLength()).thenReturn(1);
+        when(req.contentLength()).thenReturn(1);
+        when(facade.applyRangeToMedia(anyString(), any(Range.class)))
+                .thenReturn(true);
 
         handleRequest();
 

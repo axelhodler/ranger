@@ -20,24 +20,25 @@ public class PutOnMediaRoute implements Route {
 
     @Override
     public String handle(Request req, Response resp) {
-        String mediaId = "";
+        String returnMsg = "";
+        boolean applied = false;
 
         if (noContent(req))
             resp.status(204);
         else {
-            mediaId = dealWithContent(req, resp);
+            Range r = transformator.toRangePojo(req.body());
+            returnMsg = req.params(MappedRoutesParams.ID);
+            applied = facade.applyRangeToMedia(returnMsg, r);
         }
 
-        return mediaId;
-    }
+        if (applied) {
+            resp.status(200);
+        } else {
+            resp.status(404);
+            returnMsg = "404";
+        }
 
-    private String dealWithContent(Request req, Response resp) {
-        String mediaId;
-        resp.status(200);
-        Range r = transformator.toRangePojo(req.body());
-        mediaId = req.params(MappedRoutesParams.ID);
-        facade.applyRangeToMedia(mediaId, r);
-        return mediaId;
+        return returnMsg;
     }
 
     private boolean noContent(Request req) {

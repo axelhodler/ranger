@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.db.MediaDatastore;
@@ -20,6 +22,7 @@ import xorrr.github.io.rest.routes.PutOnMediaRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;
+import xorrr.github.io.utils.IntegrationTest;
 import xorrr.github.io.utils.RangerDB;
 
 import com.jayway.restassured.RestAssured;
@@ -28,6 +31,7 @@ import com.mongodb.MongoClient;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
+@Category(IntegrationTest.class)
 public class BasicIntegrationTest {
 
     private static MongodExecutable mongoExe;
@@ -67,10 +71,18 @@ public class BasicIntegrationTest {
     public void nonExistentIdReturns404() {
         assertEquals(404, RestAssured.when().get("/media/12345").getStatusCode());
         assertEquals("404", RestAssured.when().get("/media/12345").body().asString());
+
+        assertEquals("404", RestAssured.when().put("/media/12345").body().asString());
+        assertEquals(404, RestAssured.when().put("/media/12345").getStatusCode());
     }
 
     @After
     public void tearDown() {
         mediaCol.drop();
+    }
+
+    @AfterClass
+    public static void stopEmbedded() {
+        mongoExe.stop();
     }
 }
