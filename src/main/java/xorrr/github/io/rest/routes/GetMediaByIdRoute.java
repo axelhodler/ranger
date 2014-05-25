@@ -21,15 +21,20 @@ public class GetMediaByIdRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
         String id = request.params(MappedRoutesParams.ID);
-        String json = returnMediaJson(id);
+        String json = returnMediaJson(id, response);
         return json;
     }
 
-    private String returnMediaJson(String id) {
-        String json;
+    private String returnMediaJson(String id, Response response) {
+        String returnMsg;
         Media m = facade.getMediaById(id);
-        json = transformator.toMediaJson(m);
-        return json;
+        if (m == null) {
+            response.status(404);
+            returnMsg = "404";
+        } else {
+            returnMsg = transformator.toMediaJson(m);
+        }
+        return returnMsg;
     }
 
 }
