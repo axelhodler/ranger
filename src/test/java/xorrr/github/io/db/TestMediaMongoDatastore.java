@@ -90,6 +90,13 @@ public class TestMediaMongoDatastore {
     }
 
     @Test
+    public void nonObjectIdStyleMediaIdReturnsNull() {
+        Media m = ds.getMediaById("asdf");
+
+        assertNull(m);
+    }
+
+    @Test
     public void canApplyMultipleRangesToMediaAfterAnother() {
         storeSampleMedia();
         String mediaId = getStoredSampleMediaId();

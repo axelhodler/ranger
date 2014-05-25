@@ -53,8 +53,12 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     @Override
     public Media getMediaById(String id) {
-        DBObject dbo = findMediaById(id);
         Media m = null;
+        DBObject dbo = null;
+        if (ObjectId.isValid(id)){
+            dbo = findMediaById(id);
+        }
+
         if (idExists(dbo)) {
             m = createMediaFromDbo(dbo);
             logger.info("Media with id: {} was FOUND", id);
