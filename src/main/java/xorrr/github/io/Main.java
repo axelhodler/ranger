@@ -33,5 +33,6 @@ public class Main {
         rest.setGetMediaByIdRoute(new GetMediaByIdRoute(facade, transformator));
         rest.setPutRangeToMediaRoute(new PutOnMediaRoute(facade,
                 transformator));
+        rest.setWildcardRoutes();
     }
 }
