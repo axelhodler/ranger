@@ -1,6 +1,7 @@
 package xorrr.github.io.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
@@ -87,6 +88,16 @@ public class TestMediaMongoDatastore {
         Media m = ds.getMediaById(new ObjectId().toString());
 
         assertNull(m);
+    }
+
+    @Test
+    public void invalidMediaIdReturnsFalse() {
+        assertFalse(ds.applyRangeToMedia("asdf", null));
+    }
+
+    @Test
+    public void nonExistentMediaIdReturnsFalse() {
+        assertFalse(ds.applyRangeToMedia(new ObjectId().toString(), null));
     }
 
     @Test

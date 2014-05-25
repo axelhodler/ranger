@@ -39,16 +39,28 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     @Override
-    public void applyRangeToMedia(String id, Range r) {
-        DBObject mediaToChange = findMediaById(id);
+    public boolean applyRangeToMedia(String id, Range r) {
+        DBObject mediaToChange = null;
+        boolean changed = false;
 
-        calculateNewAverages(r, mediaToChange);
+        if (ObjectId.isValid(id)) {
+            mediaToChange = findMediaById(id);
+        }
 
-        col.update(queryDbForMediaId(id), mediaToChange);
+        if (mediaToChange != null) {
+            calculateNewAverages(r, mediaToChange);
 
-        logger.info(
-                "Added range with startTime: {} and endTime: {} to media with id: {}",
-                r.getStartTime(), r.getEndTime(), id);
+            col.update(queryDbForMediaId(id), mediaToChange);
+            changed = true;
+
+            logger.info(
+                    "Added range with startTime: {} and endTime: {} to media with id: {}",
+                    r.getStartTime(), r.getEndTime(), id);
+        } else {
+            logger.info("Provided id: {} was INVALID or NON EXISTENT");
+        }
+
+        return changed;
     }
 
     @Override
