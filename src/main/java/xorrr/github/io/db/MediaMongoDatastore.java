@@ -67,6 +67,8 @@ public class MediaMongoDatastore implements MediaDatastore {
     }
 
     private Media createMediaFromDbo(DBObject dbo) {
+        if (dbo == null)
+            return null;
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
         m.setAvgStartTime(getCurrentAvgStartTime(dbo));

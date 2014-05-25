@@ -1,10 +1,12 @@
 package xorrr.github.io.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -78,6 +80,13 @@ public class TestMediaMongoDatastore {
 
         Media m = ds.getMediaById(id);
         assertEquals("www.foobar.org", m.getUrl());
+    }
+
+    @Test
+    public void wrongMediaIdReturnsNull() {
+        Media m = ds.getMediaById(new ObjectId().toString());
+
+        assertNull(m);
     }
 
     @Test
