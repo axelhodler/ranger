@@ -40,17 +40,17 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     @Override
     public boolean applyRangeToMedia(String id, Range r) {
-        DBObject mediaToChange = null;
+        DBObject m = null;
         boolean changed = false;
 
         if (ObjectId.isValid(id)) {
-            mediaToChange = findMediaById(id);
+            m = findMedia(id);
         }
 
-        if (mediaToChange != null) {
-            calculateNewAverages(r, mediaToChange);
+        if (mediaFound(m)) {
+            calculateNewAverages(r, m);
 
-            col.update(queryDbForMediaId(id), mediaToChange);
+            setNewAverages(id, m);
             changed = true;
 
             logger.info(
@@ -68,11 +68,11 @@ public class MediaMongoDatastore implements MediaDatastore {
         Media m = null;
         DBObject dbo = null;
         if (ObjectId.isValid(id)){
-            dbo = findMediaById(id);
+            dbo = findMedia(id);
         }
 
         if (idExists(dbo)) {
-            m = createMediaFromDbo(dbo);
+            m = toMedia(dbo);
             logger.info("Media with id: {} was FOUND", id);
         } else
             logger.info("Media with id: {} was NOT FOUND", id);
@@ -80,15 +80,23 @@ public class MediaMongoDatastore implements MediaDatastore {
         return m;
     }
 
-    private boolean idExists(DBObject dbo) {
-        return dbo != null;
+    private void setNewAverages(String id, DBObject m) {
+        col.update(queryDbForMediaId(id), m);
     }
 
-    private DBObject findMediaById(String id) {
+    private boolean mediaFound(DBObject mediaToChange) {
+        return mediaToChange != null;
+    }
+
+    private boolean idExists(DBObject dbo) {
+        return mediaFound(dbo);
+    }
+
+    private DBObject findMedia(String id) {
         return col.findOne(queryDbForMediaId(id));
     }
 
-    private Media createMediaFromDbo(DBObject dbo) {
+    private Media toMedia(DBObject dbo) {
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
         m.setAvgStartTime(getCurrentAvgStartTime(dbo));
