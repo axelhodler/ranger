@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
+import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.RangeConst;
 import xorrr.github.io.utils.RangerDB;
 import xorrr.github.io.utils.UserCol;
@@ -21,7 +22,7 @@ public class UserMongoDatastore implements UserDatastore {
     private DBCollection col;
 
     public UserMongoDatastore() throws UnknownHostException {
-        MongoClient client = new MongoClient("localhost", 12345);
+        MongoClient client = new MongoClient("localhost", EnvVars.MONGO_PORT);
         col = client.getDB(RangerDB.NAME).getCollection(RangerDB.USER_COL);
     }
 
@@ -30,24 +31,10 @@ public class UserMongoDatastore implements UserDatastore {
         col.insert(new BasicDBObject(UserCol.LOGIN, u.getLogin()));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public User getUserById(String id) {
-        DBObject dbo = col.findOne(new BasicDBObject(UserCol.ID, new ObjectId(
-                id)));
-
-        User user = new User();
-        user.setLogin(dbo.get(UserCol.LOGIN).toString());
-
-        List<DBObject> ranges = (List<DBObject>) dbo.get(UserCol.RANGES);
-
-        if (ranges != null)
-            for (DBObject range : ranges) {
-                user.addRange(range.get("mediaId").toString(),
-                        new Range((int) range.get(RangeConst.START_TIME),
-                                (int) range.get(RangeConst.END_TIME)));
-            }
-
+        DBObject dbo = findUser(id);
+        User user = createUser(dbo);
         return user;
     }
 
@@ -63,9 +50,32 @@ public class UserMongoDatastore implements UserDatastore {
                 RangeConst.END_TIME, r.getEndTime());
         DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
         DBObject pushRange = new BasicDBObject("$push", ranges);
-        col.update(new BasicDBObject(UserCol.ID, new ObjectId(
-                userId)), pushRange);
+        col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
+                pushRange);
 
         return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private User createUser(DBObject dbo) {
+        User user = new User();
+        user.setLogin(dbo.get(UserCol.LOGIN).toString());
+        List<DBObject> ranges = (List<DBObject>) dbo.get(UserCol.RANGES);
+
+        if (ranges != null)
+            addRanges(user, ranges);
+        return user;
+    }
+
+    private void addRanges(User user, List<DBObject> ranges) {
+        for (DBObject range : ranges) {
+            user.addRange(range.get("mediaId").toString(),
+                    new Range((int) range.get(RangeConst.START_TIME),
+                            (int) range.get(RangeConst.END_TIME)));
+        }
+    }
+
+    private DBObject findUser(String id) {
+        return col.findOne(new BasicDBObject(UserCol.ID, new ObjectId(id)));
     }
 }
