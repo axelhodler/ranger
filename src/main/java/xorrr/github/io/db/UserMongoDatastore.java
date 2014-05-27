@@ -28,7 +28,9 @@ public class UserMongoDatastore implements UserDatastore {
 
     @Override
     public void storeUser(User u) {
-        col.insert(new BasicDBObject(UserCol.LOGIN, u.getLogin()));
+        ObjectId id = new ObjectId();
+        col.insert(new BasicDBObject(UserCol.ID, id).append(UserCol.LOGIN,
+                u.getLogin()));
     }
 
     @Override
@@ -45,13 +47,25 @@ public class UserMongoDatastore implements UserDatastore {
 
     @Override
     public boolean setRange(String userId, String mediaId, Range r) {
-        DBObject range = new BasicDBObject("mediaId", mediaId).append(
-                RangeConst.START_TIME, r.getStartTime()).append(
-                RangeConst.END_TIME, r.getEndTime());
-        DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
-        DBObject pushRange = new BasicDBObject("$push", ranges);
-        col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
-                pushRange);
+        // check if range for mediaId already set
+        DBObject rangeX = col.findOne(new BasicDBObject(UserCol.ID,
+                new ObjectId(userId)).append("ranges.mediaId", mediaId));
+        if (rangeX == null) {
+            DBObject range = new BasicDBObject("mediaId", mediaId).append(
+                    RangeConst.START_TIME, r.getStartTime()).append(
+                    RangeConst.END_TIME, r.getEndTime());
+            DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
+            DBObject pushRange = new BasicDBObject("$push", ranges);
+            col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
+                    pushRange);
+        } else {
+            col.update(
+                    new BasicDBObject(UserCol.ID, new ObjectId(userId)).append(
+                            "ranges.mediaId", mediaId),
+                    new BasicDBObject("$set", new BasicDBObject(
+                            "ranges.$.startTime", r.getStartTime()).append(
+                            "ranges.$.endTime", r.getEndTime())));
+        }
 
         return false;
     }

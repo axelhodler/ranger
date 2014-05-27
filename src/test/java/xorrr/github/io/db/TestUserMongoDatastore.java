@@ -17,9 +17,11 @@ import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
+import xorrr.github.io.utils.RangeConst;
 import xorrr.github.io.utils.RangerDB;
 import xorrr.github.io.utils.UserCol;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -48,12 +50,12 @@ public class TestUserMongoDatastore {
 
         DBObject dbo = findStoredUser();
         String id = dbo.get(UserCol.ID).toString();
+        System.out.println(id);
         return id;
     }
 
     private DBObject findStoredUser() {
-        return userCol
-                .findOne(new BasicDBObject(UserCol.LOGIN, "xorrr"));
+        return userCol.findOne(new BasicDBObject(UserCol.LOGIN, "xorrr"));
     }
 
     @BeforeClass
@@ -123,6 +125,24 @@ public class TestUserMongoDatastore {
         assertEquals(1, u.getRanges().size());
         assertEquals(3, u.getRanges().get(mediaId).getStartTime());
         assertEquals(4, u.getRanges().get(mediaId).getEndTime());
+    }
+
+    @Test
+    public void canChangeRangeInDb() {
+        String userId = storeUserAndGetId();
+        String mediaId = new ObjectId().toString();
+        Range first = new Range(1, 2);
+        Range changed = new Range(3, 4);
+
+        ds.setRange(userId, mediaId, first);
+        ds.setRange(userId, mediaId, changed);
+
+        DBObject user = userCol.findOne();
+        BasicDBList ranges = (BasicDBList) user.get(UserCol.RANGES);
+        assertEquals(1, ranges.size());
+        DBObject range = (DBObject) ranges.get(0);
+        assertEquals(3, range.get(RangeConst.START_TIME));
+        assertEquals(4, range.get(RangeConst.END_TIME));
     }
 
     @Test
