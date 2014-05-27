@@ -21,8 +21,8 @@ public class TransformatorTest {
 
     private User createExampleUser() {
         User u = new User();
-        u.setName("xorrr");
-        u.setId("5367f4f1bdef0dea21f040e7");
+        u.setLogin("xorrr");
+        u.setObjectId("5367f4f1bdef0dea21f040e7");
         return u;
     }
 

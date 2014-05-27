@@ -30,7 +30,7 @@ public class TestDatastoreFacade {
 
     private User createExemplaryUser() {
         User u = new User();
-        u.setName("xorrr");
+        u.setLogin("xorrr");
         return u;
     }
 

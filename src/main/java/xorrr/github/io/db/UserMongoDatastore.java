@@ -24,7 +24,7 @@ public class UserMongoDatastore implements UserDatastore {
 
     @Override
     public void storeUser(User u) {
-        col.insert(new BasicDBObject(UserCol.NAME, u.getName()));
+        col.insert(new BasicDBObject(UserCol.NAME, u.getLogin()));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserMongoDatastore implements UserDatastore {
                 id)));
 
         User user = new User();
-        user.setName(dbo.get(UserCol.NAME).toString());
+        user.setLogin(dbo.get(UserCol.NAME).toString());
 
         return user;
     }

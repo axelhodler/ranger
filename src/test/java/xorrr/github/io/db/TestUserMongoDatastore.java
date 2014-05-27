@@ -36,7 +36,7 @@ public class TestUserMongoDatastore {
 
     private void createTestUser() {
         user = new User();
-        user.setName("xorrr");
+        user.setLogin("xorrr");
     }
 
     private String storeUserAndGetId() {
@@ -81,7 +81,7 @@ public class TestUserMongoDatastore {
     public void canGetStoredUser() throws UnknownHostException {
         String id = storeUserAndGetId();
 
-        assertEquals("xorrr", ds.getUserById(id).getName());
+        assertEquals("xorrr", ds.getUserById(id).getLogin());
     }
 
     @Test

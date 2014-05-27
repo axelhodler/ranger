@@ -19,8 +19,8 @@ public class JacksonLearningTest {
         ObjectMapper mapper = new ObjectMapper();
 
         User u = new User();
-        u.setId("5367f4f1bdef0dea21f040e7");
-        u.setName("xorrr");
+        u.setObjectId("5367f4f1bdef0dea21f040e7");
+        u.setLogin("xorrr");
 
         String jsonUser = mapper.writeValueAsString(u);
 
