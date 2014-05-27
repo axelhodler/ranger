@@ -15,11 +15,11 @@
     <powermock-api-mockito.version>1.5.4</powermock-api-mockito.version>
     <powermock-module-junit4.version>1.5.4</powermock-module-junit4.version>
     <mockito-all.version>1.9.5</mockito-all.version>
-    <de.flapdoodle.embed.mongo.version>1.43</de.flapdoodle.embed.mongo.version>
+    <de.flapdoodle.embed.mongo.version>1.45</de.flapdoodle.embed.mongo.version>
     <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
     <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
     <spark-core.version>2.0.0</spark-core.version>
-    <mongo-java-driver.version>2.12.0</mongo-java-driver.version>
+    <mongo-java-driver.version>2.12.2</mongo-java-driver.version>
     <junit.version>4.11</junit.version>
     <rest-assured.version>2.3.1</rest-assured.version>
     <!-- project -->
