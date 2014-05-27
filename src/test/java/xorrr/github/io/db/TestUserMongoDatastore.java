@@ -109,6 +109,41 @@ public class TestUserMongoDatastore {
         assertEquals(2, u.getRanges().get(mediaId).getEndTime());
     }
 
+    @Test
+    public void canChangeRange() {
+        String userId = storeUserAndGetId();
+        String mediaId = new ObjectId().toString();
+        Range first = new Range(1, 2);
+        Range changed = new Range(3, 4);
+
+        ds.setRange(userId, mediaId, first);
+        ds.setRange(userId, mediaId, changed);
+
+        User u = ds.getUserById(userId);
+        assertEquals(1, u.getRanges().size());
+        assertEquals(3, u.getRanges().get(mediaId).getStartTime());
+        assertEquals(4, u.getRanges().get(mediaId).getEndTime());
+    }
+
+    @Test
+    public void canAddMultipleRanges() {
+        String userId = storeUserAndGetId();
+        String firstMediaId = new ObjectId().toString();
+        String secondMediaId = new ObjectId().toString();
+        Range first = new Range(1, 2);
+        Range second = new Range(3, 4);
+
+        ds.setRange(userId, firstMediaId, first);
+        ds.setRange(userId, secondMediaId, second);
+
+        User u = ds.getUserById(userId);
+        assertEquals(2, u.getRanges().size());
+        assertEquals(1, u.getRanges().get(firstMediaId).getStartTime());
+        assertEquals(2, u.getRanges().get(firstMediaId).getEndTime());
+        assertEquals(3, u.getRanges().get(secondMediaId).getStartTime());
+        assertEquals(4, u.getRanges().get(secondMediaId).getEndTime());
+    }
+
     @After
     public void tearDown() {
         userCol.drop();
