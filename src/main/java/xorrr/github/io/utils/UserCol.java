@@ -5,5 +5,6 @@ public final class UserCol {
     }
 
     public static final String ID = "_id";
-    public static final String NAME = "name";
+    public static final String LOGIN = "login";
+    public static final String RANGES = "ranges";
 }

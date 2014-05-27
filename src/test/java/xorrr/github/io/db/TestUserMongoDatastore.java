@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.net.UnknownHostException;
 
+import org.bson.types.ObjectId;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
@@ -51,7 +53,7 @@ public class TestUserMongoDatastore {
 
     private DBObject findStoredUser() {
         return userCol
-                .findOne(new BasicDBObject(UserCol.NAME, "xorrr"));
+                .findOne(new BasicDBObject(UserCol.LOGIN, "xorrr"));
     }
 
     @BeforeClass
@@ -74,7 +76,7 @@ public class TestUserMongoDatastore {
         ds.storeUser(user);
 
         DBObject dbo = findStoredUser();
-        assertEquals("xorrr", dbo.get(UserCol.NAME));
+        assertEquals("xorrr", dbo.get(UserCol.LOGIN));
     }
 
     @Test
@@ -91,6 +93,20 @@ public class TestUserMongoDatastore {
         ds.deleteUserById(id);
 
         assertNull(findStoredUser());
+    }
+
+    @Test
+    public void canSetNewRangeInUser() {
+        String userId = storeUserAndGetId();
+        String mediaId = new ObjectId().toString();
+        Range r = new Range(1, 2);
+
+        ds.setRange(userId, mediaId, r);
+
+        User u = ds.getUserById(userId);
+        assertEquals(1, u.getRanges().size());
+        assertEquals(1, u.getRanges().get(mediaId).getStartTime());
+        assertEquals(2, u.getRanges().get(mediaId).getEndTime());
     }
 
     @After
