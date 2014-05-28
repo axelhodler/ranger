@@ -20,30 +20,49 @@ public class PutOnMediaRoute implements Route {
 
     @Override
     public String handle(Request req, Response resp) {
-        String returnMsg = "";
+        String responseBody = "";
         boolean applied = false;
 
         if (noContent(req))
             resp.status(204);
         else {
             Range r = transformator.toRangePojo(req.body());
-            if (r.getEndTime() <= r.getStartTime()) {
-                resp.status(400);
-                returnMsg = "startTime has to be greater than endTime";
+            if (rangeInvalid(r)) {
+                responseBody = handleInvalidRange(resp);
             } else {
-                returnMsg = req.params(MappedRoutesParams.ID);
-                applied = facade.applyRangeToMedia(returnMsg, r);
+                responseBody = req.params(MappedRoutesParams.ID);
+                applied = changeMedia(responseBody, r);
             }
         }
 
         if (applied) {
             resp.status(200);
         } else {
-            resp.status(404);
-            returnMsg = "404";
+            responseBody = handleChangeNotApplied(resp);
         }
 
+        return responseBody;
+    }
+
+    private String handleChangeNotApplied(Response resp) {
+        resp.status(404);
+        String returnMsg = "404";
         return returnMsg;
+    }
+
+    private boolean changeMedia(String returnMsg, Range r) {
+        return facade.applyRangeToMedia(returnMsg, r);
+    }
+
+    private String handleInvalidRange(Response resp) {
+        String returnMsg;
+        resp.status(400);
+        returnMsg = "startTime has to be greater than endTime";
+        return returnMsg;
+    }
+
+    private boolean rangeInvalid(Range r) {
+        return r.getEndTime() <= r.getStartTime();
     }
 
     private boolean noContent(Request req) {
