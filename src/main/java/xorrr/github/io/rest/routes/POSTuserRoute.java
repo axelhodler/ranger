@@ -24,13 +24,18 @@ public class POSTuserRoute implements Route {
         if (req.contentLength() <1)
             resp.status(204);
         else {
-            User u = transformator.toUserPojo(req.body());
-            userId = facade.storeUser(u);
-            resp.header("Location", "http://" + req.host() + req.pathInfo()
-                    + "/" + userId);
-            resp.status(201);
+            userId = handleContent(req, resp);
         }
 
+        return userId;
+    }
+
+    private String handleContent(Request req, Response resp) {
+        User u = transformator.toUserPojo(req.body());
+        String userId = facade.storeUser(u);
+        resp.header("Location", "http://" + req.host() + req.pathInfo()
+                + "/" + userId);
+        resp.status(201);
         return userId;
     }
 
