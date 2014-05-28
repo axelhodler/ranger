@@ -19,15 +19,19 @@ public class POSTuserRoute implements Route {
 
     @Override
     public Object handle(Request req, Response resp) {
+        String userId = "";
+
         if (req.contentLength() <1)
             resp.status(204);
         else {
             User u = transformator.toUserPojo(req.body());
-            facade.storeUser(u);
+            userId = facade.storeUser(u);
+            resp.header("Location", "http://" + req.host() + req.pathInfo()
+                    + "/" + userId);
             resp.status(201);
         }
 
-        return null;
+        return userId;
     }
 
 }

@@ -1,5 +1,6 @@
 package xorrr.github.io.rest.routes;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -32,24 +33,28 @@ public class POSTuserRouteTest {
 
     private POSTuserRoute route;
     private final String JSON = "asdf";
+    private final String ID = "asdf1234";
+    private User u;
 
-    private void handleRequest() {
-        route.handle(req, resp);
+    private String handleRequest() {
+        return (String) route.handle(req, resp);
     }
 
-    private User createUser() {
-        User u = new User();
+    private void createUser() {
+        u = new User();
         u.setLogin("xorrr");
-        return u;
     }
 
     private void mockBasicBehaviour() {
         when(req.contentLength()).thenReturn(1);
+        when(trans.toUserPojo(JSON)).thenReturn(u);
+        when(req.body()).thenReturn(JSON);
     }
 
     @Before
     public void setUp() {
         route = new POSTuserRoute(facade, trans);
+        createUser();
     }
 
     @Test
@@ -78,10 +83,7 @@ public class POSTuserRouteTest {
 
     @Test
     public void canPostUser() {
-        User u = createUser();
         mockBasicBehaviour();
-        when(trans.toUserPojo(JSON)).thenReturn(u);
-        when(req.body()).thenReturn(JSON);
 
         handleRequest();
 
@@ -91,10 +93,7 @@ public class POSTuserRouteTest {
 
     @Test
     public void accessJSONpayload() {
-        User u = createUser();
         mockBasicBehaviour();
-        when(trans.toUserPojo(JSON)).thenReturn(u);
-        when(req.body()).thenReturn(JSON);
 
         handleRequest();
 
@@ -102,5 +101,31 @@ public class POSTuserRouteTest {
         verify(trans, times(1)).toUserPojo(JSON);
     }
 
+    @Test
+    public void locationHeaderIsSet() {
+        String host = "localhost:port";
+        String pathInfo = "/post";
+        mockBasicBehaviour();
+        when(req.host()).thenReturn(host);
+        when(req.pathInfo()).thenReturn(pathInfo);
+        when(facade.storeUser(u)).thenReturn(ID);
+
+        handleRequest();
+
+        verify(req, times(1)).host();
+        verify(req, times(1)).pathInfo();
+        verify(resp, times(1)).header("Location",
+                "http://" + host + pathInfo + "/" + ID);
+    }
+
+    @Test
+    public void userIdIsReturned() {
+        mockBasicBehaviour();
+        when(facade.storeUser(u)).thenReturn(ID);
+
+        String msg = handleRequest();
+
+        assertEquals(ID, msg);
+    }
 
 }
