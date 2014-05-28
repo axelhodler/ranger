@@ -33,7 +33,7 @@ public class POSTmediaRouteTest {
     @Mock
     Media media;
 
-    private final String json = "asdf";
+    private final String JSON = "asdf";
     private final String ID = "id";
 
     private POSTmediaRoute pmr;
@@ -44,8 +44,8 @@ public class POSTmediaRouteTest {
 
     private void prepareRequest() {
         when(req.contentLength()).thenReturn(1);
-        when(req.body()).thenReturn(json);
-        when(transformator.toMediaPojo(json)).thenReturn(media);
+        when(req.body()).thenReturn(JSON);
+        when(transformator.toMediaPojo(JSON)).thenReturn(media);
         when(facade.storeMedia(media)).thenReturn(ID);
     }
 
@@ -72,7 +72,7 @@ public class POSTmediaRouteTest {
     public void bodyDeserializedToPojo() {
         handleRequest();
 
-        verify(transformator, times(1)).toMediaPojo(json);
+        verify(transformator, times(1)).toMediaPojo(JSON);
     }
 
     @Test
