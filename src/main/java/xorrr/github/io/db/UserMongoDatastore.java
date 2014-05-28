@@ -45,30 +45,37 @@ public class UserMongoDatastore implements UserDatastore {
     }
 
     @Override
-    public boolean setRange(String userId, String mediaId, Range r) {
-        // check if range for mediaId already set
-        DBObject rangeX = col.findOne(new BasicDBObject(UserCol.ID,
-                new ObjectId(userId)).append(UserCol.RANGES + "."
-                + UserCol.MEDIA_ID, mediaId));
-        if (rangeX == null) {
-            DBObject range = new BasicDBObject(UserCol.MEDIA_ID, mediaId)
-                    .append(UserCol.START_TIME, r.getStartTime()).append(
-                            UserCol.END_TIME, r.getEndTime());
-            DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
-            DBObject pushRange = new BasicDBObject("$push", ranges);
-            col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
-                    pushRange);
-        } else {
-            col.update(
-                    new BasicDBObject(UserCol.ID, new ObjectId(userId)).append(
-                            UserCol.RANGES + "." + UserCol.MEDIA_ID, mediaId),
-                    new BasicDBObject("$set", new BasicDBObject(UserCol.RANGES
-                            + ".$." + UserCol.START_TIME, r.getStartTime())
-                            .append(UserCol.RANGES + ".$." + UserCol.END_TIME,
-                                    r.getEndTime())));
-        }
+    public void setRange(String userId, String mediaId, Range r) {
+        if (rangeForMediaIdNotSet(userId, mediaId))
+            pushRangeForMediaId(userId, mediaId, r);
+        else
+            editRangeForMedia(userId, mediaId, r);
+    }
 
-        return false;
+    private void editRangeForMedia(String userId, String mediaId, Range r) {
+        col.update(
+                new BasicDBObject(UserCol.ID, new ObjectId(userId)).append(
+                        UserCol.RANGES + "." + UserCol.MEDIA_ID, mediaId),
+                new BasicDBObject("$set", new BasicDBObject(UserCol.RANGES
+                        + ".$." + UserCol.START_TIME, r.getStartTime())
+                        .append(UserCol.RANGES + ".$." + UserCol.END_TIME,
+                                r.getEndTime())));
+    }
+
+    private void pushRangeForMediaId(String userId, String mediaId, Range r) {
+        DBObject range = new BasicDBObject(UserCol.MEDIA_ID, mediaId)
+                .append(UserCol.START_TIME, r.getStartTime()).append(
+                        UserCol.END_TIME, r.getEndTime());
+        DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
+        DBObject pushRange = new BasicDBObject("$push", ranges);
+        col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
+                pushRange);
+    }
+
+    private boolean rangeForMediaIdNotSet(String userId, String mediaId) {
+        return col.findOne(new BasicDBObject(UserCol.ID,
+                new ObjectId(userId)).append(UserCol.RANGES + "."
+                + UserCol.MEDIA_ID, mediaId)) == null;
     }
 
     @SuppressWarnings("unchecked")

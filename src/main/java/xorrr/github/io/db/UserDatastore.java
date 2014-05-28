@@ -11,6 +11,6 @@ public interface UserDatastore {
 
     void deleteUserById(String id);
 
-    boolean setRange(String userId, String mediaId, Range r);
+    void setRange(String userId, String mediaId, Range r);
 
 }
