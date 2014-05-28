@@ -27,8 +27,13 @@ public class PutOnMediaRoute implements Route {
             resp.status(204);
         else {
             Range r = transformator.toRangePojo(req.body());
-            returnMsg = req.params(MappedRoutesParams.ID);
-            applied = facade.applyRangeToMedia(returnMsg, r);
+            if (r.getEndTime() <= r.getStartTime()) {
+                resp.status(400);
+                returnMsg = "startTime has to be greater than endTime";
+            } else {
+                returnMsg = req.params(MappedRoutesParams.ID);
+                applied = facade.applyRangeToMedia(returnMsg, r);
+            }
         }
 
         if (applied) {

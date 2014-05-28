@@ -33,19 +33,22 @@ public class PUTonMediaRouteTest {
     DatastoreFacade facade;
     @Mock
     Transformator transformator;
+    @Mock
+    Range range;
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
     private final String ID = "536a6107ccf258bb9041663a";
     private PutOnMediaRoute p;
     private Media m;
-    private Range r;
 
     private void mockBehaviour() {
         when(req.contentLength()).thenReturn(1);
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
         when(req.body()).thenReturn(JSON_RANGE);
         when(facade.getMediaById(ID)).thenReturn(m);
-        when(transformator.toRangePojo(JSON_RANGE)).thenReturn(r);
+        when(range.getStartTime()).thenReturn(1);
+        when(range.getEndTime()).thenReturn(2);
+        when(transformator.toRangePojo(JSON_RANGE)).thenReturn(range);
     }
 
     private void handleRequest() {
@@ -102,11 +105,12 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        verify(facade, times(1)).applyRangeToMedia(ID, r);
+        verify(facade, times(1)).applyRangeToMedia(ID, range);
     }
 
     @Test
     public void statusCode200() {
+        mockBehaviour();
         when(req.contentLength()).thenReturn(1);
         when(facade.applyRangeToMedia(anyString(), any(Range.class)))
                 .thenReturn(true);
@@ -114,6 +118,18 @@ public class PUTonMediaRouteTest {
         handleRequest();
 
         verify(resp, times(1)).status(200);
+    }
+
+    @Test
+    public void return400IfRangeInvalid() {
+        mockBehaviour();
+        when(range.getEndTime()).thenReturn(1);
+        when(range.getStartTime()).thenReturn(3);
+        when(transformator.toRangePojo(JSON_RANGE)).thenReturn(range);
+
+        handleRequest();
+
+        verify(resp, times(1)).status(400);
     }
 
     @Test
