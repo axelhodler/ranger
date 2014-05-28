@@ -50,7 +50,7 @@ public class TestUserMongoDatastore {
 
         DBObject dbo = findStoredUser();
         String id = dbo.get(UserCol.ID).toString();
-        System.out.println(id);
+
         return id;
     }
 
