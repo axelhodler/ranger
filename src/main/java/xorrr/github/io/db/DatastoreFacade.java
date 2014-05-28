@@ -37,4 +37,8 @@ public class DatastoreFacade {
     public Media getMediaById(String id) {
         return mds.getMediaById(id);
     }
+
+    public void modifyRanges(String userId, String mediaId, Range r) {
+        ds.modifyRanges(userId, mediaId, r);
+    }
 }

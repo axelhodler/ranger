@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.net.UnknownHostException;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,5 +105,16 @@ public class TestDatastoreFacade {
         facade.applyRangeToMedia(ID, r);
 
         verify(mediaDs, times(1)).applyRangeToMedia(ID, r);
+    }
+
+    @Test
+    public void canModifyRanges() {
+        String userId = new ObjectId().toString();
+        String mediaId = new ObjectId().toString();
+        Range r = new Range(42,43);
+
+        facade.modifyRanges(userId, mediaId, r);
+
+        verify(userDs, times(1)).modifyRanges(userId, mediaId, r);
     }
 }
