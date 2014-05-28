@@ -36,7 +36,7 @@ public class GETmediaByIdRouteTest {
     @Mock
     Set<String> set;
 
-    private GetMediaByIdRoute r;
+    private GETmediaByIdRoute r;
     private final String ID = "1324";
     private final String FAKE_JSON = "foo";
 
@@ -50,7 +50,7 @@ public class GETmediaByIdRouteTest {
 
     @Before
     public void setUp() {
-        r = new GetMediaByIdRoute(facade, transformator);
+        r = new GETmediaByIdRoute(facade, transformator);
     }
 
     @Test

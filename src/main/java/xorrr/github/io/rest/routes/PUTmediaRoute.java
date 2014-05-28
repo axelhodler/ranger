@@ -8,12 +8,12 @@ import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class PutOnMediaRoute implements Route {
+public class PUTmediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
-    public PutOnMediaRoute(DatastoreFacade facade, Transformator t) {
+    public PUTmediaRoute(DatastoreFacade facade, Transformator t) {
         this.facade = facade;
         this.transformator = t;
     }

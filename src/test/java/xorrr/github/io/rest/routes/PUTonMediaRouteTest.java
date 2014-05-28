@@ -38,7 +38,7 @@ public class PUTonMediaRouteTest {
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
     private final String ID = "536a6107ccf258bb9041663a";
-    private PutOnMediaRoute p;
+    private PUTmediaRoute p;
     private Media m;
 
     private void mockBehaviour() {
@@ -57,7 +57,7 @@ public class PUTonMediaRouteTest {
 
     @Before
     public void setUp() {
-        p = new PutOnMediaRoute(facade, transformator);
+        p = new PUTmediaRoute(facade, transformator);
 
         m = new Media("www.random.org");
         m.setAvgStartTime(5);

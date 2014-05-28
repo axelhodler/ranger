@@ -9,20 +9,20 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Spark;
-import xorrr.github.io.rest.routes.GetMediaByIdRoute;
-import xorrr.github.io.rest.routes.PostMediaRoute;
-import xorrr.github.io.rest.routes.PutOnMediaRoute;
+import xorrr.github.io.rest.routes.GETmediaByIdRoute;
+import xorrr.github.io.rest.routes.POSTmediaRoute;
+import xorrr.github.io.rest.routes.PUTmediaRoute;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
 public class SparkFacadeTest {
 
     @Mock
-    GetMediaByIdRoute getMediaById;
+    GETmediaByIdRoute getMediaById;
     @Mock
-    PostMediaRoute postMedia;
+    POSTmediaRoute postMedia;
     @Mock
-    PutOnMediaRoute putRangeToMedia;
+    PUTmediaRoute putRangeToMedia;
 
     private SparkFacade facade;
 

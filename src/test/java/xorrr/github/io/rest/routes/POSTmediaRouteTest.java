@@ -36,7 +36,7 @@ public class POSTmediaRouteTest {
     private final String json = "asdf";
     private final String ID = "id";
 
-    private PostMediaRoute pmr;
+    private POSTmediaRoute pmr;
 
     private void handleRequest() {
         pmr.handle(req, resp);
@@ -51,7 +51,7 @@ public class POSTmediaRouteTest {
 
     @Before
     public void setUp() {
-        pmr = new PostMediaRoute(facade, transformator);
+        pmr = new POSTmediaRoute(facade, transformator);
 
         prepareRequest();
     }

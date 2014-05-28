@@ -7,12 +7,12 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class PostMediaRoute implements Route {
+public class POSTmediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
-    public PostMediaRoute(DatastoreFacade facade, Transformator transformator) {
+    public POSTmediaRoute(DatastoreFacade facade, Transformator transformator) {
         this.facade = facade;
         this.transformator = transformator;
     }

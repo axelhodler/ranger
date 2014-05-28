@@ -8,12 +8,12 @@ import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
-public class GetMediaByIdRoute implements Route {
+public class GETmediaByIdRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
-    public GetMediaByIdRoute(DatastoreFacade f, Transformator t) {
+    public GETmediaByIdRoute(DatastoreFacade f, Transformator t) {
         this.facade = f;
         this.transformator = t;
     }
