@@ -54,7 +54,7 @@ public class TestDatastoreFacade {
     }
 
     @Test
-    public void canTriggerToGetUser() {
+    public void canGetUser() {
         User exampleUser = createExemplaryUser();
         when(facade.getUserById(ID)).thenReturn(exampleUser);
 
@@ -65,14 +65,14 @@ public class TestDatastoreFacade {
     }
 
     @Test
-    public void canTriggerToDeleteUser() throws Exception {
+    public void canDeleteUser() throws Exception {
         facade.deleteUserById(ID);
 
         verify(userDs, times(1)).deleteUserById(ID);
     }
 
     @Test
-    public void canTriggerToStoreMedia() {
+    public void canStoreMedia() {
         Media m = createExemplaryMedia();
         facade.storeMedia(m);
 
@@ -88,18 +88,18 @@ public class TestDatastoreFacade {
     }
 
     @Test
-    public void canTriggerToGetMediaById() {
-        Media exampleMedia = createExemplaryMedia();
-        when(mediaDs.getMediaById(ID)).thenReturn(exampleMedia);
+    public void canGetMediaById() {
+        Media m = createExemplaryMedia();
+        when(mediaDs.getMediaById(ID)).thenReturn(m);
 
-        Media m = facade.getMediaById(ID);
+        Media foundMedia = facade.getMediaById(ID);
 
         verify(mediaDs, times(1)).getMediaById(ID);
-        assertEquals("Correct media is returned", exampleMedia, m);
+        assertEquals("Correct media is returned", m, foundMedia);
     }
 
     @Test
-    public void canTriggerToAddRangeToMedia() {
+    public void canAddRangeToMedia() {
         Range r = new Range(42,43);
 
         facade.applyRangeToMedia(ID, r);

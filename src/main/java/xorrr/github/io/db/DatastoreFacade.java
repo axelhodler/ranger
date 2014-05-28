@@ -6,24 +6,24 @@ import xorrr.github.io.model.User;
 
 public class DatastoreFacade {
 
-    private UserDatastore ds;
+    private UserDatastore uds;
     private MediaDatastore mds;
 
     public DatastoreFacade(UserDatastore ds, MediaDatastore mds) {
-        this.ds = ds;
+        this.uds = ds;
         this.mds = mds;
     }
 
     public void storeUser(User u) {
-        ds.storeUser(u);
+        uds.storeUser(u);
     }
 
     public User getUserById(String id) {
-        return ds.getUserById(id);
+        return uds.getUserById(id);
     }
 
     public void deleteUserById(String id) {
-        ds.deleteUserById(id);
+        uds.deleteUserById(id);
     }
 
     public String storeMedia(Media m) {
@@ -39,6 +39,6 @@ public class DatastoreFacade {
     }
 
     public void modifyRanges(String userId, String mediaId, Range r) {
-        ds.modifyRanges(userId, mediaId, r);
+        uds.modifyRanges(userId, mediaId, r);
     }
 }
