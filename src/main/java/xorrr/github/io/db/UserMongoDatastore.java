@@ -45,7 +45,7 @@ public class UserMongoDatastore implements UserDatastore {
     }
 
     @Override
-    public void setRange(String userId, String mediaId, Range r) {
+    public void modifyRanges(String userId, String mediaId, Range r) {
         if (rangeForMediaIdNotSet(userId, mediaId))
             pushRangeForMediaId(userId, mediaId, r);
         else

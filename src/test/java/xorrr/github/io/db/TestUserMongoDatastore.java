@@ -63,8 +63,8 @@ public class TestUserMongoDatastore {
         Range first = new Range(1, 2);
         Range changed = new Range(3, 4);
 
-        ds.setRange(userId, mediaId, first);
-        ds.setRange(userId, mediaId, changed);
+        ds.modifyRanges(userId, mediaId, first);
+        ds.modifyRanges(userId, mediaId, changed);
 
         return mediaId;
     }
@@ -111,7 +111,7 @@ public class TestUserMongoDatastore {
         String mediaId = new ObjectId().toString();
         Range r = new Range(1, 2);
 
-        ds.setRange(userId, mediaId, r);
+        ds.modifyRanges(userId, mediaId, r);
 
         User u = ds.getUserById(userId);
         assertEquals(1, u.getRanges().size());
@@ -149,8 +149,8 @@ public class TestUserMongoDatastore {
         Range first = new Range(1, 2);
         Range second = new Range(3, 4);
 
-        ds.setRange(userId, firstMediaId, first);
-        ds.setRange(userId, secondMediaId, second);
+        ds.modifyRanges(userId, firstMediaId, first);
+        ds.modifyRanges(userId, secondMediaId, second);
 
         User u = ds.getUserById(userId);
         assertEquals(2, u.getRanges().size());
