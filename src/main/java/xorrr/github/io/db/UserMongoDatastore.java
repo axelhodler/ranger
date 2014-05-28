@@ -8,7 +8,6 @@ import org.bson.types.ObjectId;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EnvVars;
-import xorrr.github.io.utils.RangeConst;
 import xorrr.github.io.utils.RangerDB;
 import xorrr.github.io.utils.UserCol;
 
@@ -49,11 +48,12 @@ public class UserMongoDatastore implements UserDatastore {
     public boolean setRange(String userId, String mediaId, Range r) {
         // check if range for mediaId already set
         DBObject rangeX = col.findOne(new BasicDBObject(UserCol.ID,
-                new ObjectId(userId)).append("ranges.mediaId", mediaId));
+                new ObjectId(userId)).append(UserCol.RANGES + "."
+                + UserCol.MEDIA_ID, mediaId));
         if (rangeX == null) {
-            DBObject range = new BasicDBObject("mediaId", mediaId).append(
-                    RangeConst.START_TIME, r.getStartTime()).append(
-                    RangeConst.END_TIME, r.getEndTime());
+            DBObject range = new BasicDBObject(UserCol.MEDIA_ID, mediaId)
+                    .append(UserCol.START_TIME, r.getStartTime()).append(
+                            UserCol.END_TIME, r.getEndTime());
             DBObject ranges = new BasicDBObject(UserCol.RANGES, range);
             DBObject pushRange = new BasicDBObject("$push", ranges);
             col.update(new BasicDBObject(UserCol.ID, new ObjectId(userId)),
@@ -61,10 +61,11 @@ public class UserMongoDatastore implements UserDatastore {
         } else {
             col.update(
                     new BasicDBObject(UserCol.ID, new ObjectId(userId)).append(
-                            "ranges.mediaId", mediaId),
-                    new BasicDBObject("$set", new BasicDBObject(
-                            "ranges.$.startTime", r.getStartTime()).append(
-                            "ranges.$.endTime", r.getEndTime())));
+                            UserCol.RANGES + "." + UserCol.MEDIA_ID, mediaId),
+                    new BasicDBObject("$set", new BasicDBObject(UserCol.RANGES
+                            + ".$." + UserCol.START_TIME, r.getStartTime())
+                            .append(UserCol.RANGES + ".$." + UserCol.END_TIME,
+                                    r.getEndTime())));
         }
 
         return false;
@@ -83,9 +84,10 @@ public class UserMongoDatastore implements UserDatastore {
 
     private void addRanges(User user, List<DBObject> ranges) {
         for (DBObject range : ranges) {
-            user.addRange(range.get("mediaId").toString(),
-                    new Range((int) range.get(RangeConst.START_TIME),
-                            (int) range.get(RangeConst.END_TIME)));
+            user.addRange(
+                    range.get(UserCol.MEDIA_ID).toString(),
+                    new Range((int) range.get(UserCol.START_TIME), (int) range
+                            .get(UserCol.END_TIME)));
         }
     }
 

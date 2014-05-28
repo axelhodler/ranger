@@ -17,7 +17,6 @@ import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
-import xorrr.github.io.utils.RangeConst;
 import xorrr.github.io.utils.RangerDB;
 import xorrr.github.io.utils.UserCol;
 
@@ -37,6 +36,7 @@ public class TestUserMongoDatastore {
     private UserDatastore ds;
     private DBCollection userCol;
     private User user;
+    private String userId;
 
     private void createTestUser() {
         user = new User();
@@ -58,6 +58,17 @@ public class TestUserMongoDatastore {
         return userCol.findOne(new BasicDBObject(UserCol.LOGIN, "xorrr"));
     }
 
+    private String setTwoRanges() {
+        String mediaId = new ObjectId().toString();
+        Range first = new Range(1, 2);
+        Range changed = new Range(3, 4);
+
+        ds.setRange(userId, mediaId, first);
+        ds.setRange(userId, mediaId, changed);
+
+        return mediaId;
+    }
+
     @BeforeClass
     public static void setUpEmbeddedMongo() throws Exception {
         mongodExe = EmbeddedMongo.getEmbeddedMongoExecutable();
@@ -69,6 +80,8 @@ public class TestUserMongoDatastore {
         client = new MongoClient("localhost", 12345);
         ds = new UserMongoDatastore();
         userCol = client.getDB(RangerDB.NAME).getCollection(RangerDB.USER_COL);
+
+        userId = storeUserAndGetId();
     }
 
     @Test
@@ -83,23 +96,18 @@ public class TestUserMongoDatastore {
 
     @Test
     public void canGetStoredUser() throws UnknownHostException {
-        String id = storeUserAndGetId();
-
-        assertEquals("xorrr", ds.getUserById(id).getLogin());
+        assertEquals("xorrr", ds.getUserById(userId).getLogin());
     }
 
     @Test
     public void canDeleteStoredUser() throws Exception {
-        String id = storeUserAndGetId();
-
-        ds.deleteUserById(id);
+        ds.deleteUserById(userId);
 
         assertNull(findStoredUser());
     }
 
     @Test
     public void canSetNewRangeInUser() {
-        String userId = storeUserAndGetId();
         String mediaId = new ObjectId().toString();
         Range r = new Range(1, 2);
 
@@ -113,13 +121,7 @@ public class TestUserMongoDatastore {
 
     @Test
     public void canChangeRange() {
-        String userId = storeUserAndGetId();
-        String mediaId = new ObjectId().toString();
-        Range first = new Range(1, 2);
-        Range changed = new Range(3, 4);
-
-        ds.setRange(userId, mediaId, first);
-        ds.setRange(userId, mediaId, changed);
+        String mediaId = setTwoRanges();
 
         User u = ds.getUserById(userId);
         assertEquals(1, u.getRanges().size());
@@ -129,25 +131,19 @@ public class TestUserMongoDatastore {
 
     @Test
     public void canChangeRangeInDb() {
-        String userId = storeUserAndGetId();
-        String mediaId = new ObjectId().toString();
-        Range first = new Range(1, 2);
-        Range changed = new Range(3, 4);
-
-        ds.setRange(userId, mediaId, first);
-        ds.setRange(userId, mediaId, changed);
+        setTwoRanges();
 
         DBObject user = userCol.findOne();
         BasicDBList ranges = (BasicDBList) user.get(UserCol.RANGES);
         assertEquals(1, ranges.size());
         DBObject range = (DBObject) ranges.get(0);
-        assertEquals(3, range.get(RangeConst.START_TIME));
-        assertEquals(4, range.get(RangeConst.END_TIME));
+        assertEquals(3, range.get(UserCol.START_TIME));
+        assertEquals(4, range.get(UserCol.END_TIME));
     }
+
 
     @Test
     public void canAddMultipleRanges() {
-        String userId = storeUserAndGetId();
         String firstMediaId = new ObjectId().toString();
         String secondMediaId = new ObjectId().toString();
         Range first = new Range(1, 2);
