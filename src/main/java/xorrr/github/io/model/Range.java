@@ -1,6 +1,8 @@
 package xorrr.github.io.model;
 
-public class Range {
+import xorrr.github.io.model.contracts.RangeContract;
+
+public class Range extends RangeContract{
 
     private int startTime;
     private int endTime;
@@ -10,21 +12,24 @@ public class Range {
     }
 
     public Range(int startTime, int endTime) {
-        super();
-        this.startTime = startTime;
-        this.endTime = endTime;
+        try {
+            create(startTime, endTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getStartTime() {
         return startTime;
     }
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
+
     public int getEndTime() {
         return endTime;
     }
-    public void setEndTime(int endTime) {
+
+    @Override
+    protected void setRange(int startTime, int endTime) {
+        this.startTime = startTime;
         this.endTime = endTime;
     }
 
