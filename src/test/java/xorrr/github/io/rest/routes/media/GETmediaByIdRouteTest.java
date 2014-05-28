@@ -1,4 +1,4 @@
-package xorrr.github.io.rest.routes;
+package xorrr.github.io.rest.routes.media;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +20,7 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
+import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)

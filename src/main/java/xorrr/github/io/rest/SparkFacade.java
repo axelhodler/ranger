@@ -1,9 +1,10 @@
 package xorrr.github.io.rest;
 
 import spark.Spark;
-import xorrr.github.io.rest.routes.GETmediaByIdRoute;
-import xorrr.github.io.rest.routes.POSTmediaRoute;
-import xorrr.github.io.rest.routes.PUTmediaRoute;
+import xorrr.github.io.rest.routes.MappedRoutes;
+import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
+import xorrr.github.io.rest.routes.media.POSTmediaRoute;
+import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 
 public class SparkFacade {
 

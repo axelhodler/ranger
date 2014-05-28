@@ -1,4 +1,4 @@
-package xorrr.github.io.rest.routes;
+package xorrr.github.io.rest.routes.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +17,7 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.User;
+import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)

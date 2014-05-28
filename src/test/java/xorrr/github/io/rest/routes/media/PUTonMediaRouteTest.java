@@ -1,4 +1,4 @@
-package xorrr.github.io.rest.routes;
+package xorrr.github.io.rest.routes.media;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -20,6 +20,7 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
+import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)

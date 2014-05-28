@@ -1,4 +1,4 @@
-package xorrr.github.io.rest;
+package xorrr.github.io.rest.routes;
 
 public abstract class MappedRoutes {
     public static final String BASE = "/media";

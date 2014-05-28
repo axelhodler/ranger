@@ -1,4 +1,4 @@
-package xorrr.github.io.rest.routes;
+package xorrr.github.io.rest.routes.media;
 
 import spark.Request;
 import spark.Response;
