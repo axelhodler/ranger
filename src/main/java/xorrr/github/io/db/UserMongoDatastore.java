@@ -26,10 +26,11 @@ public class UserMongoDatastore implements UserDatastore {
     }
 
     @Override
-    public void storeUser(User u) {
+    public String storeUser(User u) {
         ObjectId id = new ObjectId();
         col.insert(new BasicDBObject(UserCol.ID, id).append(UserCol.LOGIN,
                 u.getLogin()));
+        return id.toString();
     }
 
     @Override

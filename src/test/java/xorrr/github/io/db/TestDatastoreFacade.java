@@ -47,10 +47,13 @@ public class TestDatastoreFacade {
     @Test
     public void canTriggerToStoreUser() throws UnknownHostException {
         User u = createExemplaryUser();
+        String fakeId = "1234";
+        when(userDs.storeUser(u)).thenReturn(fakeId);
 
-        facade.storeUser(u);
+        String userId = facade.storeUser(u);
 
         verify(userDs, times(1)).storeUser(u);
+        assertEquals(userId, fakeId);
     }
 
     @Test

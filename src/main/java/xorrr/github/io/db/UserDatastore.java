@@ -5,7 +5,7 @@ import xorrr.github.io.model.User;
 
 public interface UserDatastore {
 
-    void storeUser(User u);
+    String storeUser(User u);
 
     User getUserById(String id);
 

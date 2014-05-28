@@ -14,8 +14,8 @@ public class DatastoreFacade {
         this.mds = mds;
     }
 
-    public void storeUser(User u) {
-        uds.storeUser(u);
+    public String storeUser(User u) {
+        return uds.storeUser(u);
     }
 
     public User getUserById(String id) {
