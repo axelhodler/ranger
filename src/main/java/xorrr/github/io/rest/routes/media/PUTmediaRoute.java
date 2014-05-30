@@ -35,6 +35,7 @@ public class PUTmediaRoute implements Route {
             } else {
                 responseBody = req.params(MappedRoutesParams.ID);
                 applied = changeMedia(responseBody, r);
+                facade.modifyRanges(req.headers("user"), responseBody, r);
             }
         }
 

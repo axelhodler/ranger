@@ -41,19 +41,21 @@ public class PUTonMediaRouteTest {
     Range range;
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
-    private final String ID = "536a6107ccf258bb9041663a";
+    private final String MEDIA_ID = "536a6107ccf258bb9041663a";
+    private final String USER_ID = "536a6107ccf258bb9041663b";
+
     private PUTmediaRoute p;
     private Media m;
 
     private void mockBehaviour() {
         when(req.contentLength()).thenReturn(1);
-        when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
+        when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.body()).thenReturn(JSON_RANGE);
-        when(facade.getMediaById(ID)).thenReturn(m);
+        when(facade.getMediaById(MEDIA_ID)).thenReturn(m);
         when(range.getStartTime()).thenReturn(1);
         when(range.getEndTime()).thenReturn(2);
         when(transformator.toRangePojo(JSON_RANGE)).thenReturn(range);
-        when(req.headers("user")).thenReturn("xorrr");
+        when(req.headers("user")).thenReturn(USER_ID);
     }
 
     private void handleRequest() {
@@ -112,7 +114,7 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        verify(facade, times(1)).applyRangeToMedia(ID, range);
+        verify(facade, times(1)).applyRangeToMedia(MEDIA_ID, range);
     }
 
     @Test
@@ -154,7 +156,7 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        verify(req, times(1)).headers("user");
+        verify(req, times(2)).headers("user");
     }
 
     @Test
@@ -175,5 +177,14 @@ public class PUTonMediaRouteTest {
         handleRequest();
 
         verify(req, times(1)).contentLength();
+    }
+
+    @Test
+    public void modifyUserRanges() {
+        mockBehaviour();
+
+        handleRequest();
+
+        verify(facade, times(1)).modifyRanges(USER_ID, MEDIA_ID, range);
     }
 }
