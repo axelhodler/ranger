@@ -72,8 +72,8 @@ public class BasicIntegrationTest {
         assertEquals(404, RestAssured.when().get("/media/12345").getStatusCode());
         assertEquals("404", RestAssured.when().get("/media/12345").body().asString());
 
-        assertEquals("404", RestAssured.when().put("/media/12345").body().asString());
-        assertEquals(404, RestAssured.when().put("/media/12345").getStatusCode());
+        assertEquals("Unauthorized", RestAssured.when().put("/media/12345").body().asString());
+        assertEquals(401, RestAssured.when().put("/media/12345").getStatusCode());
     }
 
     @After
