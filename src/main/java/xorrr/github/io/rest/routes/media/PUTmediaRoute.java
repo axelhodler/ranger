@@ -1,5 +1,6 @@
 package xorrr.github.io.rest.routes.media;
 
+import static spark.Spark.halt;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -23,6 +24,8 @@ public class PUTmediaRoute implements Route {
         String responseBody = "";
         boolean applied = false;
 
+        if (req.headers("user") == null)
+            halt(401, "Unauthorized");
         if (noContent(req))
             resp.status(204);
         else {

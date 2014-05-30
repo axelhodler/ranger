@@ -11,19 +11,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Spark;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
-import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ Spark.class })
 public class PUTonMediaRouteTest {
 
     @Mock
@@ -50,6 +53,7 @@ public class PUTonMediaRouteTest {
         when(range.getStartTime()).thenReturn(1);
         when(range.getEndTime()).thenReturn(2);
         when(transformator.toRangePojo(JSON_RANGE)).thenReturn(range);
+        when(req.headers("user")).thenReturn("xorrr");
     }
 
     private void handleRequest() {
@@ -58,6 +62,8 @@ public class PUTonMediaRouteTest {
 
     @Before
     public void setUp() {
+        PowerMockito.mockStatic(Spark.class);
+
         p = new PUTmediaRoute(facade, transformator);
 
         m = new Media("www.random.org");
@@ -141,5 +147,34 @@ public class PUTonMediaRouteTest {
 
         verify(resp, times(1)).status(204);
         verify(transformator, times(0)).toRangePojo(JSON_RANGE);
+    }
+
+    @Test
+    public void checksForUser() {
+        mockBehaviour();
+
+        handleRequest();
+
+        verify(req, times(1)).headers("user");
+    }
+
+    @Test
+    public void statusCode401IfNoUserProvided() {
+        mockBehaviour();
+        when(req.headers("user")).thenReturn(null);
+
+        handleRequest();
+
+        PowerMockito.verifyStatic();
+        Spark.halt(401, "Unauthorized");
+    }
+
+    @Test
+    public void canSuccessfullyAuthenticate() {
+        mockBehaviour();
+
+        handleRequest();
+
+        verify(req, times(1)).contentLength();
     }
 }
