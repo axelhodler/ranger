@@ -1,5 +1,6 @@
 package xorrr.github.io.rest.routes.user;
 
+import static spark.Spark.halt;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -22,7 +23,7 @@ public class POSTuserRoute implements Route {
         String userId = "";
 
         if (req.contentLength() <1)
-            resp.status(204);
+            halt(204, "No content provided");
         else {
             userId = handleContent(req, resp);
         }

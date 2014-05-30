@@ -10,17 +10,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Spark;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.User;
-import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ Spark.class })
 public class POSTuserRouteTest {
 
     @Mock
@@ -54,6 +57,7 @@ public class POSTuserRouteTest {
 
     @Before
     public void setUp() {
+        PowerMockito.mockStatic(Spark.class);
         route = new POSTuserRoute(facade, trans);
         createUser();
     }
@@ -78,7 +82,8 @@ public class POSTuserRouteTest {
 
         handleRequest();
 
-        verify(resp, times(1)).status(204);
+        PowerMockito.verifyStatic();
+        Spark.halt(204, "No content provided");
         verify(req, times(0)).body();
     }
 
