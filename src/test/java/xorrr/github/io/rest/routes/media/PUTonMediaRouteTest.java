@@ -118,7 +118,6 @@ public class PUTonMediaRouteTest {
     @Test
     public void statusCode200() {
         mockBehaviour();
-        when(req.contentLength()).thenReturn(1);
         when(facade.applyRangeToMedia(anyString(), any(Range.class)))
                 .thenReturn(true);
 
