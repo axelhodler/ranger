@@ -15,6 +15,7 @@ import xorrr.github.io.rest.SparkFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
+import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class Main {
@@ -33,6 +34,7 @@ public class Main {
         rest.setGetMediaByIdRoute(new GETmediaByIdRoute(facade, transformator));
         rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade,
                 transformator));
+        rest.setPostUserRoute(new POSTuserRoute(facade, transformator));
         rest.setWildcardRoutes();
     }
 }
