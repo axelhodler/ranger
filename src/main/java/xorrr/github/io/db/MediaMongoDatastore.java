@@ -1,6 +1,8 @@
 package xorrr.github.io.db;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ import com.mongodb.MongoClient;
 
 public class MediaMongoDatastore implements MediaDatastore {
 
-    final Logger logger = LoggerFactory.getLogger(MediaMongoDatastore.class);
+    private final Logger logger = LoggerFactory.getLogger(MediaMongoDatastore.class);
     private DBCollection col;
 
     public MediaMongoDatastore() throws UnknownHostException {
@@ -78,6 +80,17 @@ public class MediaMongoDatastore implements MediaDatastore {
             logger.info("Media with id: {} was NOT FOUND", id);
 
         return m;
+    }
+
+    @Override
+    public List<Media> getMedia() {
+        List<DBObject> mediaDbos = col.find().toArray();
+        List<Media> medias = new ArrayList<>();
+        for (DBObject dbo : mediaDbos) {
+            Media m = toMedia(dbo);
+            medias.add(m);
+        }
+        return medias;
     }
 
     private void setNewAverages(String id, DBObject m) {

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.junit.After;
@@ -36,9 +37,10 @@ public class TestMediaMongoDatastore {
 
     private DBCollection mediaCol;
     private MediaDatastore ds;
+    private final String URL = "www.foo.org";
 
-    private String storeSampleMedia() {
-        Media m = new Media("www.foobar.org");
+    private String storeSampleMedia(String url) {
+        Media m = new Media(url);
         String id = ds.storeMedia(m);
         return id;
     }
@@ -67,20 +69,20 @@ public class TestMediaMongoDatastore {
 
     @Test
     public void canStoreMedia() {
-        storeSampleMedia();
+        storeSampleMedia(URL);
 
-        assertEquals("www.foobar.org", mediaCol.findOne().get(MediaCol.URL)
+        assertEquals(URL, mediaCol.findOne().get(MediaCol.URL)
                 .toString());
     }
 
     @Test
     public void canGetMediaById() {
-        storeSampleMedia();
+        storeSampleMedia(URL);
 
         String id = getStoredSampleMediaId();
 
         Media m = ds.getMediaById(id);
-        assertEquals("www.foobar.org", m.getUrl());
+        assertEquals(URL, m.getUrl());
     }
 
     @Test
@@ -109,7 +111,7 @@ public class TestMediaMongoDatastore {
 
     @Test
     public void canApplyMultipleRangesToMediaAfterAnother() {
-        storeSampleMedia();
+        storeSampleMedia(URL);
         String mediaId = getStoredSampleMediaId();
         Range r = new Range(20, 40);
         Range r2 = new Range(40, 60);
@@ -125,7 +127,7 @@ public class TestMediaMongoDatastore {
 
     @Test
     public void canDealWithRangesCreatingFloats() {
-        storeSampleMedia();
+        storeSampleMedia(URL);
         String mediaId = getStoredSampleMediaId();
         Range r = new Range(20, 40);
         Range r2 = new Range(25, 45);
@@ -140,11 +142,22 @@ public class TestMediaMongoDatastore {
 
     @Test
     public void storeSampleMediaReturnsId() {
-        String id = storeSampleMedia();
+        String id = storeSampleMedia(URL);
 
         String mediaId = getStoredSampleMediaId();
 
         assertEquals(id, mediaId);
+    }
+
+    @Test
+    public void canGetAllMedias() {
+        storeSampleMedia(URL);
+        storeSampleMedia("www.bar.org");
+
+        List<Media> medias = ds.getMedia();
+
+        assertEquals(URL, medias.get(0).getUrl());
+        assertEquals("www.bar.org", medias.get(1).getUrl());
     }
 
     @After
