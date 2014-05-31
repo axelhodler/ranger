@@ -1,8 +1,8 @@
 package xorrr.github.io.rest.routes;
 
-public abstract class MappedRoutes {
-    public static final String BASE = "/media";
-
-    public static final String MEDIA = BASE;
-    public static final String MEDIA_BY_ID = BASE + "/:id";
+public final class MappedRoutes {
+    private MappedRoutes() {}
+    public static final String MEDIA = "/media";
+    public static final String MEDIA_BY_ID = MEDIA + "/:id";
+    public static final String USERS = "/users";
 }
