@@ -27,7 +27,7 @@ public class PUTmediaRoute implements Route {
         if (req.headers("user") == null)
             halt(401, "Unauthorized");
         if (noContent(req))
-            resp.status(204);
+            halt(204, "No Content");
         else {
             Range r = transformator.toRangePojo(req.body());
             if (rangeInvalid(r)) {
@@ -42,16 +42,10 @@ public class PUTmediaRoute implements Route {
         if (applied) {
             resp.status(200);
         } else {
-            responseBody = handleChangeNotApplied(resp);
+            halt(404, "Not Found");
         }
 
         return responseBody;
-    }
-
-    private String handleChangeNotApplied(Response resp) {
-        resp.status(404);
-        String returnMsg = "404";
-        return returnMsg;
     }
 
     private boolean changeMedia(String returnMsg, Range r) {

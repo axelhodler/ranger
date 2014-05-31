@@ -6,6 +6,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -137,7 +138,8 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        verify(resp, times(1)).status(400);
+        verifyStatic();
+        Spark.halt(404, "Not Found");
     }
 
     @Test
@@ -146,7 +148,8 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        verify(resp, times(1)).status(204);
+        verifyStatic();
+        Spark.halt(204, "No Content");
         verify(transformator, times(0)).toRangePojo(JSON_RANGE);
     }
 
@@ -166,7 +169,7 @@ public class PUTonMediaRouteTest {
 
         handleRequest();
 
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.halt(401, "Unauthorized");
     }
 
