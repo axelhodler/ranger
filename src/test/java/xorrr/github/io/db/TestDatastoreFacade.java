@@ -120,4 +120,11 @@ public class TestDatastoreFacade {
 
         verify(userDs, times(1)).modifyRanges(userId, mediaId, r);
     }
+
+    @Test
+    public void canGetMedia() {
+        facade.getMedia();
+
+        verify(mediaDs, times(1)).getMedia();
+    }
 }

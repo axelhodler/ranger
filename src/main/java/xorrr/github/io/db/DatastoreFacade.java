@@ -1,5 +1,7 @@
 package xorrr.github.io.db;
 
+import java.util.List;
+
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -40,5 +42,9 @@ public class DatastoreFacade {
 
     public void modifyRanges(String userId, String mediaId, Range r) {
         uds.modifyRanges(userId, mediaId, r);
+    }
+
+    public List<Media> getMedia() {
+        return mds.getMedia();
     }
 }
