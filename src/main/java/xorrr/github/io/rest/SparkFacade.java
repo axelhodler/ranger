@@ -26,9 +26,7 @@ public class SparkFacade {
     }
 
     public void setWildcardRoutes() {
-        Spark.get("*", (request, response) -> {
-            return "404";
-        });
+        Spark.get("*", (request, response) -> "404");
     }
 
     public void setPostUserRoute(POSTuserRoute postUser) {
