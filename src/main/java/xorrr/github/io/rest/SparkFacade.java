@@ -5,6 +5,7 @@ import xorrr.github.io.rest.routes.MappedRoutes;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
+import xorrr.github.io.rest.routes.user.POSTuserRoute;
 
 public class SparkFacade {
 
@@ -28,6 +29,10 @@ public class SparkFacade {
         Spark.get("*", (request, response) -> {
             return "404";
         });
+    }
+
+    public void setPostUserRoute(POSTuserRoute postUser) {
+        Spark.post(MappedRoutes.USERS, postUser);
     }
 
 }

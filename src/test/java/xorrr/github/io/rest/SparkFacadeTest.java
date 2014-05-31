@@ -13,6 +13,7 @@ import xorrr.github.io.rest.routes.MappedRoutes;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
+import xorrr.github.io.rest.routes.user.POSTuserRoute;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
@@ -24,6 +25,8 @@ public class SparkFacadeTest {
     POSTmediaRoute postMedia;
     @Mock
     PUTmediaRoute putRangeToMedia;
+    @Mock
+    POSTuserRoute postUser;
 
     private SparkFacade facade;
 
@@ -60,5 +63,12 @@ public class SparkFacadeTest {
         facade.setPutRangeToMediaRoute(putRangeToMedia);
         PowerMockito.verifyStatic();
         Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
+    }
+
+    @Test
+    public void canSetPostUserRoute() {
+        facade.setPostUserRoute(postUser);
+        PowerMockito.verifyStatic();
+        Spark.post(MappedRoutes.USERS, postUser);
     }
 }
