@@ -3,6 +3,8 @@ package xorrr.github.io.rest.transformation;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -18,6 +20,7 @@ public class TransformatorTest {
 
     private Transformator t;
     private ObjectMapper mapper;
+    private final String URL = "www.foo.org";
 
     private User createExampleUser() {
         User u = new User();
@@ -26,8 +29,8 @@ public class TransformatorTest {
         return u;
     }
 
-    private Media createExampleMedia() {
-        Media m = new Media("www.url.org");
+    private Media createExampleMedia(String url) {
+        Media m = new Media(url);
         m.setAvgStartTime(20);
         m.setAvgEndTime(40);
         m.setChoicesByUsers(10);
@@ -62,7 +65,7 @@ public class TransformatorTest {
     @Test
     public void canTransformMediaToJson() throws JsonGenerationException,
             JsonMappingException, IOException {
-        Media m = createExampleMedia();
+        Media m = createExampleMedia(URL);
 
         assertEquals(t.toMediaJson(m), mapper.writeValueAsString(m));
     }
@@ -70,7 +73,7 @@ public class TransformatorTest {
     @Test
     public void canTransformMediaJsonToPojo() throws JsonGenerationException,
             JsonMappingException, IOException {
-        Media m = createExampleMedia();
+        Media m = createExampleMedia(URL);
 
         String jsonMedia = mapper.writeValueAsString(m);
 
@@ -93,5 +96,19 @@ public class TransformatorTest {
         Range r = new Range(1, 2);
 
         assertEquals(t.toRangeJson(r), mapper.writeValueAsString(r));
+    }
+
+    @Test
+    public void canTransformMediaListToJson() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        Media m1 = createExampleMedia(URL);
+        Media m2 = createExampleMedia("www.bar.org");
+        List<Media> medias = new ArrayList<>();
+        medias.add(m1);
+        medias.add(m2);
+
+        String jsonMedias = t.toMediaJson(medias);
+
+        assertEquals(jsonMedias, mapper.writeValueAsString(medias));
     }
 }

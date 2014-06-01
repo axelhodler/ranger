@@ -1,6 +1,7 @@
 package xorrr.github.io.rest.transformation;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -31,6 +32,12 @@ public class Transformator {
     public String toMediaJson(Media m) {
         String mediaJson = null;
         mediaJson = serializeMediaToJson(m, mediaJson);
+        return mediaJson;
+    }
+
+    public String toMediaJson(List<Media> medias) {
+        String mediaJson = null;
+        mediaJson = serializeMediaToJson(medias, mediaJson);
         return mediaJson;
     }
 
@@ -97,6 +104,15 @@ public class Transformator {
         return mediaJson;
     }
 
+    private String serializeMediaToJson(List<Media> medias, String mediaJson) {
+        try {
+            mediaJson = mapper.writeValueAsString(medias);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mediaJson;
+    }
+
     private Media deserializeJsonToMedia(String jsonMedia, Media media) {
         try {
             media = mapper.readValue(jsonMedia, Media.class);
@@ -105,5 +121,6 @@ public class Transformator {
         }
         return media;
     }
+
 
 }
