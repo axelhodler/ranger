@@ -21,6 +21,7 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GETmediaRouteTest {
@@ -83,5 +84,12 @@ public class GETmediaRouteTest {
         String medias = (String) route.handle(req, resp);
 
         assertEquals("ab", medias);
+    }
+
+    @Test
+    public void sameOriginPolicyIsDealthWith() {
+        route.handle(req, resp);
+
+        verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
     }
 }

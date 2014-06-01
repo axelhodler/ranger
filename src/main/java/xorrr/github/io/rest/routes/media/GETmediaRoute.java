@@ -8,6 +8,7 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 public class GETmediaRoute implements Route {
 
@@ -21,6 +22,8 @@ public class GETmediaRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
+        response.header(HttpHeaderKeys.ACAOrigin, "*");
+
         List<Media> medias = facade.getMedia();
 
         return transformator.toMediaJson(medias);
