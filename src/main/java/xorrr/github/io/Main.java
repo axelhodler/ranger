@@ -13,6 +13,7 @@ import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.UserMongoDatastore;
 import xorrr.github.io.rest.SparkFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
+import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
@@ -35,6 +36,7 @@ public class Main {
         rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade,
                 transformator));
         rest.setPostUserRoute(new POSTuserRoute(facade, transformator));
+        rest.setGetMediaRoute(new GETmediaRoute(facade, transformator));
         rest.setWildcardRoutes();
     }
 }
