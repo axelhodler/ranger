@@ -21,12 +21,9 @@ public class GETmediaRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) {
-        String jsonMedias = "";
         List<Media> medias = facade.getMedia();
-        for (Media m : medias)
-            jsonMedias += transformator.toMediaJson(m);
 
-        return jsonMedias;
+        return transformator.toMediaJson(medias);
     }
 
 }

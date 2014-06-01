@@ -71,16 +71,14 @@ public class GETmediaRouteTest {
 
         route.handle(req, resp);
 
-        verify(transformator, times(1)).toMediaJson(media);
-        verify(transformator, times(1)).toMediaJson(media2);
+        verify(transformator, times(1)).toMediaJson(medias);
     }
 
     @Test
     public void returnsMediaAsJson() {
         createMedia();
         when(facade.getMedia()).thenReturn(medias);
-        when(transformator.toMediaJson(media)).thenReturn("a");
-        when(transformator.toMediaJson(media2)).thenReturn("b");
+        when(transformator.toMediaJson(medias)).thenReturn("ab");
 
         String medias = (String) route.handle(req, resp);
 
