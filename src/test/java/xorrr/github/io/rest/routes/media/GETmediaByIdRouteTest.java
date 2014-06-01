@@ -20,8 +20,8 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
-import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GETmediaByIdRouteTest {
@@ -90,5 +90,12 @@ public class GETmediaByIdRouteTest {
 
         assertEquals("Media serialized to JSON is returned", FAKE_JSON,
                 r.handle(req, resp));
+    }
+
+    @Test
+    public void sameOriginPolicyIsDealthWith() {
+        r.handle(req, resp);
+
+        verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
     }
 }

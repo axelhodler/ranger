@@ -7,6 +7,7 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 public class GETmediaByIdRoute implements Route {
 
@@ -20,6 +21,7 @@ public class GETmediaByIdRoute implements Route {
 
     @Override
     public String handle(Request request, Response response) {
+        response.header(HttpHeaderKeys.ACAOrigin, "*");
         String id = request.params(MappedRoutesParams.ID);
         String json = returnMediaJson(id, response);
         return json;
