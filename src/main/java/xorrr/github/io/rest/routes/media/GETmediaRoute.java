@@ -6,6 +6,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
+import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
@@ -26,7 +27,7 @@ public class GETmediaRoute implements Route {
 
         List<Media> medias = facade.getMedia();
 
-        return transformator.toMediaJson(medias);
+        return EmberCompliance.formatMediaList(transformator.toMediaJson(medias));
     }
 
 }
