@@ -1,5 +1,7 @@
 package xorrr.github.io.rest;
 
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,42 +45,42 @@ public class SparkFacadeTest {
     @Test
     public void canSetPort() {
         facade.setPort(1111);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.setPort(1111);
     }
 
     @Test
     public void canSetGetMediaByIdRoute() {
         facade.setGetMediaByIdRoute(getMediaById);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.get(MappedRoutes.MEDIA_BY_ID, getMediaById);
     }
 
     @Test
     public void canSetPostMediaRoute() {
         facade.setPostMediaRoute(postMedia);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.post(MappedRoutes.MEDIA, postMedia);
     }
 
     @Test
     public void canSetPutRangeToMediaRoute() {
         facade.setPutRangeToMediaRoute(putRangeToMedia);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
     }
 
     @Test
     public void canSetPostUserRoute() {
         facade.setPostUserRoute(postUser);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.post(MappedRoutes.USERS, postUser);
     }
 
     @Test
     public void canSetGetMediaRoute() {
         facade.setGetMediaRoute(getMedia);
-        PowerMockito.verifyStatic();
+        verifyStatic();
         Spark.get(MappedRoutes.MEDIA, getMedia);
     }
 }
