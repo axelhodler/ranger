@@ -10,7 +10,7 @@ public class EmberComplianceTest {
     public void canComplyWithEmberJsonFormatting() {
         String test = "{bla}";
 
-        assertEquals("{\"media\":" + test + "}",
+        assertEquals("{\"medias\":" + test + "}",
                 EmberCompliance.formatMediaList(test));
     }
 }
