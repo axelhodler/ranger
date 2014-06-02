@@ -6,8 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,19 +36,21 @@ public class GETmediaByIdRouteTest {
     Request req;
     @Mock
     Response resp;
-    @Mock
-    Set<String> set;
 
     private GETmediaByIdRoute r;
     private final String ID = "1324";
-    private final String FAKE_JSON = "foo";
+    private final String JSON = "foo";
 
     private Media prepareTransformationToJson() {
         Media m = new Media("www.foo.org");
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
         when(facade.getMediaById(ID)).thenReturn(m);
-        when(transformator.toMediaJson(m)).thenReturn(FAKE_JSON);
+        when(transformator.toMediaJson(m)).thenReturn(JSON);
         return m;
+    }
+
+    private void handleRequest() {
+        r.handle(req, resp);
     }
 
     @Before
@@ -67,7 +67,7 @@ public class GETmediaByIdRouteTest {
 
     @Test
     public void idIsAccessed() {
-        r.handle(req, resp);
+        handleRequest();
 
         verify(req, times(1)).params(MappedRoutesParams.ID);
     }
@@ -76,7 +76,7 @@ public class GETmediaByIdRouteTest {
     public void mediaIsReturnedFromDatastore() {
         when(req.params(MappedRoutesParams.ID)).thenReturn(ID);
 
-        r.handle(req, resp);
+        handleRequest();
 
         verify(facade, times(1)).getMediaById(ID);
     }
@@ -85,7 +85,7 @@ public class GETmediaByIdRouteTest {
     public void mediaIsTransformedToJson() {
         Media m = prepareTransformationToJson();
 
-        r.handle(req, resp);
+        handleRequest();
 
         verify(transformator, times(1)).toMediaJson(m);
     }
@@ -95,12 +95,12 @@ public class GETmediaByIdRouteTest {
         prepareTransformationToJson();
 
         assertEquals("Media serialized to JSON is returned",
-                EmberCompliance.formatMedia(FAKE_JSON), r.handle(req, resp));
+                EmberCompliance.formatMedia(JSON), r.handle(req, resp));
     }
 
     @Test
     public void sameOriginPolicyIsDealthWith() {
-        r.handle(req, resp);
+        handleRequest();
 
         verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
     }
@@ -109,9 +109,9 @@ public class GETmediaByIdRouteTest {
     public void returnValueIsFormattedToComplyWithEmber() {
         prepareTransformationToJson();
 
-        r.handle(req, resp);
+        handleRequest();
 
         PowerMockito.verifyStatic();
-        EmberCompliance.formatMedia(FAKE_JSON);
+        EmberCompliance.formatMedia(JSON);
     }
 }
