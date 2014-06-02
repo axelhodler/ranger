@@ -4,6 +4,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
+import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
@@ -24,7 +25,7 @@ public class GETmediaByIdRoute implements Route {
         response.header(HttpHeaderKeys.ACAOrigin, "*");
         String id = request.params(MappedRoutesParams.ID);
         String json = returnMediaJson(id, response);
-        return json;
+        return EmberCompliance.formatMedia(json);
     }
 
     private String returnMediaJson(String id, Response response) {
