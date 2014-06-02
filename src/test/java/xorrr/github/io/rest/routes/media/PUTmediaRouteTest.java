@@ -28,7 +28,7 @@ import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
-public class PUTonMediaRouteTest {
+public class PUTmediaRouteTest {
 
     @Mock
     Request req;

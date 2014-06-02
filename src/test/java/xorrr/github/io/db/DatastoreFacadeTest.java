@@ -19,7 +19,7 @@ import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestDatastoreFacade {
+public class DatastoreFacadeTest {
 
     @Mock
     UserDatastore userDs;

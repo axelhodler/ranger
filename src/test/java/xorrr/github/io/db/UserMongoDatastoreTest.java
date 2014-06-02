@@ -29,7 +29,7 @@ import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
 @Category(IntegrationTest.class)
-public class TestUserMongoDatastore {
+public class UserMongoDatastoreTest {
 
     private static MongodExecutable mongodExe;
     private MongoClient client;

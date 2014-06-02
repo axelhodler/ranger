@@ -31,7 +31,7 @@ import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
 @Category(IntegrationTest.class)
-public class TestMediaMongoDatastore {
+public class MediaMongoDatastoreTest {
 
     private static MongodExecutable mongoExe;
 
