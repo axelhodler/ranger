@@ -7,4 +7,8 @@ public class EmberCompliance {
         return formatted;
     }
 
+    public static String formatMedia(String media) {
+        String formatted = "{\"media\":" + media + "}";
+        return formatted;
+    }
 }

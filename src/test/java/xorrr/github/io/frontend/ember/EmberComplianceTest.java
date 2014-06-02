@@ -13,4 +13,12 @@ public class EmberComplianceTest {
         assertEquals("{\"medias\":" + test + "}",
                 EmberCompliance.formatMediaList(test));
     }
+
+    @Test
+    public void canFormatMedia() {
+        String test = "{bla}";
+
+        assertEquals("{\"media\":" + test + "}",
+                EmberCompliance.formatMedia(test));
+    }
 }
