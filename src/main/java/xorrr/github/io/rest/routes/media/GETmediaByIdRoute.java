@@ -25,7 +25,7 @@ public class GETmediaByIdRoute implements Route {
         response.header(HttpHeaderKeys.ACAOrigin, "*");
         String id = request.params(MappedRoutesParams.ID);
         String json = returnMediaJson(id, response);
-        return EmberCompliance.formatMedia(json);
+        return json;
     }
 
     private String returnMediaJson(String id, Response response) {
@@ -35,7 +35,8 @@ public class GETmediaByIdRoute implements Route {
             response.status(404);
             returnMsg = "404";
         } else {
-            returnMsg = transformator.toMediaJson(m);
+            returnMsg = EmberCompliance.formatMedia(transformator
+                    .toMediaJson(m));
         }
         return returnMsg;
     }
