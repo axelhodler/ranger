@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import xorrr.github.io.frontend.JsonCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -12,9 +13,11 @@ import xorrr.github.io.model.User;
 public class Transformator {
 
     private ObjectMapper mapper;
+    private JsonCompliance compliance;
 
-    public Transformator() {
+    public Transformator(JsonCompliance c) {
         mapper = new ObjectMapper();
+        this.compliance = c;
     }
 
     public String toUserJson(User u) {
@@ -32,13 +35,15 @@ public class Transformator {
     public String toMediaJson(Media m) {
         String mediaJson = null;
         mediaJson = serializeMediaToJson(m, mediaJson);
-        return mediaJson;
+        String compliantMediaJson = compliance.formatMedia(mediaJson);
+        return compliantMediaJson;
     }
 
     public String toMediaJson(List<Media> medias) {
         String mediaJson = null;
         mediaJson = serializeMediaToJson(medias, mediaJson);
-        return mediaJson;
+        String compliantMediaJson = compliance.formatMediaList(mediaJson);
+        return compliantMediaJson;
     }
 
     public Media toMediaPojo(String jsonMedia) {

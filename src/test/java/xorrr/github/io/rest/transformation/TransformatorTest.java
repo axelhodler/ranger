@@ -1,6 +1,10 @@
 package xorrr.github.io.rest.transformation;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +15,20 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import xorrr.github.io.frontend.JsonCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TransformatorTest {
+
+    @Mock
+    JsonCompliance compliance;
 
     private Transformator t;
     private ObjectMapper mapper;
@@ -40,7 +52,7 @@ public class TransformatorTest {
 
     @Before
     public void setUp() {
-        t = new Transformator();
+        t = new Transformator(compliance);
         mapper = new ObjectMapper();
     }
 
@@ -66,8 +78,12 @@ public class TransformatorTest {
     public void canTransformMediaToJson() throws JsonGenerationException,
             JsonMappingException, IOException {
         Media m = createExampleMedia(URL);
+        when(compliance.formatMedia(anyString())).thenReturn("formatted");
 
-        assertEquals(t.toMediaJson(m), mapper.writeValueAsString(m));
+        String mediaJson = t.toMediaJson(m);
+
+        verify(compliance, times(1)).formatMedia(mapper.writeValueAsString(m));
+        assertEquals("formatted", mediaJson);
     }
 
     @Test
@@ -106,9 +122,12 @@ public class TransformatorTest {
         List<Media> medias = new ArrayList<>();
         medias.add(m1);
         medias.add(m2);
+        when(compliance.formatMediaList(anyString())).thenReturn("formatted");
 
         String jsonMedias = t.toMediaJson(medias);
 
-        assertEquals(jsonMedias, mapper.writeValueAsString(medias));
+        verify(compliance, times(1)).formatMediaList(
+                mapper.writeValueAsString(medias));
+        assertEquals("formatted", jsonMedias);
     }
 }
