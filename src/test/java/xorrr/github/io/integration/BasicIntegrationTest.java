@@ -57,12 +57,12 @@ public class BasicIntegrationTest {
 
         SparkRoutingFacade rest = new SparkRoutingFacade();
         RestHelperFacade helper = new SparkHelperFacade();
-        helper.setPort(1337);
+        helper.setPort(EnvVars.PORT);
         rest.setPostMediaRoute(new POSTmediaRoute(facade, transformator));
         rest.setGetMediaByIdRoute(new GETmediaByIdRoute(facade, transformator));
         rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade, transformator, helper));
         rest.setWildcardRoutes();
-        RestAssured.port = 1337;
+        RestAssured.port = EnvVars.PORT;
     }
 
     @Test

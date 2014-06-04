@@ -14,6 +14,7 @@ import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
+import xorrr.github.io.utils.EnvVars;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -28,7 +29,7 @@ public class Main {
         RestRoutingFacade rest = injector.getInstance(RestRoutingFacade.class);
         RestHelperFacade helper = injector.getInstance(RestHelperFacade.class);
 
-        helper.setPort(1337);
+        helper.setPort(EnvVars.PORT);
 
         rest.setPostMediaRoute(injector.getInstance(POSTmediaRoute.class));
         rest.setGetMediaByIdRoute(injector.getInstance(GETmediaByIdRoute.class));
