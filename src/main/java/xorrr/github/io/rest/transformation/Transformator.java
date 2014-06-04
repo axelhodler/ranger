@@ -21,14 +21,12 @@ public class Transformator {
     }
 
     public String toUserJson(User u) {
-        String userJson = null;
-        userJson = serializeUserToJson(u, userJson);
+        String userJson = serializeUserToJson(u);
         return userJson;
     }
 
     public User toUserPojo(String jsonUser) {
-        User user = null;
-        user = deserializeJsonToUser(jsonUser, user);
+        User user = deserializeJsonToUser(jsonUser);
         return user;
     }
 
@@ -45,24 +43,23 @@ public class Transformator {
     }
 
     public Media toMediaPojo(String jsonMedia) {
-        Media media = null;
-        media = deserializeJsonToMedia(jsonMedia, media);
+        Media media = deserializeJsonToMedia(jsonMedia);
         return media;
     }
 
     public Range toRangePojo(String jsonRange) {
-        Range range = null;
-        range = deserializeRange(jsonRange, range);
+        Range range = deserializeRange(jsonRange);
         return range;
     }
 
     public String toRangeJson(Range r) {
         String rangeJson = null;
-        rangeJson = serializeRangeToJson(r, rangeJson);
+        rangeJson = serializeRangeToJson(r);
         return rangeJson;
     }
 
-    private String serializeRangeToJson(Range r, String rangeJson) {
+    private String serializeRangeToJson(Range r) {
+        String rangeJson = null;
         try {
             rangeJson = mapper.writeValueAsString(r);
         } catch (IOException e) {
@@ -71,7 +68,8 @@ public class Transformator {
         return rangeJson;
     }
 
-    private Range deserializeRange(String jsonRange, Range range) {
+    private Range deserializeRange(String jsonRange) {
+        Range range = null;
         try {
             range = mapper.readValue(jsonRange, Range.class);
         } catch (IOException e) {
@@ -80,7 +78,8 @@ public class Transformator {
         return range;
     }
 
-    private String serializeUserToJson(User u, String userJson) {
+    private String serializeUserToJson(User u) {
+        String userJson = null;
         try {
             userJson = mapper.writeValueAsString(u);
         } catch (IOException e) {
@@ -89,7 +88,8 @@ public class Transformator {
         return userJson;
     }
 
-    private User deserializeJsonToUser(String jsonUser, User user) {
+    private User deserializeJsonToUser(String jsonUser) {
+        User user = null;
         try {
             user = mapper.readValue(jsonUser, User.class);
         } catch (IOException e) {
@@ -118,7 +118,8 @@ public class Transformator {
         return mediaJson;
     }
 
-    private Media deserializeJsonToMedia(String jsonMedia, Media media) {
+    private Media deserializeJsonToMedia(String jsonMedia) {
+        Media media = null;
         try {
             media = mapper.readValue(jsonMedia, Media.class);
         } catch (IOException e) {
