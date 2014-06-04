@@ -10,11 +10,14 @@ import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
+import com.google.inject.Inject;
+
 public class Transformator {
 
     private ObjectMapper mapper;
     private JsonCompliance compliance;
 
+    @Inject
     public Transformator(JsonCompliance c) {
         mapper = new ObjectMapper();
         this.compliance = c;
