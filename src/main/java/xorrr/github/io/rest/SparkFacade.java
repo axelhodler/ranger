@@ -38,4 +38,8 @@ public class SparkFacade {
         Spark.get(MappedRoutes.MEDIA, getMedia);
     }
 
+    public void stopRequest(int statusCode, String message) {
+        Spark.halt(statusCode, message);
+    }
+
 }

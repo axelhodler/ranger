@@ -83,4 +83,11 @@ public class SparkFacadeTest {
         verifyStatic();
         Spark.get(MappedRoutes.MEDIA, getMedia);
     }
+
+    @Test
+    public void canStopRequest() {
+        facade.stopRequest(404, "message");
+        verifyStatic();
+        Spark.halt(404, "message");
+    }
 }
