@@ -1,21 +1,23 @@
 package xorrr.github.io.rest.routes.user;
 
-import static spark.Spark.halt;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.User;
+import xorrr.github.io.rest.SparkFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class POSTuserRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
+    private SparkFacade spark;
 
-    public POSTuserRoute(DatastoreFacade f, Transformator t) {
+    public POSTuserRoute(DatastoreFacade f, Transformator t, SparkFacade spark) {
         this.facade = f;
         this.transformator = t;
+        this.spark = spark;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class POSTuserRoute implements Route {
         String userId = "";
 
         if (req.contentLength() <1)
-            halt(204, "No content provided");
+            spark.stopRequest(204, "No content provided");
         else {
             userId = handleContent(req, resp);
         }

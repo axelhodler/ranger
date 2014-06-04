@@ -6,28 +6,24 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import spark.Spark;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
+import xorrr.github.io.rest.SparkFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Spark.class })
+@RunWith(MockitoJUnitRunner.class)
 public class PUTmediaRouteTest {
 
     @Mock
@@ -40,6 +36,8 @@ public class PUTmediaRouteTest {
     Transformator transformator;
     @Mock
     Range range;
+    @Mock
+    SparkFacade spark;
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
     private final String MEDIA_ID = "536a6107ccf258bb9041663a";
@@ -65,9 +63,7 @@ public class PUTmediaRouteTest {
 
     @Before
     public void setUp() {
-        PowerMockito.mockStatic(Spark.class);
-
-        p = new PUTmediaRoute(facade, transformator);
+        p = new PUTmediaRoute(facade, transformator, spark);
 
         m = new Media("www.random.org");
         m.setAvgStartTime(5);
@@ -138,8 +134,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        verifyStatic();
-        Spark.halt(404, "Not Found");
+        spark.stopRequest(404, "Not Found");
     }
 
     @Test
@@ -148,8 +143,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        verifyStatic();
-        Spark.halt(204, "No Content");
+        spark.stopRequest(204, "No Content");
         verify(transformator, times(0)).toRangePojo(JSON_RANGE);
     }
 
@@ -169,8 +163,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        verifyStatic();
-        Spark.halt(401, "Unauthorized");
+        spark.stopRequest(401, "Unauthorized");
     }
 
     @Test
