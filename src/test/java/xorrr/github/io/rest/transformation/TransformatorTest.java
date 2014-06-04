@@ -137,7 +137,7 @@ public class TransformatorTest {
         List<Media> medias = createSampleMediaList();
         mockMediaListTransformation();
 
-        String jsonMedias = t.toMediaJson(medias);
+        String jsonMedias = t.toMediaListJson(medias);
 
         verify(compliance, times(1)).formatMediaList(
                 transform(medias));

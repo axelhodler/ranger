@@ -33,15 +33,13 @@ public class Transformator {
     }
 
     public String toMediaJson(Media m) {
-        String mediaJson = null;
-        mediaJson = serializeMediaToJson(m, mediaJson);
+        String mediaJson = serializeMediaToJson(m);
         String compliantMediaJson = compliance.formatMedia(mediaJson);
         return compliantMediaJson;
     }
 
-    public String toMediaJson(List<Media> medias) {
-        String mediaJson = null;
-        mediaJson = serializeMediaToJson(medias, mediaJson);
+    public String toMediaListJson(List<Media> medias) {
+        String mediaJson = serializeMediaToJson(medias);
         String compliantMediaJson = compliance.formatMediaList(mediaJson);
         return compliantMediaJson;
     }
@@ -100,7 +98,8 @@ public class Transformator {
         return user;
     }
 
-    private String serializeMediaToJson(Media m, String mediaJson) {
+    private String serializeMediaToJson(Media m) {
+        String mediaJson = null;
         try {
             mediaJson = mapper.writeValueAsString(m);
         } catch (IOException e) {
@@ -109,7 +108,8 @@ public class Transformator {
         return mediaJson;
     }
 
-    private String serializeMediaToJson(List<Media> medias, String mediaJson) {
+    private String serializeMediaToJson(List<Media> medias) {
+        String mediaJson = null;
         try {
             mediaJson = mapper.writeValueAsString(medias);
         } catch (IOException e) {

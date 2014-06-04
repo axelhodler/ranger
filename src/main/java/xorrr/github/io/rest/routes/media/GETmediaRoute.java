@@ -27,7 +27,7 @@ public class GETmediaRoute implements Route {
 
         List<Media> medias = facade.getMedia();
 
-        return EmberCompliance.formatMediaList(transformator.toMediaJson(medias));
+        return EmberCompliance.formatMediaList(transformator.toMediaListJson(medias));
     }
 
 }

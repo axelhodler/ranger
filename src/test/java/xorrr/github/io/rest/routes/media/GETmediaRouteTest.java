@@ -78,14 +78,14 @@ public class GETmediaRouteTest {
 
         route.handle(req, resp);
 
-        verify(transformator, times(1)).toMediaJson(medias);
+        verify(transformator, times(1)).toMediaListJson(medias);
     }
 
     @Test
     public void returnsMediaAsJson() {
         createMedia();
         when(facade.getMedia()).thenReturn(medias);
-        when(transformator.toMediaJson(medias)).thenReturn("ab");
+        when(transformator.toMediaListJson(medias)).thenReturn("ab");
 
         String medias = (String) route.handle(req, resp);
 
@@ -102,7 +102,7 @@ public class GETmediaRouteTest {
     @Test
     public void returnValueIsFormattedToComplyWithEmber() {
         when(facade.getMedia()).thenReturn(medias);
-        when(transformator.toMediaJson(medias)).thenReturn("ab");
+        when(transformator.toMediaListJson(medias)).thenReturn("ab");
 
         route.handle(req, resp);
 
