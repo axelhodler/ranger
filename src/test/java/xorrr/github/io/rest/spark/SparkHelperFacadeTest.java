@@ -1,4 +1,4 @@
-package xorrr.github.io.rest;
+package xorrr.github.io.rest.spark;
 
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -10,6 +10,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Spark;
+import xorrr.github.io.rest.RestHelperFacade;
+import xorrr.github.io.rest.spark.SparkHelperFacade;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Spark.class)

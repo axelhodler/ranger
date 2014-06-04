@@ -1,4 +1,4 @@
-package xorrr.github.io.rest;
+package xorrr.github.io.rest.spark;
 
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -17,6 +17,7 @@ import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
+import xorrr.github.io.rest.spark.SparkRoutingFacade;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })

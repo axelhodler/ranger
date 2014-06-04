@@ -1,6 +1,7 @@
-package xorrr.github.io.rest;
+package xorrr.github.io.rest.spark;
 
 import spark.Spark;
+import xorrr.github.io.rest.RestRoutingFacade;
 import xorrr.github.io.rest.routes.MappedRoutes;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.GETmediaRoute;

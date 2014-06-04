@@ -1,6 +1,7 @@
-package xorrr.github.io.rest;
+package xorrr.github.io.rest.spark;
 
 import spark.Spark;
+import xorrr.github.io.rest.RestHelperFacade;
 
 public class SparkHelperFacade implements RestHelperFacade {
 

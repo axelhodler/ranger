@@ -13,13 +13,13 @@ import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.UserMongoDatastore;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RestRoutingFacade;
-import xorrr.github.io.rest.SparkRoutingFacade;
-import xorrr.github.io.rest.SparkHelperFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
+import xorrr.github.io.rest.spark.SparkHelperFacade;
+import xorrr.github.io.rest.spark.SparkRoutingFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class Main {
