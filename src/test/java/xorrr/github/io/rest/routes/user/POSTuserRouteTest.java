@@ -17,7 +17,7 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.User;
-import xorrr.github.io.rest.SparkFacade;
+import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,7 +32,7 @@ public class POSTuserRouteTest {
     @Mock
     Transformator trans;
     @Mock
-    SparkFacade spark;
+    RestHelperFacade restHelper;
 
     private POSTuserRoute route;
     private final String JSON = "asdf";
@@ -56,7 +56,7 @@ public class POSTuserRouteTest {
 
     @Before
     public void setUp() {
-        route = new POSTuserRoute(facade, trans, spark);
+        route = new POSTuserRoute(facade, trans, restHelper);
         createUser();
     }
 
@@ -80,7 +80,7 @@ public class POSTuserRouteTest {
 
         handleRequest();
 
-        spark.stopRequest(204, "No content provided");
+        restHelper.stopRequest(204, "No content provided");
         verify(req, times(0)).body();
     }
 

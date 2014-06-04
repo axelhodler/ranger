@@ -20,7 +20,7 @@ import xorrr.github.io.rest.routes.user.POSTuserRoute;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
-public class SparkFacadeTest {
+public class SparkRoutingFacadeTest {
 
     @Mock
     GETmediaByIdRoute getMediaById;
@@ -33,20 +33,13 @@ public class SparkFacadeTest {
     @Mock
     GETmediaRoute getMedia;
 
-    private SparkFacade facade;
+    private SparkRoutingFacade facade;
 
     @Before
     public void setUp() {
-        facade = new SparkFacade();
+        facade = new SparkRoutingFacade();
 
         PowerMockito.mockStatic(Spark.class);
-    }
-
-    @Test
-    public void canSetPort() {
-        facade.setPort(1111);
-        verifyStatic();
-        Spark.setPort(1111);
     }
 
     @Test
@@ -82,12 +75,5 @@ public class SparkFacadeTest {
         facade.setGetMediaRoute(getMedia);
         verifyStatic();
         Spark.get(MappedRoutes.MEDIA, getMedia);
-    }
-
-    @Test
-    public void canStopRequest() {
-        facade.stopRequest(404, "message");
-        verifyStatic();
-        Spark.halt(404, "message");
     }
 }

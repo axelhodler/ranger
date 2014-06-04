@@ -20,7 +20,7 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
-import xorrr.github.io.rest.SparkFacade;
+import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,7 +37,7 @@ public class PUTmediaRouteTest {
     @Mock
     Range range;
     @Mock
-    SparkFacade spark;
+    RestHelperFacade restHelper;
 
     private final String JSON_RANGE = "{\"startTime\":1, \"endTime\":2}";
     private final String MEDIA_ID = "536a6107ccf258bb9041663a";
@@ -63,7 +63,7 @@ public class PUTmediaRouteTest {
 
     @Before
     public void setUp() {
-        p = new PUTmediaRoute(facade, transformator, spark);
+        p = new PUTmediaRoute(facade, transformator, restHelper);
 
         m = new Media("www.random.org");
         m.setAvgStartTime(5);
@@ -134,7 +134,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        spark.stopRequest(404, "Not Found");
+        restHelper.stopRequest(404, "Not Found");
     }
 
     @Test
@@ -143,7 +143,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        spark.stopRequest(204, "No Content");
+        restHelper.stopRequest(204, "No Content");
         verify(transformator, times(0)).toRangePojo(JSON_RANGE);
     }
 
@@ -163,7 +163,7 @@ public class PUTmediaRouteTest {
 
         handleRequest();
 
-        spark.stopRequest(401, "Unauthorized");
+        restHelper.stopRequest(401, "Unauthorized");
     }
 
     @Test

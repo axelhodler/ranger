@@ -6,19 +6,20 @@ import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
-import xorrr.github.io.rest.SparkFacade;
+import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class PUTmediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
-    private SparkFacade spark;
+    private RestHelperFacade restHelper;
 
-    public PUTmediaRoute(DatastoreFacade facade, Transformator t, SparkFacade spark) {
+    public PUTmediaRoute(DatastoreFacade facade, Transformator t,
+            RestHelperFacade restHelper) {
         this.facade = facade;
         this.transformator = t;
-        this.spark = spark;
+        this.restHelper = restHelper;
     }
 
     @Override
@@ -27,9 +28,9 @@ public class PUTmediaRoute implements Route {
         boolean applied = false;
 
         if (req.headers("user") == null)
-            spark.stopRequest(401, "Unauthorized");
+            restHelper.stopRequest(401, "Unauthorized");
         if (noContent(req))
-            spark.stopRequest(204, "No Content");
+            restHelper.stopRequest(204, "No Content");
         else {
             Range r = transformator.toRangePojo(req.body());
             if (rangeInvalid(r)) {
@@ -44,7 +45,7 @@ public class PUTmediaRoute implements Route {
         if (applied) {
             resp.status(200);
         } else {
-            spark.stopRequest(404, "Not Found");
+            restHelper.stopRequest(404, "Not Found");
         }
 
         return responseBody;

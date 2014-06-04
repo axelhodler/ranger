@@ -8,38 +8,36 @@ import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
 
-public class SparkFacade {
+public class SparkRoutingFacade implements RestRoutingFacade {
 
-    public void setPort(int port) {
-        Spark.setPort(port);
-    }
-
+    @Override
     public void setGetMediaByIdRoute(GETmediaByIdRoute getMediaById) {
         Spark.get(MappedRoutes.MEDIA_BY_ID, getMediaById);
     }
 
+    @Override
     public void setPostMediaRoute(POSTmediaRoute postMedia) {
         Spark.post(MappedRoutes.MEDIA, postMedia);
     }
 
+    @Override
     public void setPutRangeToMediaRoute(PUTmediaRoute putRangeToMedia) {
         Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
     }
 
+    @Override
     public void setWildcardRoutes() {
         Spark.get("*", (request, response) -> "404");
     }
 
+    @Override
     public void setPostUserRoute(POSTuserRoute postUser) {
         Spark.post(MappedRoutes.USERS, postUser);
     }
 
+    @Override
     public void setGetMediaRoute(GETmediaRoute getMedia) {
         Spark.get(MappedRoutes.MEDIA, getMedia);
-    }
-
-    public void stopRequest(int statusCode, String message) {
-        Spark.halt(statusCode, message);
     }
 
 }

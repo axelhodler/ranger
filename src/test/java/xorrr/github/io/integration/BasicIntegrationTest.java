@@ -15,7 +15,9 @@ import xorrr.github.io.db.MediaDatastore;
 import xorrr.github.io.db.MediaMongoDatastore;
 import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.UserMongoDatastore;
-import xorrr.github.io.rest.SparkFacade;
+import xorrr.github.io.rest.RestHelperFacade;
+import xorrr.github.io.rest.SparkRoutingFacade;
+import xorrr.github.io.rest.SparkHelperFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
@@ -52,11 +54,12 @@ public class BasicIntegrationTest {
         facade = new DatastoreFacade(uds, mds);
         Transformator transformator = new Transformator();
 
-        SparkFacade rest = new SparkFacade();
-        rest.setPort(1337);
+        SparkRoutingFacade rest = new SparkRoutingFacade();
+        RestHelperFacade helper = new SparkHelperFacade();
+        helper.setPort(1337);
         rest.setPostMediaRoute(new POSTmediaRoute(facade, transformator));
         rest.setGetMediaByIdRoute(new GETmediaByIdRoute(facade, transformator));
-        rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade, transformator, rest));
+        rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade, transformator, helper));
         rest.setWildcardRoutes();
         RestAssured.port = 1337;
     }

@@ -5,19 +5,19 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.User;
-import xorrr.github.io.rest.SparkFacade;
+import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
 public class POSTuserRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
-    private SparkFacade spark;
+    private RestHelperFacade restHelper;
 
-    public POSTuserRoute(DatastoreFacade f, Transformator t, SparkFacade spark) {
+    public POSTuserRoute(DatastoreFacade f, Transformator t, RestHelperFacade h) {
         this.facade = f;
         this.transformator = t;
-        this.spark = spark;
+        this.restHelper = h;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class POSTuserRoute implements Route {
         String userId = "";
 
         if (req.contentLength() <1)
-            spark.stopRequest(204, "No content provided");
+            restHelper.stopRequest(204, "No content provided");
         else {
             userId = handleContent(req, resp);
         }
