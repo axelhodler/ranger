@@ -4,7 +4,6 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
-import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
@@ -35,8 +34,7 @@ public class GETmediaByIdRoute implements Route {
             response.status(404);
             returnMsg = "404";
         } else {
-            returnMsg = EmberCompliance.formatMedia(transformator
-                    .toMediaJson(m));
+            returnMsg = transformator.toMediaJson(m);
         }
         return returnMsg;
     }

@@ -13,21 +13,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
-import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(EmberCompliance.class)
+@RunWith(MockitoJUnitRunner.class)
 public class GETmediaRouteTest {
 
     @Mock
@@ -54,8 +50,6 @@ public class GETmediaRouteTest {
 
     @Before
     public void setUp() {
-        PowerMockito.mockStatic(EmberCompliance.class);
-
         route = new GETmediaRoute(facade, transformator);
     }
 
@@ -89,7 +83,7 @@ public class GETmediaRouteTest {
 
         String medias = (String) route.handle(req, resp);
 
-        assertEquals(EmberCompliance.formatMediaList("ab"), medias);
+        assertEquals("ab", medias);
     }
 
     @Test
@@ -97,16 +91,5 @@ public class GETmediaRouteTest {
         route.handle(req, resp);
 
         verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
-    }
-
-    @Test
-    public void returnValueIsFormattedToComplyWithEmber() {
-        when(facade.getMedia()).thenReturn(medias);
-        when(transformator.toMediaListJson(medias)).thenReturn("ab");
-
-        route.handle(req, resp);
-
-        PowerMockito.verifyStatic();
-        EmberCompliance.formatMediaList("ab");
     }
 }

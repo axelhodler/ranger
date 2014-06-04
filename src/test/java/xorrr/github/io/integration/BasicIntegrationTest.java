@@ -15,6 +15,7 @@ import xorrr.github.io.db.MediaDatastore;
 import xorrr.github.io.db.MediaMongoDatastore;
 import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.UserMongoDatastore;
+import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
@@ -52,7 +53,7 @@ public class BasicIntegrationTest {
         UserDatastore uds = new UserMongoDatastore();
         MediaDatastore mds = new MediaMongoDatastore();
         facade = new DatastoreFacade(uds, mds);
-        Transformator transformator = new Transformator();
+        Transformator transformator = new Transformator(new EmberCompliance());
 
         SparkRoutingFacade rest = new SparkRoutingFacade();
         RestHelperFacade helper = new SparkHelperFacade();

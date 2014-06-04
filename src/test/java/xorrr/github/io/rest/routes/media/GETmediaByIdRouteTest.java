@@ -10,9 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Request;
 import spark.Response;
@@ -24,8 +23,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(EmberCompliance.class)
+@RunWith(MockitoJUnitRunner.class)
 public class GETmediaByIdRouteTest {
 
     @Mock
@@ -94,8 +92,9 @@ public class GETmediaByIdRouteTest {
     public void mediaJsonIsReturned() {
         prepareTransformationToJson();
 
-        assertEquals("Media serialized to JSON is returned",
-                EmberCompliance.formatMedia(JSON), r.handle(req, resp));
+        String msg = r.handle(req, resp);
+
+        assertEquals(JSON, msg);
     }
 
     @Test
@@ -103,15 +102,5 @@ public class GETmediaByIdRouteTest {
         handleRequest();
 
         verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
-    }
-
-    @Test
-    public void returnValueIsFormattedToComplyWithEmber() {
-        prepareTransformationToJson();
-
-        handleRequest();
-
-        PowerMockito.verifyStatic();
-        EmberCompliance.formatMedia(JSON);
     }
 }

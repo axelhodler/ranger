@@ -11,6 +11,7 @@ import xorrr.github.io.db.MediaDatastore;
 import xorrr.github.io.db.MediaMongoDatastore;
 import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.UserMongoDatastore;
+import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RestRoutingFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
@@ -30,7 +31,7 @@ public class Main {
         UserDatastore uds = new UserMongoDatastore();
         MediaDatastore mds = new MediaMongoDatastore();
         DatastoreFacade facade = new DatastoreFacade(uds, mds);
-        Transformator transformator = new Transformator();
+        Transformator transformator = new Transformator(new EmberCompliance());
 
         RestRoutingFacade rest = new SparkRoutingFacade();
         RestHelperFacade helper = new SparkHelperFacade();
