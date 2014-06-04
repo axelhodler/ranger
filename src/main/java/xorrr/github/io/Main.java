@@ -6,13 +6,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import xorrr.github.io.db.DatastoreFacade;
-import xorrr.github.io.db.MediaDatastore;
-import xorrr.github.io.db.MediaMongoDatastore;
-import xorrr.github.io.db.UserDatastore;
-import xorrr.github.io.db.UserMongoDatastore;
 import xorrr.github.io.di.Module;
-import xorrr.github.io.frontend.JsonCompliance;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RestRoutingFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
@@ -20,9 +14,6 @@ import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
-import xorrr.github.io.rest.spark.SparkHelperFacade;
-import xorrr.github.io.rest.spark.SparkRoutingFacade;
-import xorrr.github.io.rest.transformation.Transformator;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -34,23 +25,16 @@ public class Main {
 
         Injector injector = Guice.createInjector(new Module());
 
-        JsonCompliance compliance = injector.getInstance(JsonCompliance.class);
-
-        UserDatastore uds = new UserMongoDatastore();
-        MediaDatastore mds = new MediaMongoDatastore();
-        DatastoreFacade facade = new DatastoreFacade(uds, mds);
-        Transformator transformator = new Transformator(compliance);
-
-        RestRoutingFacade rest = new SparkRoutingFacade();
-        RestHelperFacade helper = new SparkHelperFacade();
+        RestRoutingFacade rest = injector.getInstance(RestRoutingFacade.class);
+        RestHelperFacade helper = injector.getInstance(RestHelperFacade.class);
 
         helper.setPort(1337);
-        rest.setPostMediaRoute(new POSTmediaRoute(facade, transformator));
-        rest.setGetMediaByIdRoute(new GETmediaByIdRoute(facade, transformator));
-        rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade, transformator,
-                helper));
-        rest.setPostUserRoute(new POSTuserRoute(facade, transformator, helper));
-        rest.setGetMediaRoute(new GETmediaRoute(facade, transformator));
+
+        rest.setPostMediaRoute(injector.getInstance(POSTmediaRoute.class));
+        rest.setGetMediaByIdRoute(injector.getInstance(GETmediaByIdRoute.class));
+        rest.setPutRangeToMediaRoute(injector.getInstance(PUTmediaRoute.class));
+        rest.setPostUserRoute(injector.getInstance(POSTuserRoute.class));
+        rest.setGetMediaRoute(injector.getInstance(GETmediaRoute.class));
         rest.setWildcardRoutes();
     }
 }

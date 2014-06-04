@@ -6,11 +6,14 @@ import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
+import com.google.inject.Inject;
+
 public class DatastoreFacade {
 
     private UserDatastore uds;
     private MediaDatastore mds;
 
+    @Inject
     public DatastoreFacade(UserDatastore ds, MediaDatastore mds) {
         this.uds = ds;
         this.mds = mds;

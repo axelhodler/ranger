@@ -9,11 +9,14 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
 
+import com.google.inject.Inject;
+
 public class GETmediaByIdRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
+    @Inject
     public GETmediaByIdRoute(DatastoreFacade f, Transformator t) {
         this.facade = f;
         this.transformator = t;

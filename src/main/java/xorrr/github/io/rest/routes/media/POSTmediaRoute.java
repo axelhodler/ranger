@@ -7,11 +7,14 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 
+import com.google.inject.Inject;
+
 public class POSTmediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
+    @Inject
     public POSTmediaRoute(DatastoreFacade facade, Transformator transformator) {
         this.facade = facade;
         this.transformator = transformator;

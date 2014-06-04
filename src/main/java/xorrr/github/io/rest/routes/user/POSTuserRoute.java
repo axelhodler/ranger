@@ -8,12 +8,15 @@ import xorrr.github.io.model.User;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.transformation.Transformator;
 
+import com.google.inject.Inject;
+
 public class POSTuserRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
     private RestHelperFacade restHelper;
 
+    @Inject
     public POSTuserRoute(DatastoreFacade f, Transformator t, RestHelperFacade h) {
         this.facade = f;
         this.transformator = t;

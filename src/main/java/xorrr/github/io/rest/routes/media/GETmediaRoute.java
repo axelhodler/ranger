@@ -10,11 +10,14 @@ import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
 
+import com.google.inject.Inject;
+
 public class GETmediaRoute implements Route {
 
     private DatastoreFacade facade;
     private Transformator transformator;
 
+    @Inject
     public GETmediaRoute(DatastoreFacade facade, Transformator transformator) {
         this.facade = facade;
         this.transformator = transformator;
