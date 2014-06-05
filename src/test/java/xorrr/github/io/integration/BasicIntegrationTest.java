@@ -10,24 +10,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import xorrr.github.io.db.DatastoreFacade;
-import xorrr.github.io.db.MediaDatastore;
-import xorrr.github.io.db.MediaMongoDatastore;
-import xorrr.github.io.db.UserDatastore;
-import xorrr.github.io.db.UserMongoDatastore;
-import xorrr.github.io.frontend.ember.EmberCompliance;
+import xorrr.github.io.di.Module;
 import xorrr.github.io.rest.RestHelperFacade;
+import xorrr.github.io.rest.RestRoutingFacade;
 import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
+import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
-import xorrr.github.io.rest.spark.SparkHelperFacade;
-import xorrr.github.io.rest.spark.SparkRoutingFacade;
-import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.IntegrationTest;
 import xorrr.github.io.utils.RangerDB;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.jayway.restassured.RestAssured;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -39,7 +36,6 @@ public class BasicIntegrationTest {
 
     private static MongodExecutable mongoExe;
     private static DBCollection mediaCol;
-    private static DatastoreFacade facade;
 
     @BeforeClass
     public static void setUpBefore() throws IOException {
@@ -50,18 +46,19 @@ public class BasicIntegrationTest {
         mediaCol = client.getDB(RangerDB.NAME)
                 .getCollection(RangerDB.MEDIA_COL);
 
-        UserDatastore uds = new UserMongoDatastore();
-        MediaDatastore mds = new MediaMongoDatastore();
-        facade = new DatastoreFacade(uds, mds);
-        Transformator transformator = new Transformator(new EmberCompliance());
+        Injector injector = Guice.createInjector(new Module());
 
-        SparkRoutingFacade rest = new SparkRoutingFacade();
-        RestHelperFacade helper = new SparkHelperFacade();
+        RestRoutingFacade rest = injector.getInstance(RestRoutingFacade.class);
+        RestHelperFacade helper = injector.getInstance(RestHelperFacade.class);
+
         helper.setPort(EnvVars.PORT);
-        rest.setPostMediaRoute(new POSTmediaRoute(facade, transformator));
-        rest.setGetMediaByIdRoute(new GETmediaByIdRoute(facade, transformator));
-        rest.setPutRangeToMediaRoute(new PUTmediaRoute(facade, transformator, helper));
+        rest.setPostMediaRoute(injector.getInstance(POSTmediaRoute.class));
+        rest.setGetMediaByIdRoute(injector.getInstance(GETmediaByIdRoute.class));
+        rest.setPutRangeToMediaRoute(injector.getInstance(PUTmediaRoute.class));
+        rest.setPostUserRoute(injector.getInstance(POSTuserRoute.class));
+        rest.setGetMediaRoute(injector.getInstance(GETmediaRoute.class));
         rest.setWildcardRoutes();
+
         RestAssured.port = EnvVars.PORT;
     }
 
