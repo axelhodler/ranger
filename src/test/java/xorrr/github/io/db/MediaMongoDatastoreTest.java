@@ -3,6 +3,7 @@ package xorrr.github.io.db;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -158,6 +159,18 @@ public class MediaMongoDatastoreTest {
 
         assertEquals(URL, medias.get(0).getUrl());
         assertEquals("www.bar.org", medias.get(1).getUrl());
+    }
+
+    @Test
+    public void canCheckForUrlDuplicates() {
+        storeSampleMedia(URL);
+
+        assertTrue(ds.urlStored(URL));
+    }
+
+    @Test
+    public void isNotADuplicate() {
+        assertFalse(ds.urlStored(URL));
     }
 
     @After

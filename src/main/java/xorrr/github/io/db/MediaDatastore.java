@@ -15,4 +15,6 @@ public interface MediaDatastore {
 
     List<Media> getMedia();
 
+    boolean urlStored(String url);
+
 }

@@ -16,6 +16,7 @@ import xorrr.github.io.utils.RangerDB;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
@@ -91,6 +92,17 @@ public class MediaMongoDatastore implements MediaDatastore {
             medias.add(m);
         }
         return medias;
+    }
+
+    @Override
+    public boolean urlStored(String url) {
+        DBCursor cur = col.find(new BasicDBObject(MediaCol.URL, url)).limit(1);
+        boolean exists = false;
+
+        if (cur.count() > 0) {
+            exists = true;
+        }
+        return exists;
     }
 
     private void setNewAverages(String id, DBObject m) {
