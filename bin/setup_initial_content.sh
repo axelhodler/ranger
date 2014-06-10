@@ -11,15 +11,15 @@ MEDIA3_ID=$(curl -X POST -d '{"url":"www.baz.org"}' http://localhost:1337/media)
 
 printf "Add range to media: $MEDIA_ID\n"
 printf "Range added to media: "
-curl -X PUT -d '{"startTime":10, "endTime":20}' -H "user: $USER_ID" http://localhost:1337/media/$MEDIA_ID
+curl -X PUT -d '{"startTime":50, "endTime":100}' -H "user: $USER_ID" http://localhost:1337/media/$MEDIA_ID
 printf "\n"
 
 printf "Add range to media: $MEDIA_ID\n"
 printf "Range added to media: "
-curl -X PUT -d '{"startTime":20, "endTime":30}' -H "user: $USER2_ID" http://localhost:1337/media/$MEDIA_ID
+curl -X PUT -d '{"startTime":75, "endTime":144}' -H "user: $USER2_ID" http://localhost:1337/media/$MEDIA_ID
 printf "\n"
 
 printf "Add range to media: $MEDIA2_ID\n"
 printf "Range added to media: "
-curl -X PUT -d '{"startTime":1, "endTime":5}' -H "user: $USER2_ID" http://localhost:1337/media/$MEDIA2_ID
+curl -X PUT -d '{"startTime":20, "endTime":80}' -H "user: $USER2_ID" http://localhost:1337/media/$MEDIA2_ID
 printf "\n"
