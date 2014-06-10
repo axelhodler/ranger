@@ -33,19 +33,21 @@ public class POSTmediaRoute implements Route {
     }
 
     private String dealWithContent(Request req, Response resp) {
-        String mediaId;
+        String mediaId = null;
         resp.status(201);
-        mediaId = facade.storeMedia(createMediaFromRequestBody(req));
-        resp.header("Location", "http://" + req.host() + req.pathInfo()
-                + "/" + mediaId);
+        Media m = transformator.toMediaPojo(req.body());
+        if (!facade.urlStored(m.getUrl())) {
+            mediaId = facade.storeMedia(m);
+            resp.header("Location", "http://" + req.host() + req.pathInfo()
+                    + "/" + mediaId);
+        } else {
+            resp.status(404);
+        }
+
         return mediaId;
     }
 
     private boolean noContent(Request req) {
         return req.contentLength() < 1;
-    }
-
-    private Media createMediaFromRequestBody(Request req) {
-        return transformator.toMediaPojo(req.body());
     }
 }

@@ -17,7 +17,6 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
-import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.transformation.Transformator;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,6 +33,7 @@ public class POSTmediaRouteTest {
     @Mock
     Media media;
 
+    private final String URL = "www.foo.org";
     private final String JSON = "asdf";
     private final String ID = "id";
 
@@ -48,6 +48,7 @@ public class POSTmediaRouteTest {
         when(req.body()).thenReturn(JSON);
         when(transformator.toMediaPojo(JSON)).thenReturn(media);
         when(facade.storeMedia(media)).thenReturn(ID);
+        when(media.getUrl()).thenReturn(URL);
     }
 
     @Before
@@ -122,5 +123,24 @@ public class POSTmediaRouteTest {
         verify(facade, times(0)).storeMedia(media);
         verify(req, times(0)).host();
         verify(req, times(0)).pathInfo();
+    }
+
+    @Test
+    public void denyPostingMediaWithEqualUrlTwice() {
+        when(facade.urlStored(URL)).thenReturn(true);
+
+        handleRequest();
+
+        verify(facade, times(1)).urlStored(URL);
+        verify(facade, times(0)).storeMedia(media);
+    }
+
+    @Test
+    public void return404IfUrlAlreadyUsed() {
+        when(facade.urlStored(URL)).thenReturn(true);
+
+        handleRequest();
+
+        verify(resp, times(1)).status(404);
     }
 }

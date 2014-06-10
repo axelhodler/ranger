@@ -50,4 +50,8 @@ public class DatastoreFacade {
     public List<Media> getMedia() {
         return mds.getMedia();
     }
+
+    public boolean urlStored(String url) {
+        return mds.urlStored(url);
+    }
 }

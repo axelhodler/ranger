@@ -122,6 +122,13 @@ public class DatastoreFacadeTest {
     }
 
     @Test
+    public void canCheckUrlExists() {
+        facade.urlStored("asdf");
+
+        verify(mediaDs, times(1)).urlStored("asdf");
+    }
+
+    @Test
     public void canGetMedia() {
         facade.getMedia();
 
