@@ -21,7 +21,7 @@ import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.IntegrationTest;
-import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.model.RangerDB;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

@@ -6,8 +6,8 @@ import org.bson.types.ObjectId;
 
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EnvVars;
-import xorrr.github.io.utils.RangerDB;
-import xorrr.github.io.utils.UserCol;
+import xorrr.github.io.utils.model.RangerDB;
+import xorrr.github.io.utils.model.UserCol;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

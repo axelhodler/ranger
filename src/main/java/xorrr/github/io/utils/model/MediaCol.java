@@ -1,4 +1,4 @@
-package xorrr.github.io.utils;
+package xorrr.github.io.utils.model;
 
 public final class MediaCol {
     private MediaCol() {

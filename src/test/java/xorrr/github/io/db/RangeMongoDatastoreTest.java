@@ -18,8 +18,8 @@ import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.IntegrationTest;
-import xorrr.github.io.utils.RangeCol;
-import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.model.RangeCol;
+import xorrr.github.io.utils.model.RangerDB;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;

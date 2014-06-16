@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import xorrr.github.io.model.Media;
 import xorrr.github.io.utils.EnvVars;
-import xorrr.github.io.utils.MediaCol;
-import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.model.MediaCol;
+import xorrr.github.io.utils.model.RangerDB;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

@@ -4,8 +4,8 @@ import java.net.UnknownHostException;
 
 import xorrr.github.io.model.Range;
 import xorrr.github.io.utils.EnvVars;
-import xorrr.github.io.utils.RangeCol;
-import xorrr.github.io.utils.RangerDB;
+import xorrr.github.io.utils.model.RangeCol;
+import xorrr.github.io.utils.model.RangerDB;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
