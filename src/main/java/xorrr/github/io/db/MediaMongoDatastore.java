@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import xorrr.github.io.model.Media;
-import xorrr.github.io.model.Range;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.MediaCol;
 import xorrr.github.io.utils.RangerDB;
@@ -39,31 +38,6 @@ public class MediaMongoDatastore implements MediaDatastore {
         logger.info("Stored new media object with url: {}", m.getUrl());
 
         return id.toString();
-    }
-
-    @Override
-    public boolean applyRangeToMedia(String id, Range r) {
-        DBObject m = null;
-        boolean changed = false;
-
-        if (ObjectId.isValid(id)) {
-            m = findMedia(id);
-        }
-
-        if (mediaFound(m)) {
-            calculateNewAverages(r, m);
-
-            setNewAverages(id, m);
-            changed = true;
-
-            logger.info(
-                    "Added range with startTime: {} and endTime: {} to media with id: {}",
-                    r.getStartTime(), r.getEndTime(), id);
-        } else {
-            logger.info("Provided id: {} was INVALID or NON EXISTENT");
-        }
-
-        return changed;
     }
 
     @Override
@@ -105,10 +79,6 @@ public class MediaMongoDatastore implements MediaDatastore {
         return exists;
     }
 
-    private void setNewAverages(String id, DBObject m) {
-        col.update(queryDbForMediaId(id), m);
-    }
-
     private boolean mediaFound(DBObject mediaToChange) {
         return mediaToChange != null;
     }
@@ -124,25 +94,7 @@ public class MediaMongoDatastore implements MediaDatastore {
     private Media toMedia(DBObject dbo) {
         Media m = new Media(dbo.get(MediaCol.URL).toString());
         m.setObjectId(dbo.get(MediaCol.ID).toString());
-        m.setAvgStartTime(getCurrentAvgStartTime(dbo));
-        m.setAvgEndTime(getCurrentAvgEndTime(dbo));
-        m.setChoicesByUsers((int) dbo.get(MediaCol.CHOICES_BY_USERS));
         return m;
-    }
-
-    private void calculateNewAverages(Range r, DBObject mediaToChange) {
-        int divisor = (int) mediaToChange.get(MediaCol.CHOICES_BY_USERS);
-        divisor++;
-        double currentAvgStartTime = getCurrentAvgStartTime(mediaToChange);
-        double currentAvgEndTime = getCurrentAvgEndTime(mediaToChange);
-
-        double nextAvgStartTime = (r.getStartTime() + currentAvgStartTime)
-                / divisor;
-        double nextAvgEndTime = (r.getEndTime() + currentAvgEndTime) / divisor;
-
-        mediaToChange.put(MediaCol.AVG_START_TIME, nextAvgStartTime);
-        mediaToChange.put(MediaCol.AVG_END_TIME, nextAvgEndTime);
-        mediaToChange.put(MediaCol.CHOICES_BY_USERS, divisor);
     }
 
     private BasicDBObject createBasicDboFromMedia(ObjectId id, Media m) {
@@ -155,13 +107,5 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     private BasicDBObject queryDbForMediaId(String id) {
         return new BasicDBObject(MediaCol.ID, new ObjectId(id));
-    }
-
-    private double getCurrentAvgEndTime(DBObject mediaToChange) {
-        return (double) mediaToChange.get(MediaCol.AVG_END_TIME);
-    }
-
-    private double getCurrentAvgStartTime(DBObject mediaToChange) {
-        return (double) mediaToChange.get(MediaCol.AVG_START_TIME);
     }
 }

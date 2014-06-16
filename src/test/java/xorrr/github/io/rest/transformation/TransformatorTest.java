@@ -45,9 +45,6 @@ public class TransformatorTest {
 
     private Media createExampleMedia(String url) {
         Media m = new Media(url);
-        m.setAvgStartTime(20);
-        m.setAvgEndTime(40);
-        m.setChoicesByUsers(10);
 
         return m;
     }

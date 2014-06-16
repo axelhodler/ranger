@@ -2,7 +2,6 @@ package xorrr.github.io.rest.routes.media;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -66,9 +65,6 @@ public class PUTmediaRouteTest {
         p = new PUTmediaRoute(facade, transformator, restHelper);
 
         m = new Media("www.random.org");
-        m.setAvgStartTime(5);
-        m.setAvgEndTime(10);
-        m.setChoicesByUsers(25);
     }
 
     @Test
@@ -103,26 +99,6 @@ public class PUTmediaRouteTest {
         handleRequest();
 
         verify(transformator, times(1)).toRangePojo(JSON_RANGE);
-    }
-
-    @Test
-    public void applyRange() {
-        mockBehaviour();
-
-        handleRequest();
-
-        verify(facade, times(1)).applyRangeToMedia(MEDIA_ID, range);
-    }
-
-    @Test
-    public void statusCode200() {
-        mockBehaviour();
-        when(facade.applyRangeToMedia(anyString(), any(Range.class)))
-                .thenReturn(true);
-
-        handleRequest();
-
-        verify(resp, times(1)).status(200);
     }
 
     @Test

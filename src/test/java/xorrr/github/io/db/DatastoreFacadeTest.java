@@ -102,15 +102,6 @@ public class DatastoreFacadeTest {
     }
 
     @Test
-    public void canAddRangeToMedia() {
-        Range r = new Range(42,43);
-
-        facade.applyRangeToMedia(ID, r);
-
-        verify(mediaDs, times(1)).applyRangeToMedia(ID, r);
-    }
-
-    @Test
     public void canModifyRanges() {
         String userId = new ObjectId().toString();
         String mediaId = new ObjectId().toString();

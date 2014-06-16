@@ -6,9 +6,6 @@ public class Media {
 
     private String objectId;
     private String url;
-    private int choicesByUsers;
-    private double avgStartTime;
-    private double avgEndTime;
 
     public Media() {
 
@@ -36,40 +33,10 @@ public class Media {
         this.url = url;
     }
 
-    public int getChoicesByUsers() {
-        return choicesByUsers;
-    }
-
-    public void setChoicesByUsers(int choicesByUsers) {
-        this.choicesByUsers = choicesByUsers;
-    }
-
-    public double getAvgStartTime() {
-        return avgStartTime;
-    }
-
-    public void setAvgStartTime(double avgStartTime) {
-        this.avgStartTime = avgStartTime;
-    }
-
-    public double getAvgEndTime() {
-        return avgEndTime;
-    }
-
-    public void setAvgEndTime(double avgEndTime) {
-        this.avgEndTime = avgEndTime;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(avgEndTime);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(avgStartTime);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + choicesByUsers;
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
@@ -85,14 +52,6 @@ public class Media {
         if (getClass() != obj.getClass())
             return false;
         Media other = (Media) obj;
-        if (Double.doubleToLongBits(avgEndTime) != Double
-                .doubleToLongBits(other.avgEndTime))
-            return false;
-        if (Double.doubleToLongBits(avgStartTime) != Double
-                .doubleToLongBits(other.avgStartTime))
-            return false;
-        if (choicesByUsers != other.choicesByUsers)
-            return false;
         if (objectId == null) {
             if (other.objectId != null)
                 return false;
@@ -108,8 +67,7 @@ public class Media {
 
     @Override
     public String toString() {
-        return "Media [objectId=" + objectId + ", url=" + url
-                + ", choicesByUsers=" + choicesByUsers + ", avgStartTime="
-                + avgStartTime + ", avgEndTime=" + avgEndTime + "]";
+        return "Media [objectId=" + objectId + ", url=" + url + "]";
     }
+
 }

@@ -55,7 +55,7 @@ public class PUTmediaRoute implements Route {
     }
 
     private boolean changeMedia(String returnMsg, Range r) {
-        return facade.applyRangeToMedia(returnMsg, r);
+        return true;
     }
 
     private String handleInvalidRange(Response resp) {

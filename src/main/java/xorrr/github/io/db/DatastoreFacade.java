@@ -35,10 +35,6 @@ public class DatastoreFacade {
         return mds.storeMedia(m);
     }
 
-    public boolean applyRangeToMedia(String id, Range r) {
-        return mds.applyRangeToMedia(id, r);
-    }
-
     public Media getMediaById(String id) {
         return mds.getMediaById(id);
     }
