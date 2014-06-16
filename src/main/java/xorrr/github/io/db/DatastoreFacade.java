@@ -3,7 +3,6 @@ package xorrr.github.io.db;
 import java.util.List;
 
 import xorrr.github.io.model.Media;
-import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 import com.google.inject.Inject;
@@ -37,10 +36,6 @@ public class DatastoreFacade {
 
     public Media getMediaById(String id) {
         return mds.getMediaById(id);
-    }
-
-    public void modifyRanges(String userId, String mediaId, Range r) {
-        uds.modifyRanges(userId, mediaId, r);
     }
 
     public List<Media> getMedia() {

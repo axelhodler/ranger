@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.net.UnknownHostException;
 
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import xorrr.github.io.model.Media;
-import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -99,17 +97,6 @@ public class DatastoreFacadeTest {
 
         verify(mediaDs, times(1)).getMediaById(ID);
         assertEquals("Correct media is returned", m, foundMedia);
-    }
-
-    @Test
-    public void canModifyRanges() {
-        String userId = new ObjectId().toString();
-        String mediaId = new ObjectId().toString();
-        Range r = new Range(42,43);
-
-        facade.modifyRanges(userId, mediaId, r);
-
-        verify(userDs, times(1)).modifyRanges(userId, mediaId, r);
     }
 
     @Test

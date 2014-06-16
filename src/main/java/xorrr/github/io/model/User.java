@@ -1,15 +1,11 @@
 package xorrr.github.io.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class User {
 
     private String objectId;
     private String login;
-    private Map<String, Range> ranges;
 
     @JsonProperty("_id")
     public String getObjectId() {
@@ -22,19 +18,10 @@ public class User {
 
     public void setLogin(String name) {
         this.login = name;
-        ranges = new HashMap<>();
     }
 
     public String getLogin() {
         return this.login;
-    }
-
-    public void addRange(String key, Range value) {
-        this.ranges.put(key, value);
-    }
-
-    public Map<String, Range> getRanges() {
-        return this.ranges;
     }
 
     @Override
@@ -44,7 +31,6 @@ public class User {
         result = prime * result + ((login == null) ? 0 : login.hashCode());
         result = prime * result
                 + ((objectId == null) ? 0 : objectId.hashCode());
-        result = prime * result + ((ranges == null) ? 0 : ranges.hashCode());
         return result;
     }
 
@@ -67,18 +53,11 @@ public class User {
                 return false;
         } else if (!objectId.equals(other.objectId))
             return false;
-        if (ranges == null) {
-            if (other.ranges != null)
-                return false;
-        } else if (!ranges.equals(other.ranges))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "User [objectId=" + objectId + ", login=" + login
-                + ", amount of set ranges=" + ranges.size() + "]";
+        return "User [objectId=" + objectId + ", login=" + login + "]";
     }
-
 }

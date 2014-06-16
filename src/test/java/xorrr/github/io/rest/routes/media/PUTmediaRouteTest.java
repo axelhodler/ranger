@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -123,6 +124,7 @@ public class PUTmediaRouteTest {
         verify(transformator, times(0)).toRangePojo(JSON_RANGE);
     }
 
+    @Ignore
     @Test
     public void checksForUser() {
         mockBehaviour();
@@ -149,14 +151,5 @@ public class PUTmediaRouteTest {
         handleRequest();
 
         verify(req, times(1)).contentLength();
-    }
-
-    @Test
-    public void modifyUserRanges() {
-        mockBehaviour();
-
-        handleRequest();
-
-        verify(facade, times(1)).modifyRanges(USER_ID, MEDIA_ID, range);
     }
 }
