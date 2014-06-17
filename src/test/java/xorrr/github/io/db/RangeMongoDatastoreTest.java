@@ -12,6 +12,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import xorrr.github.io.db.mongo.MediaMongoDatastore;
+import xorrr.github.io.db.mongo.RangeMongoDatastore;
+import xorrr.github.io.db.mongo.UserMongoDatastore;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -37,6 +40,22 @@ public class RangeMongoDatastoreTest {
     private UserMongoDatastore userDs;
     private Media m;
     private User u;
+    private String mediaId;
+    private String userId;
+    private String userId2;
+
+    private void createInitialMedia() {
+        m = new Media("http://www.foo.org");
+        mediaId = mediaDs.storeMedia(m);
+    }
+
+    private void createInitialUser() {
+        u = new User();
+        u.setLogin("pete");
+        userId = userDs.storeUser(u);
+        u.setLogin("mey");
+        userId2 = userDs.storeUser(u);
+    }
 
     @BeforeClass
     public static void setUpEmbeddedMongo() throws UnknownHostException,
@@ -55,21 +74,71 @@ public class RangeMongoDatastoreTest {
         mediaDs = new MediaMongoDatastore();
         userDs = new UserMongoDatastore();
 
-        m = new Media("http://www.foo.org");
-        u = new User();
-        u.setLogin("pete");
+        createInitialMedia();
+        createInitialUser();
     }
 
     @Test
-    public void canAddRange() {
-        String mediaId = mediaDs.storeMedia(m);
-        String userId = userDs.storeUser(u);
-
+    public void canSetRange() {
         Range r = new Range(1, 2);
-        rangeDs.addRange(r, mediaId, userId);
+        rangeDs.setRange(r, mediaId, userId);
 
         DBObject range = rangeCol.findOne();
-        assertEquals(mediaId, range.get(RangeCol.MEDIA_ID));
+        DBObject dbo = (DBObject) range.get(RangeCol.RANGES);
+        assertEquals(mediaId, dbo.get(RangeCol.MEDIA_ID));
+        assertEquals(userId, dbo.get(RangeCol.USER_ID));
+        assertEquals(1, dbo.get(RangeCol.START_TIME));
+        assertEquals(2, dbo.get(RangeCol.END_TIME));
+    }
+
+    @Test
+    public void canOnlyAddOneRangePerUserPerMedia() {
+        Range r = new Range(1, 2);
+        rangeDs.setRange(r, mediaId, userId);
+        Range r2 = new Range(3, 4);
+        rangeDs.setRange(r2, mediaId, userId);
+
+        assertEquals(1, rangeCol.find().size());
+        DBObject dbo = (DBObject) rangeCol.findOne().get(RangeCol.RANGES);
+        assertEquals(3, dbo.get(RangeCol.START_TIME));
+        assertEquals(4, dbo.get(RangeCol.END_TIME));
+    }
+
+    @Test
+    public void canGetAverageRange() {
+        Range r = new Range(1, 2);
+        rangeDs.setRange(r, mediaId, userId);
+        Range r2 = new Range(3, 4);
+        rangeDs.setRange(r2, mediaId, userId2);
+
+        Range avgRange = rangeDs.getAverages(mediaId);
+
+        assertEquals(2, avgRange.getStartTime());
+        assertEquals(3, avgRange.getEndTime());
+    }
+
+    @Test
+    public void roundingWorksForAverages() {
+        Range r = new Range(1, 2);
+        rangeDs.setRange(r, mediaId, userId);
+        Range r2 = new Range(4, 5);
+        rangeDs.setRange(r2, mediaId, userId2);
+
+        Range avgRange = rangeDs.getAverages(mediaId);
+
+        assertEquals(3, avgRange.getStartTime());
+        assertEquals(4, avgRange.getEndTime());
+    }
+
+    @Test
+    public void canGetRangeForUserAndMedia() {
+        Range r = new Range(1, 2);
+        rangeDs.setRange(r, mediaId, userId);
+
+        Range range = rangeDs.getRangeFor(mediaId, userId);
+
+        assertEquals(1, range.getStartTime());
+        assertEquals(2, range.getEndTime());
     }
 
     @After

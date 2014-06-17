@@ -1,4 +1,4 @@
-package xorrr.github.io.db;
+package xorrr.github.io.db.mongo;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xorrr.github.io.db.MediaDatastore;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.model.MediaCol;

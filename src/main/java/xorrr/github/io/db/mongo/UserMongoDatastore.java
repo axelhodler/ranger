@@ -1,9 +1,10 @@
-package xorrr.github.io.db;
+package xorrr.github.io.db.mongo;
 
 import java.net.UnknownHostException;
 
 import org.bson.types.ObjectId;
 
+import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.model.RangerDB;

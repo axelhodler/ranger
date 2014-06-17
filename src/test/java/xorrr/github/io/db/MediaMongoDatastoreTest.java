@@ -17,6 +17,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import xorrr.github.io.db.MediaDatastore;
+import xorrr.github.io.db.mongo.MediaMongoDatastore;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;

@@ -12,6 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import xorrr.github.io.db.UserDatastore;
+import xorrr.github.io.db.mongo.UserMongoDatastore;
 import xorrr.github.io.model.User;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.IntegrationTest;
