@@ -38,16 +38,13 @@ public class RangeMongoDatastore implements RangeDatastore {
     @Override
     public Range getAverages(String mediaId) {
         List<DBObject> ranges = col.find(
-                new BasicDBObject(RangeCol.RANGES + "." + RangeCol.MEDIA_ID,
-                        mediaId)).toArray();
+                new BasicDBObject(RangeCol.MEDIA_ID, mediaId)).toArray();
         double startTime = 0;
         double endTime = 0;
 
         for (DBObject dbo : ranges) {
-            DBObject range = (DBObject) dbo.get(RangeCol.RANGES);
-            startTime += Integer.valueOf(range.get(RangeCol.START_TIME)
-                    .toString());
-            endTime += Integer.valueOf(range.get(RangeCol.END_TIME).toString());
+            startTime += (int) dbo.get(RangeCol.START_TIME.toString());
+            endTime += (int) dbo.get(RangeCol.END_TIME);
         }
 
         int avgStartTime = (int) Math.round(startTime / ranges.size());
@@ -61,9 +58,8 @@ public class RangeMongoDatastore implements RangeDatastore {
     @Override
     public Range getRangeFor(String mediaId, String userId) {
         DBObject dbo = col.findOne(rangeQuery(mediaId, userId));
-        DBObject ranges = (DBObject) dbo.get(RangeCol.RANGES);
-        Range r = new Range((int) ranges.get(RangeCol.START_TIME),
-                (int) ranges.get(RangeCol.END_TIME));
+        Range r = new Range((int) dbo.get(RangeCol.START_TIME),
+                (int) dbo.get(RangeCol.END_TIME));
         return r;
     }
 
@@ -72,27 +68,24 @@ public class RangeMongoDatastore implements RangeDatastore {
     }
 
     private BasicDBObject rangeQuery(String mediaId, String userId) {
-        return new BasicDBObject(RangeCol.RANGES + "." + RangeCol.MEDIA_ID,
-                mediaId).append(RangeCol.RANGES + "." + RangeCol.USER_ID,
-                userId);
+        return new BasicDBObject(RangeCol.MEDIA_ID, mediaId).append(
+                RangeCol.USER_ID, userId);
     }
 
     private void modifyRange(Range r, String mediaId, String userId) {
         col.update(
                 rangeQuery(mediaId, userId),
-                new BasicDBObject("$set", new BasicDBObject(RangeCol.RANGES
-                        + "." + RangeCol.START_TIME, r.getStartTime()).append(
-                        RangeCol.RANGES + "." + RangeCol.END_TIME,
-                        r.getEndTime())));
+                new BasicDBObject("$set", new BasicDBObject(
+                        RangeCol.START_TIME, r.getStartTime()).append(
+                        RangeCol.END_TIME, r.getEndTime())));
     }
 
     private void storeRange(Range r, String mediaId, String userId) {
-        col.insert(new BasicDBObject("_id", new ObjectId().toString()).append(
-                RangeCol.RANGES,
-                new BasicDBObject(RangeCol.USER_ID, userId)
-                        .append(RangeCol.MEDIA_ID, mediaId)
-                        .append(RangeCol.START_TIME, r.getStartTime())
-                        .append(RangeCol.END_TIME, r.getEndTime())));
+        col.insert(new BasicDBObject("_id", new ObjectId().toString())
+                .append(RangeCol.USER_ID, userId)
+                .append(RangeCol.MEDIA_ID, mediaId)
+                .append(RangeCol.START_TIME, r.getStartTime())
+                .append(RangeCol.END_TIME, r.getEndTime()));
     }
 
     private boolean rangeNotSet(String mediaId, String userId) {

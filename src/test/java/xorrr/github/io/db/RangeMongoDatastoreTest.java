@@ -84,11 +84,11 @@ public class RangeMongoDatastoreTest {
         rangeDs.setRange(r, mediaId, userId);
 
         DBObject range = rangeCol.findOne();
-        DBObject dbo = (DBObject) range.get(RangeCol.RANGES);
-        assertEquals(mediaId, dbo.get(RangeCol.MEDIA_ID));
-        assertEquals(userId, dbo.get(RangeCol.USER_ID));
-        assertEquals(1, dbo.get(RangeCol.START_TIME));
-        assertEquals(2, dbo.get(RangeCol.END_TIME));
+
+        assertEquals(mediaId, range.get(RangeCol.MEDIA_ID));
+        assertEquals(userId, range.get(RangeCol.USER_ID));
+        assertEquals(1, range.get(RangeCol.START_TIME));
+        assertEquals(2, range.get(RangeCol.END_TIME));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class RangeMongoDatastoreTest {
         rangeDs.setRange(r2, mediaId, userId);
 
         assertEquals(1, rangeCol.find().size());
-        DBObject dbo = (DBObject) rangeCol.findOne().get(RangeCol.RANGES);
+        DBObject dbo = rangeCol.findOne();
         assertEquals(3, dbo.get(RangeCol.START_TIME));
         assertEquals(4, dbo.get(RangeCol.END_TIME));
     }
