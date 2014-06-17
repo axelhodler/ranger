@@ -1,8 +1,10 @@
 package xorrr.github.io.di;
 
 import xorrr.github.io.db.MediaDatastore;
+import xorrr.github.io.db.RangeDatastore;
 import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.mongo.MediaMongoDatastore;
+import xorrr.github.io.db.mongo.RangeMongoDatastore;
 import xorrr.github.io.db.mongo.UserMongoDatastore;
 import xorrr.github.io.frontend.JsonCompliance;
 import xorrr.github.io.frontend.ember.EmberCompliance;
@@ -26,5 +28,7 @@ public class Module extends AbstractModule {
         bind(RestHelperFacade.class).to(SparkHelperFacade.class);
 
         bind(RestRoutingFacade.class).to(SparkRoutingFacade.class);
+
+        bind(RangeDatastore.class).to(RangeMongoDatastore.class);
     }
 }

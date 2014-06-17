@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import xorrr.github.io.model.Media;
+import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,6 +24,8 @@ public class DatastoreFacadeTest {
     UserDatastore userDs;
     @Mock
     MediaDatastore mediaDs;
+    @Mock
+    RangeDatastore rangeDs;
 
     private DatastoreFacade facade;
     private final String ID = "1234";
@@ -39,7 +42,7 @@ public class DatastoreFacadeTest {
 
     @Before
     public void setUp() {
-        facade = new DatastoreFacade(userDs, mediaDs);
+        facade = new DatastoreFacade(userDs, mediaDs, rangeDs);
     }
 
     @Test
@@ -111,5 +114,27 @@ public class DatastoreFacadeTest {
         facade.getMedia();
 
         verify(mediaDs, times(1)).getMedia();
+    }
+
+    @Test
+    public void canGetRange() {
+        facade.getRange("1", "2");
+
+        verify(rangeDs, times(1)).getRangeFor("1", "2");
+    }
+
+    @Test
+    public void canGetAverages() {
+        facade.getAverageRange("mediaId");
+
+        verify(rangeDs, times(1)).getAverages("mediaId");
+    }
+
+    @Test
+    public void canSetRange() {
+        Range r = new Range(1,2);
+        facade.addRange(r, "mediaId", "userId");
+
+        verify(rangeDs, times(1)).setRange(r, "mediaId", "userId");
     }
 }
