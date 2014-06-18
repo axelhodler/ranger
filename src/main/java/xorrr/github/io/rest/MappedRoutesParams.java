@@ -1,5 +1,8 @@
 package xorrr.github.io.rest;
 
-public abstract class MappedRoutesParams {
+public final class MappedRoutesParams {
+    private MappedRoutesParams() {
+    }
+
     public static final String ID = ":id";
 }

@@ -4,7 +4,7 @@ import xorrr.github.io.model.Range;
 
 public interface RangeDatastore {
 
-    void setRange(Range r, String mediaId, String userId);
+    String setRange(Range r, String mediaId, String userId);
 
     Range getAverages(String mediaId);
 

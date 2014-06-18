@@ -58,7 +58,7 @@ public class DatastoreFacade {
         return rds.getAverages(mediaId);
     }
 
-    public void addRange(Range r, String mediaId, String userId) {
-        rds.setRange(r, mediaId, userId);
+    public String addRange(Range r, String mediaId, String userId) {
+        return rds.setRange(r, mediaId, userId);
     }
 }

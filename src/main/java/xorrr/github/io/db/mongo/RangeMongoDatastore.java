@@ -27,12 +27,16 @@ public class RangeMongoDatastore implements RangeDatastore {
     }
 
     @Override
-    public void setRange(Range r, String mediaId, String userId) {
+    public String setRange(Range r, String mediaId, String userId) {
+        ObjectId id = new ObjectId();
+
         if (rangeNotSet(mediaId, userId)) {
-            storeRange(r, mediaId, userId);
+            storeRange(id, r, mediaId, userId);
         } else {
             modifyRange(r, mediaId, userId);
         }
+
+        return id.toString(); 
     }
 
     @Override
@@ -80,8 +84,8 @@ public class RangeMongoDatastore implements RangeDatastore {
                         RangeCol.END_TIME, r.getEndTime())));
     }
 
-    private void storeRange(Range r, String mediaId, String userId) {
-        col.insert(new BasicDBObject("_id", new ObjectId().toString())
+    private void storeRange(ObjectId id, Range r, String mediaId, String userId) {
+        col.insert(new BasicDBObject("_id", id.toString())
                 .append(RangeCol.USER_ID, userId)
                 .append(RangeCol.MEDIA_ID, mediaId)
                 .append(RangeCol.START_TIME, r.getStartTime())
