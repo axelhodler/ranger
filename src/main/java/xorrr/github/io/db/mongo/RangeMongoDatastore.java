@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import xorrr.github.io.db.RangeDatastore;
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.model.RangeCol;
@@ -27,16 +28,27 @@ public class RangeMongoDatastore implements RangeDatastore {
     }
 
     @Override
-    public String setRange(Range r, String mediaId, String userId) {
+    public String storeRange(Range r, String mediaId, String userId) throws AlreadyStoredException {
         ObjectId id = new ObjectId();
 
         if (rangeNotSet(mediaId, userId)) {
             storeRange(id, r, mediaId, userId);
         } else {
-            modifyRange(r, mediaId, userId);
+            throw new AlreadyStoredException(mediaId, userId);
         }
 
-        return id.toString(); 
+        return id.toString();
+    }
+
+    @Override
+    public String modifyRange(Range r, String mediaId, String userId) {
+        DBObject dbo = col.findAndModify(
+        rangeQuery(mediaId, userId),
+        new BasicDBObject("$set", new BasicDBObject(
+                RangeCol.START_TIME, r.getStartTime()).append(
+                RangeCol.END_TIME, r.getEndTime())));
+        dbo.get(RangeCol.ID).toString();
+        return null;
     }
 
     @Override
@@ -76,14 +88,6 @@ public class RangeMongoDatastore implements RangeDatastore {
                 RangeCol.USER_ID, userId);
     }
 
-    private void modifyRange(Range r, String mediaId, String userId) {
-        col.update(
-                rangeQuery(mediaId, userId),
-                new BasicDBObject("$set", new BasicDBObject(
-                        RangeCol.START_TIME, r.getStartTime()).append(
-                        RangeCol.END_TIME, r.getEndTime())));
-    }
-
     private void storeRange(ObjectId id, Range r, String mediaId, String userId) {
         col.insert(new BasicDBObject("_id", id.toString())
                 .append(RangeCol.USER_ID, userId)
@@ -95,4 +99,5 @@ public class RangeMongoDatastore implements RangeDatastore {
     private boolean rangeNotSet(String mediaId, String userId) {
         return findRange(mediaId, userId).size() < 1;
     }
+
 }

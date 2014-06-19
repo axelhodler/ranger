@@ -16,6 +16,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
@@ -91,7 +92,7 @@ public class POSTrangeRouteTest {
     }
 
     @Test
-    public void rangeSaved() {
+    public void rangeSaved() throws AlreadyStoredException {
         when(req.body()).thenReturn(RANGE_JSON);
         when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(USER_ID);
@@ -99,7 +100,7 @@ public class POSTrangeRouteTest {
 
         handleRequest();
 
-        verify(ds, times(1)).addRange(range, MEDIA_ID, USER_ID);
+        verify(ds, times(1)).storeRange(range, MEDIA_ID, USER_ID);
     }
 
     @Test
@@ -121,12 +122,12 @@ public class POSTrangeRouteTest {
     }
 
     @Test
-    public void idOfSavedRangeReturned() {
+    public void idOfSavedRangeReturned() throws AlreadyStoredException {
         when(req.body()).thenReturn(RANGE_JSON);
         when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(USER_ID);
         when(tf.toRangePojo(RANGE_JSON)).thenReturn(range);
-        when(ds.addRange(range, MEDIA_ID, USER_ID)).thenReturn(RANGE_ID);
+        when(ds.storeRange(range, MEDIA_ID, USER_ID)).thenReturn(RANGE_ID);
 
         String rangeId = handleRequest();
 

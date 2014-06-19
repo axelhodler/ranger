@@ -9,4 +9,5 @@ public final class RangeCol {
     public static final String USER_ID = "userId";
     public static final String START_TIME = "startTime";
     public static final String END_TIME = "endTime";
+    public static final String ID = "_id";
 }

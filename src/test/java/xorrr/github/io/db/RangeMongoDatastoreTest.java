@@ -15,6 +15,7 @@ import org.junit.experimental.categories.Category;
 import xorrr.github.io.db.mongo.MediaMongoDatastore;
 import xorrr.github.io.db.mongo.RangeMongoDatastore;
 import xorrr.github.io.db.mongo.UserMongoDatastore;
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -79,9 +80,9 @@ public class RangeMongoDatastoreTest {
     }
 
     @Test
-    public void canSetRange() {
+    public void canSetRange() throws AlreadyStoredException {
         Range r = new Range(1, 2);
-        rangeDs.setRange(r, mediaId, userId);
+        rangeDs.storeRange(r, mediaId, userId);
 
         DBObject range = rangeCol.findOne();
 
@@ -91,12 +92,20 @@ public class RangeMongoDatastoreTest {
         assertEquals(2, range.get(RangeCol.END_TIME));
     }
 
-    @Test
-    public void canOnlyAddOneRangePerUserPerMedia() {
+    @Test(expected=AlreadyStoredException.class)
+    public void canOnlyAddOneRangePerUserPerMedia() throws AlreadyStoredException {
         Range r = new Range(1, 2);
-        rangeDs.setRange(r, mediaId, userId);
+        rangeDs.storeRange(r, mediaId, userId);
         Range r2 = new Range(3, 4);
-        rangeDs.setRange(r2, mediaId, userId);
+        rangeDs.storeRange(r2, mediaId, userId);
+    }
+
+    @Test
+    public void canModifyRange() throws AlreadyStoredException {
+        Range r = new Range(1, 2);
+        rangeDs.storeRange(r, mediaId, userId);
+        Range r2 = new Range(3, 4);
+        rangeDs.modifyRange(r2, mediaId, userId);
 
         assertEquals(1, rangeCol.find().size());
         DBObject dbo = rangeCol.findOne();
@@ -105,11 +114,11 @@ public class RangeMongoDatastoreTest {
     }
 
     @Test
-    public void canGetAverageRange() {
+    public void canGetAverageRange() throws AlreadyStoredException {
         Range r = new Range(1, 2);
-        rangeDs.setRange(r, mediaId, userId);
+        rangeDs.storeRange(r, mediaId, userId);
         Range r2 = new Range(3, 4);
-        rangeDs.setRange(r2, mediaId, userId2);
+        rangeDs.storeRange(r2, mediaId, userId2);
 
         Range avgRange = rangeDs.getAverages(mediaId);
 
@@ -118,11 +127,11 @@ public class RangeMongoDatastoreTest {
     }
 
     @Test
-    public void roundingWorksForAverages() {
+    public void roundingWorksForAverages() throws AlreadyStoredException {
         Range r = new Range(1, 2);
-        rangeDs.setRange(r, mediaId, userId);
+        rangeDs.storeRange(r, mediaId, userId);
         Range r2 = new Range(4, 5);
-        rangeDs.setRange(r2, mediaId, userId2);
+        rangeDs.storeRange(r2, mediaId, userId2);
 
         Range avgRange = rangeDs.getAverages(mediaId);
 
@@ -131,9 +140,9 @@ public class RangeMongoDatastoreTest {
     }
 
     @Test
-    public void canGetRangeForUserAndMedia() {
+    public void canGetRangeForUserAndMedia() throws AlreadyStoredException {
         Range r = new Range(1, 2);
-        rangeDs.setRange(r, mediaId, userId);
+        rangeDs.storeRange(r, mediaId, userId);
 
         Range range = rangeDs.getRangeFor(mediaId, userId);
 

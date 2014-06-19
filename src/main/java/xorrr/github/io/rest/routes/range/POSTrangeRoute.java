@@ -4,6 +4,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
@@ -40,7 +41,12 @@ public class POSTrangeRoute implements Route{
             }
 
             Range r = transformator.toRangePojo(req.body());
-            rangeId = ds.addRange(r, mediaId, userId);
+            try {
+                rangeId = ds.storeRange(r, mediaId, userId);
+            } catch (AlreadyStoredException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         return rangeId;

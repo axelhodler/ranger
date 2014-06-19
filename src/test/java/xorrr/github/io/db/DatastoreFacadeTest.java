@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -131,10 +132,18 @@ public class DatastoreFacadeTest {
     }
 
     @Test
-    public void canSetRange() {
+    public void canSetRange() throws AlreadyStoredException {
         Range r = new Range(1,2);
-        facade.addRange(r, "mediaId", "userId");
+        facade.storeRange(r, "mediaId", "userId");
 
-        verify(rangeDs, times(1)).setRange(r, "mediaId", "userId");
+        verify(rangeDs, times(1)).storeRange(r, "mediaId", "userId");
+    }
+
+    @Test
+    public void canModifyRange() {
+        Range r = new Range(1,2);
+        facade.modifyRange(r, "mediaId", "userId");
+
+        verify(rangeDs, times(1)).modifyRange(r, "mediaId", "userId");
     }
 }

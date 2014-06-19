@@ -2,6 +2,7 @@ package xorrr.github.io.db;
 
 import java.util.List;
 
+import xorrr.github.io.exceptions.AlreadyStoredException;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -58,7 +59,12 @@ public class DatastoreFacade {
         return rds.getAverages(mediaId);
     }
 
-    public String addRange(Range r, String mediaId, String userId) {
-        return rds.setRange(r, mediaId, userId);
+    public String storeRange(Range r, String mediaId, String userId)
+            throws AlreadyStoredException {
+        return rds.storeRange(r, mediaId, userId);
+    }
+
+    public String modifyRange(Range r, String mediaId, String userId) {
+        return rds.modifyRange(r, mediaId, userId);
     }
 }
