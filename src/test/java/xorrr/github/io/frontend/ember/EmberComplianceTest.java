@@ -18,7 +18,7 @@ public class EmberComplianceTest {
     public void canComplyWithEmberJsonFormatting() {
         String test = "{bla}";
 
-        assertEquals("{\"medias\":" + test + "}",
+        assertEquals("{" + EmberJsonObjects.MEDIA + ":" + test + "}",
                 compliance.formatMediaList(test));
     }
 
@@ -26,7 +26,7 @@ public class EmberComplianceTest {
     public void canFormatMedia() {
         String test = "{bla}";
 
-        assertEquals("{\"media\":" + test + "}",
+        assertEquals("{" + EmberJsonObjects.MEDIUM + ":" + test + "}",
                 compliance.formatMedia(test));
     }
 }

@@ -2,17 +2,17 @@ package xorrr.github.io.frontend.ember;
 
 import xorrr.github.io.frontend.JsonCompliance;
 
-public class EmberCompliance implements JsonCompliance{
+public class EmberCompliance implements JsonCompliance {
 
     @Override
-    public String formatMediaList(String medias) {
-        String formatted = "{\"medias\":" + medias + "}";
+    public String formatMediaList(String media) {
+        String formatted = "{" + EmberJsonObjects.MEDIA + ":" + media + "}";
         return formatted;
     }
 
     @Override
-    public String formatMedia(String media) {
-        String formatted = "{\"media\":" + media + "}";
+    public String formatMedia(String medium) {
+        String formatted = "{" + EmberJsonObjects.MEDIUM + ":" + medium + "}";
         return formatted;
     }
 }
