@@ -13,6 +13,9 @@ import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
+import xorrr.github.io.rest.routes.range.GETrangeRoute;
+import xorrr.github.io.rest.routes.range.POSTrangeRoute;
+import xorrr.github.io.rest.routes.range.PutRangeRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.utils.EnvVars;
 
@@ -36,6 +39,9 @@ public class Main {
         rest.setPutRangeToMediaRoute(injector.getInstance(PUTmediaRoute.class));
         rest.setPostUserRoute(injector.getInstance(POSTuserRoute.class));
         rest.setGetMediaRoute(injector.getInstance(GETmediaRoute.class));
+        rest.setGetRangeRoute(injector.getInstance(GETrangeRoute.class));
+        rest.setPostRangeRoute(injector.getInstance(POSTrangeRoute.class));
+        rest.setPutRangeRoute(injector.getInstance(PutRangeRoute.class));
         rest.setWildcardRoutes();
     }
 }

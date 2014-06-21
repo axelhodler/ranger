@@ -16,8 +16,10 @@ import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
 import xorrr.github.io.rest.routes.media.GETmediaRoute;
 import xorrr.github.io.rest.routes.media.POSTmediaRoute;
 import xorrr.github.io.rest.routes.media.PUTmediaRoute;
+import xorrr.github.io.rest.routes.range.GETrangeRoute;
+import xorrr.github.io.rest.routes.range.POSTrangeRoute;
+import xorrr.github.io.rest.routes.range.PutRangeRoute;
 import xorrr.github.io.rest.routes.user.POSTuserRoute;
-import xorrr.github.io.rest.spark.SparkRoutingFacade;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Spark.class })
@@ -33,6 +35,12 @@ public class SparkRoutingFacadeTest {
     POSTuserRoute postUser;
     @Mock
     GETmediaRoute getMedia;
+    @Mock
+    GETrangeRoute getRange;
+    @Mock
+    POSTrangeRoute postRange;
+    @Mock
+    PutRangeRoute putRange;
 
     private SparkRoutingFacade facade;
 
@@ -76,5 +84,26 @@ public class SparkRoutingFacadeTest {
         facade.setGetMediaRoute(getMedia);
         verifyStatic();
         Spark.get(MappedRoutes.MEDIA, getMedia);
+    }
+
+    @Test
+    public void canSetGetRangeRoute() {
+        facade.setGetRangeRoute(getRange);
+        verifyStatic();
+        Spark.get(MappedRoutes.RANGE, getRange);
+    }
+
+    @Test
+    public void canSetPostRangeRoute() {
+        facade.setPostRangeRoute(postRange);
+        verifyStatic();
+        Spark.post(MappedRoutes.RANGE, postRange);
+    }
+
+    @Test
+    public void canSetPutRangeRoute() {
+        facade.setPutRangeRoute(putRange);
+        verifyStatic();
+        Spark.put(MappedRoutes.RANGE, putRange);
     }
 }
