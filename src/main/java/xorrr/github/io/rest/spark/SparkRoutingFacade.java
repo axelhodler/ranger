@@ -51,7 +51,7 @@ public class SparkRoutingFacade implements RestRoutingFacade {
 
     @Override
     public void setPostRangeRoute(POSTrangeRoute postRange) {
-        Spark.post(MappedRoutes.RANGE, postRange);
+        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, postRange);
     }
 
     @Override

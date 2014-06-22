@@ -97,7 +97,7 @@ public class SparkRoutingFacadeTest {
     public void canSetPostRangeRoute() {
         facade.setPostRangeRoute(postRange);
         verifyStatic();
-        Spark.post(MappedRoutes.RANGE, postRange);
+        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, postRange);
     }
 
     @Test
