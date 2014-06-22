@@ -10,12 +10,15 @@ import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
 
+import com.google.inject.Inject;
+
 public class PutRangeRoute implements Route{
 
     private DatastoreFacade ds;
     private Transformator transformator;
     private RestHelperFacade restHelper;
 
+    @Inject
     public PutRangeRoute(DatastoreFacade dsFacade, Transformator trans,
             RestHelperFacade h) {
         ds = dsFacade;
