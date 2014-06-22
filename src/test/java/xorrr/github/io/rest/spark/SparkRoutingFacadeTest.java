@@ -70,7 +70,8 @@ public class SparkRoutingFacadeTest {
     public void canSetPutRangeToMediaRoute() {
         facade.setPutRangeToMediaRoute(putRangeToMedia);
         verifyStatic();
-        Spark.put(MappedRoutes.MEDIA_BY_ID, DEFAULT_ACCEPT_TYPE, putRangeToMedia);
+        Spark.put(MappedRoutes.MEDIA_BY_ID, DEFAULT_ACCEPT_TYPE,
+                putRangeToMedia);
     }
 
     @Test
@@ -98,13 +99,14 @@ public class SparkRoutingFacadeTest {
     public void canSetPostRangeRoute() {
         facade.setPostRangeRoute(postRange);
         verifyStatic();
-        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, postRange);
+        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE,
+                postRange);
     }
 
     @Test
     public void canSetPutRangeRoute() {
         facade.setPutRangeRoute(putRange);
         verifyStatic();
-        Spark.put(MappedRoutes.RANGE, DEFAULT_ACCEPT_TYPE, putRange);
+        Spark.put(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, putRange);
     }
 }
