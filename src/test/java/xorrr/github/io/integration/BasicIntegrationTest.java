@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -31,6 +32,7 @@ import com.mongodb.MongoClient;
 
 import de.flapdoodle.embed.mongo.MongodExecutable;
 
+@Ignore
 @Category(IntegrationTest.class)
 public class BasicIntegrationTest {
 
