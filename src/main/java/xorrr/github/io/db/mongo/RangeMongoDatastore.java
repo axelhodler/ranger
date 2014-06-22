@@ -48,7 +48,7 @@ public class RangeMongoDatastore implements RangeDatastore {
                 RangeCol.START_TIME, r.getStartTime()).append(
                 RangeCol.END_TIME, r.getEndTime())));
         dbo.get(RangeCol.ID).toString();
-        return null;
+        return dbo.get(RangeCol.ID).toString();
     }
 
     @Override

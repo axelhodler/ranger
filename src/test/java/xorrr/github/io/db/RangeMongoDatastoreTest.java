@@ -92,8 +92,9 @@ public class RangeMongoDatastoreTest {
         assertEquals(2, range.get(RangeCol.END_TIME));
     }
 
-    @Test(expected=AlreadyStoredException.class)
-    public void canOnlyAddOneRangePerUserPerMedia() throws AlreadyStoredException {
+    @Test(expected = AlreadyStoredException.class)
+    public void canOnlyAddOneRangePerUserPerMedia()
+            throws AlreadyStoredException {
         Range r = new Range(1, 2);
         rangeDs.storeRange(r, mediaId, userId);
         Range r2 = new Range(3, 4);
@@ -111,6 +112,17 @@ public class RangeMongoDatastoreTest {
         DBObject dbo = rangeCol.findOne();
         assertEquals(3, dbo.get(RangeCol.START_TIME));
         assertEquals(4, dbo.get(RangeCol.END_TIME));
+    }
+
+    @Test
+    public void modifyRangeReturnsId() throws AlreadyStoredException {
+        Range r = new Range(1, 2);
+        rangeDs.storeRange(r, mediaId, userId);
+        Range r2 = new Range(3, 4);
+        String actualId = rangeDs.modifyRange(r2, mediaId, userId);
+
+        String expectedId = (String) rangeCol.findOne().get(RangeCol.ID);
+        assertEquals(expectedId, actualId);
     }
 
     @Test
