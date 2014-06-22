@@ -100,10 +100,7 @@ public class MediaMongoDatastore implements MediaDatastore {
 
     private BasicDBObject createBasicDboFromMedia(ObjectId id, Media m) {
         return new BasicDBObject(MediaCol.ID, id)
-                .append(MediaCol.URL, m.getUrl())
-                .append(MediaCol.CHOICES_BY_USERS, 0)
-                .append(MediaCol.AVG_START_TIME, 0.0)
-                .append(MediaCol.AVG_END_TIME, 0.0);
+                .append(MediaCol.URL, m.getUrl());
     }
 
     private BasicDBObject queryDbForMediaId(String id) {
