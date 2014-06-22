@@ -21,6 +21,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.logging.PutRangeRouteLogger;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PutRangeRouteTest {
@@ -31,6 +32,8 @@ public class PutRangeRouteTest {
     Transformator tf;
     @Mock
     RestHelperFacade restHelper;
+    @Mock
+    PutRangeRouteLogger logger;
     @Mock
     Request req;
     @Mock
@@ -49,7 +52,7 @@ public class PutRangeRouteTest {
 
     @Before
     public void setUp() {
-        route = new PutRangeRoute(ds, tf, restHelper);
+        route = new PutRangeRoute(ds, tf, restHelper, logger);
 
         when(req.contentLength()).thenReturn(1);
     }

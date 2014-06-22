@@ -12,6 +12,8 @@ import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RestRoutingFacade;
 import xorrr.github.io.rest.spark.SparkHelperFacade;
 import xorrr.github.io.rest.spark.SparkRoutingFacade;
+import xorrr.github.io.utils.logging.PutRangeRouteLogger;
+import xorrr.github.io.utils.logging.impl.PutRangeRouteSlf4jLogger;
 
 import com.google.inject.AbstractModule;
 
@@ -30,5 +32,7 @@ public class Module extends AbstractModule {
         bind(RestRoutingFacade.class).to(SparkRoutingFacade.class);
 
         bind(RangeDatastore.class).to(RangeMongoDatastore.class);
+
+        bind(PutRangeRouteLogger.class).to(PutRangeRouteSlf4jLogger.class);
     }
 }

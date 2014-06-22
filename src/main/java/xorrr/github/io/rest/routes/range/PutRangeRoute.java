@@ -1,8 +1,5 @@
 package xorrr.github.io.rest.routes.range;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -12,6 +9,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.logging.PutRangeRouteLogger;
 
 import com.google.inject.Inject;
 
@@ -20,15 +18,15 @@ public class PutRangeRoute implements Route {
     private DatastoreFacade ds;
     private Transformator transformator;
     private RestHelperFacade restHelper;
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private PutRangeRouteLogger logger;
 
     @Inject
     public PutRangeRoute(DatastoreFacade dsFacade, Transformator trans,
-            RestHelperFacade h) {
+            RestHelperFacade h, PutRangeRouteLogger l) {
         ds = dsFacade;
         transformator = trans;
         restHelper = h;
+        logger = l;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class PutRangeRoute implements Route {
         String rangeId = "";
 
         if (noJsonPayload(req)) {
-            logger.debug("No content/request body");
+            logger.logNoRangePayloadProvided();
             restHelper.stopRequest(404, "todo");
         } else {
             rangeId = modifyRange(req);
@@ -60,14 +58,14 @@ public class PutRangeRoute implements Route {
     private String storeModifiedRange(Request req, String mediaId, String userId) {
         Range r = transformator.toRangePojo(req.body());
         String rangeId = ds.modifyRange(r, mediaId, userId);
-        logger.info("Range with id: {} modified", rangeId);
+        logger.logRangeModified(rangeId);
         return rangeId;
     }
 
     private String checkUserIdProvided(Request req) {
         String userId = req.queryParams(RouteQueryParams.USER_ID);
         if (userId == null) {
-            logger.debug("No user id provided");
+            logger.logNoUserIdProvided();
             restHelper.stopRequest(404, "todo");
         }
         return userId;
