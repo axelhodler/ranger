@@ -11,7 +11,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import spark.Spark;
 import xorrr.github.io.rest.RestHelperFacade;
-import xorrr.github.io.rest.spark.SparkHelperFacade;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Spark.class)

@@ -43,6 +43,7 @@ public class SparkRoutingFacadeTest {
     PutRangeRoute putRange;
 
     private SparkRoutingFacade facade;
+    private final String DEFAULT_ACCEPT_TYPE = "application/json";
 
     @Before
     public void setUp() {
@@ -55,55 +56,55 @@ public class SparkRoutingFacadeTest {
     public void canSetGetMediaByIdRoute() {
         facade.setGetMediaByIdRoute(getMediaById);
         verifyStatic();
-        Spark.get(MappedRoutes.MEDIA_BY_ID, getMediaById);
+        Spark.get(MappedRoutes.MEDIA_BY_ID, DEFAULT_ACCEPT_TYPE, getMediaById);
     }
 
     @Test
     public void canSetPostMediaRoute() {
         facade.setPostMediaRoute(postMedia);
         verifyStatic();
-        Spark.post(MappedRoutes.MEDIA, postMedia);
+        Spark.post(MappedRoutes.MEDIA, DEFAULT_ACCEPT_TYPE, postMedia);
     }
 
     @Test
     public void canSetPutRangeToMediaRoute() {
         facade.setPutRangeToMediaRoute(putRangeToMedia);
         verifyStatic();
-        Spark.put(MappedRoutes.MEDIA_BY_ID, putRangeToMedia);
+        Spark.put(MappedRoutes.MEDIA_BY_ID, DEFAULT_ACCEPT_TYPE, putRangeToMedia);
     }
 
     @Test
     public void canSetPostUserRoute() {
         facade.setPostUserRoute(postUser);
         verifyStatic();
-        Spark.post(MappedRoutes.USERS, postUser);
+        Spark.post(MappedRoutes.USERS, DEFAULT_ACCEPT_TYPE, postUser);
     }
 
     @Test
     public void canSetGetMediaRoute() {
         facade.setGetMediaRoute(getMedia);
         verifyStatic();
-        Spark.get(MappedRoutes.MEDIA, getMedia);
+        Spark.get(MappedRoutes.MEDIA, DEFAULT_ACCEPT_TYPE, getMedia);
     }
 
     @Test
     public void canSetGetRangeRoute() {
         facade.setGetRangeRoute(getRange);
         verifyStatic();
-        Spark.get(MappedRoutes.RANGE, getRange);
+        Spark.get(MappedRoutes.RANGE, DEFAULT_ACCEPT_TYPE, getRange);
     }
 
     @Test
     public void canSetPostRangeRoute() {
         facade.setPostRangeRoute(postRange);
         verifyStatic();
-        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, postRange);
+        Spark.post(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, postRange);
     }
 
     @Test
     public void canSetPutRangeRoute() {
         facade.setPutRangeRoute(putRange);
         verifyStatic();
-        Spark.put(MappedRoutes.RANGE, putRange);
+        Spark.put(MappedRoutes.RANGE, DEFAULT_ACCEPT_TYPE, putRange);
     }
 }
