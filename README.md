@@ -1,5 +1,10 @@
 #Ranger
 
+##Development
+To create some initial values:
+
+    ./bin/create_initial_content.sh
+
 ##Routes
 
 Media:
