@@ -11,13 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.powermock.api.mockito.PowerMockito;
 
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
-import xorrr.github.io.frontend.ember.EmberCompliance;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.transformation.Transformator;
@@ -35,7 +33,7 @@ public class GETmediaByIdRouteTest {
     @Mock
     Response resp;
 
-    private GETmediaByIdRoute r;
+    private GETmediaByIdRoute route;
     private final String ID = "1324";
     private final String JSON = "foo";
 
@@ -48,19 +46,17 @@ public class GETmediaByIdRouteTest {
     }
 
     private void handleRequest() {
-        r.handle(req, resp);
+        route.handle(req, resp);
     }
 
     @Before
     public void setUp() {
-        PowerMockito.mockStatic(EmberCompliance.class);
-
-        r = new GETmediaByIdRoute(facade, transformator);
+        route = new GETmediaByIdRoute(facade, transformator);
     }
 
     @Test
     public void getMediaByIdRouteSubsRoute() {
-        assertTrue(r instanceof Route);
+        assertTrue(route instanceof Route);
     }
 
     @Test
@@ -92,7 +88,7 @@ public class GETmediaByIdRouteTest {
     public void mediaJsonIsReturned() {
         prepareTransformationToJson();
 
-        String msg = r.handle(req, resp);
+        String msg = route.handle(req, resp);
 
         assertEquals(JSON, msg);
     }
