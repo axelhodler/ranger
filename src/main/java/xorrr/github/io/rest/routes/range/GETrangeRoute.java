@@ -37,7 +37,7 @@ public class GETrangeRoute implements Route{
 
         if (mediaId != null && userId != null) {
             range = facade.getRange(mediaId, userId);
-        } if (userId == null && mediaId != null) {
+        } else if (userId == null && mediaId != null) {
             range = facade.getAverageRange(mediaId);
         } else {
             restHelper.stopRequest(404, "todo");
