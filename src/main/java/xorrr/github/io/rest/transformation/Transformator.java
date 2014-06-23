@@ -56,9 +56,8 @@ public class Transformator {
     }
 
     public String toRangeJson(Range r) {
-        String rangeJson = null;
-        rangeJson = serializeRangeToJson(r);
-        return rangeJson;
+        String jsonRange = serializeRangeToJson(r);
+        return compliance.formatRange(jsonRange);
     }
 
     private String serializeRangeToJson(Range r) {
@@ -130,6 +129,5 @@ public class Transformator {
         }
         return media;
     }
-
 
 }

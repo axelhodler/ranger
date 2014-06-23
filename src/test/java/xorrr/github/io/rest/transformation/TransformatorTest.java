@@ -30,11 +30,11 @@ public class TransformatorTest {
     @Mock
     JsonCompliance compliance;
 
-    private Transformator t;
+    private Transformator transformator;
     private ObjectMapper mapper;
     private final String URL = "www.foo.org";
 
-    private Range r;
+    private Range range;
 
     private User createExampleUser() {
         User u = new User();
@@ -63,15 +63,15 @@ public class TransformatorTest {
     }
 
     private String transform(List<Media> medias) throws IOException,
-    JsonGenerationException, JsonMappingException {
+            JsonGenerationException, JsonMappingException {
         return mapper.writeValueAsString(medias);
     }
 
     @Before
     public void setUp() {
-        t = new Transformator(compliance);
+        transformator = new Transformator(compliance);
         mapper = new ObjectMapper();
-        r = new Range(1, 2);
+        range = new Range(1, 2);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TransformatorTest {
             JsonMappingException, IOException {
         User u = createExampleUser();
 
-        assertEquals(t.toUserJson(u), mapper.writeValueAsString(u));
+        assertEquals(transformator.toUserJson(u), mapper.writeValueAsString(u));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class TransformatorTest {
 
         String jsonUser = mapper.writeValueAsString(u);
 
-        assertEquals(u, t.toUserPojo(jsonUser));
+        assertEquals(u, transformator.toUserPojo(jsonUser));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class TransformatorTest {
         Media m = createExampleMedia(URL);
         when(compliance.formatMedia(anyString())).thenReturn("formatted");
 
-        String mediaJson = t.toMediaJson(m);
+        String mediaJson = transformator.toMediaJson(m);
 
         verify(compliance, times(1)).formatMedia(mapper.writeValueAsString(m));
         assertEquals("formatted", mediaJson);
@@ -111,21 +111,25 @@ public class TransformatorTest {
 
         String jsonMedia = mapper.writeValueAsString(m);
 
-        assertEquals(m, t.toMediaPojo(jsonMedia));
-    }
-
-    @Test
-    public void canTransformRangeToJson() throws JsonGenerationException,
-            JsonMappingException, IOException {
-        String jsonRange = mapper.writeValueAsString(r);
-
-        assertEquals(r, t.toRangePojo(jsonRange));
+        assertEquals(m, transformator.toMediaPojo(jsonMedia));
     }
 
     @Test
     public void canTransformJsonToRange() throws JsonGenerationException,
             JsonMappingException, IOException {
-        assertEquals(t.toRangeJson(r), mapper.writeValueAsString(r));
+        String jsonRange = mapper.writeValueAsString(range);
+
+        assertEquals(range, transformator.toRangePojo(jsonRange));
+    }
+
+    @Test
+    public void canTransformRangeToJson() throws JsonGenerationException,
+            JsonMappingException, IOException {
+        String expectedInner = mapper.writeValueAsString(range);
+        when(compliance.formatRange(expectedInner)).thenReturn("formatted");
+
+        assertEquals("formatted", transformator.toRangeJson(range));
+        verify(compliance, times(1)).formatRange(expectedInner);
     }
 
     @Test
@@ -134,10 +138,9 @@ public class TransformatorTest {
         List<Media> medias = createSampleMediaList();
         mockMediaListTransformation();
 
-        String jsonMedias = t.toMediaListJson(medias);
+        String jsonMedias = transformator.toMediaListJson(medias);
 
-        verify(compliance, times(1)).formatMediaList(
-                transform(medias));
+        verify(compliance, times(1)).formatMediaList(transform(medias));
         assertEquals("formatted", jsonMedias);
     }
 
