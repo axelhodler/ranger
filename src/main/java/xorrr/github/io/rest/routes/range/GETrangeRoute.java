@@ -5,6 +5,7 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Range;
+import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
@@ -28,7 +29,7 @@ public class GETrangeRoute implements Route{
     public String handle(Request req, Response resp) {
         Range range = null;
 
-        String mediaId = req.queryParams(RouteQueryParams.MEDIA_ID);
+        String mediaId = req.params(MappedRoutesParams.ID);
         String userId = req.queryParams(RouteQueryParams.USER_ID);
 
         if (mediaId != null && userId != null) {

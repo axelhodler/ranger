@@ -17,6 +17,7 @@ import spark.Response;
 import spark.Route;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Range;
+import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
@@ -44,8 +45,8 @@ public class GETrangeRouteTest {
         return route.handle(req, resp);
     }
 
-    private void willReturnMediaIdAndUserIdQueryParams() {
-        when(req.queryParams(RouteQueryParams.MEDIA_ID)).thenReturn(MEDIA_ID);
+    private void willReturnMediaIdAndUserIdParameters() {
+        when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(USER_ID);
     }
 
@@ -60,10 +61,10 @@ public class GETrangeRouteTest {
     }
 
     @Test
-    public void mediaIdQueryParamChecked() {
+    public void mediaIdParamChecked() {
         handleRequest();
 
-        verify(req, times(1)).queryParams(RouteQueryParams.MEDIA_ID);
+        verify(req, times(1)).params(MappedRoutesParams.ID);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class GETrangeRouteTest {
 
     @Test
     public void searchesForRange() {
-        willReturnMediaIdAndUserIdQueryParams();
+        willReturnMediaIdAndUserIdParameters();
 
         handleRequest();
 
@@ -84,7 +85,7 @@ public class GETrangeRouteTest {
 
     @Test
     public void rangeInJsonIsReturned() {
-        willReturnMediaIdAndUserIdQueryParams();
+        willReturnMediaIdAndUserIdParameters();
         when(dsFacade.getRange(MEDIA_ID, USER_ID)).thenReturn(range);
         when(trans.toRangeJson(range)).thenReturn(JSON);
 
@@ -96,7 +97,7 @@ public class GETrangeRouteTest {
 
     @Test
     public void returnAveragesIfOnlyMediaIdProvided() {
-        when(req.queryParams(RouteQueryParams.MEDIA_ID)).thenReturn(MEDIA_ID);
+        when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(null);
         when(dsFacade.getAverageRange(MEDIA_ID)).thenReturn(range);
         when(trans.toRangeJson(range)).thenReturn(JSON);
@@ -109,7 +110,7 @@ public class GETrangeRouteTest {
 
     @Test
     public void returns404IfNecessaryQueryParamsNotPresent() {
-        when(req.queryParams(RouteQueryParams.MEDIA_ID)).thenReturn(null);
+        when(req.params(MappedRoutesParams.ID)).thenReturn(null);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(null);
 
         handleRequest();
