@@ -9,6 +9,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 import com.google.inject.Inject;
 
@@ -27,6 +28,8 @@ public class GETrangeRoute implements Route{
 
     @Override
     public String handle(Request req, Response resp) {
+        allowCors(resp);
+
         Range range = null;
 
         String mediaId = req.params(MappedRoutesParams.ID);
@@ -41,6 +44,10 @@ public class GETrangeRoute implements Route{
         }
 
         return transformator.toRangeJson(range);
+    }
+
+    private void allowCors(Response resp) {
+        resp.header(HttpHeaderKeys.ACAOrigin, "*");
     }
 
 }

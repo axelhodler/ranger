@@ -21,6 +21,7 @@ import xorrr.github.io.rest.MappedRoutesParams;
 import xorrr.github.io.rest.RestHelperFacade;
 import xorrr.github.io.rest.RouteQueryParams;
 import xorrr.github.io.rest.transformation.Transformator;
+import xorrr.github.io.utils.HttpHeaderKeys;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GETrangeRouteTest {
@@ -116,5 +117,12 @@ public class GETrangeRouteTest {
         handleRequest();
 
         verify(h, times(1)).stopRequest(404, "todo");
+    }
+
+    @Test
+    public void corsIsTakenCareOf() {
+        handleRequest();
+
+        verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
     }
 }
