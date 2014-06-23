@@ -33,11 +33,6 @@ public class SparkRoutingFacade implements RestRoutingFacade {
     }
 
     @Override
-    public void setWildcardRoutes() {
-        Spark.get("*", (request, response) -> "404");
-    }
-
-    @Override
     public void setPostUserRoute(POSTuserRoute postUser) {
         Spark.post(MappedRoutes.USERS, DEFAULT_ACCEPT_TYPE, postUser);
     }
@@ -49,7 +44,7 @@ public class SparkRoutingFacade implements RestRoutingFacade {
 
     @Override
     public void setGetRangeRoute(GETrangeRoute getRange) {
-        Spark.get(MappedRoutes.RANGE, DEFAULT_ACCEPT_TYPE, getRange);
+        Spark.get(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, getRange);
     }
 
     @Override
@@ -63,4 +58,8 @@ public class SparkRoutingFacade implements RestRoutingFacade {
         Spark.put(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, putRange);
     }
 
+    @Override
+    public void setWildcardRoutes() {
+        Spark.get("*", (request, response) -> "404");
+    }
 }

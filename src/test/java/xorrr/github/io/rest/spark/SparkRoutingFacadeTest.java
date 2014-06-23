@@ -92,7 +92,7 @@ public class SparkRoutingFacadeTest {
     public void canSetGetRangeRoute() {
         facade.setGetRangeRoute(getRange);
         verifyStatic();
-        Spark.get(MappedRoutes.RANGE, DEFAULT_ACCEPT_TYPE, getRange);
+        Spark.get(MappedRoutes.RANGE_FOR_MEDIAID, DEFAULT_ACCEPT_TYPE, getRange);
     }
 
     @Test
