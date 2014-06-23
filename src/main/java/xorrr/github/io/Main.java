@@ -42,6 +42,5 @@ public class Main {
         rest.setGetRangeRoute(injector.getInstance(GETrangeRoute.class));
         rest.setPostRangeRoute(injector.getInstance(POSTrangeRoute.class));
         rest.setPutRangeRoute(injector.getInstance(PutRangeRoute.class));
-        rest.setWildcardRoutes();
     }
 }
