@@ -20,6 +20,6 @@ public class EmberCompliance implements JsonCompliance {
     }
 
     private String format(String toFormat, String outerObject) {
-        return "{" + outerObject + ":" + toFormat + "}";
+        return "{\"" + outerObject + "\":" + toFormat + "}";
     }
 }

@@ -13,7 +13,7 @@ public class EmberComplianceTest {
     private final String TEST_JSON = "{bla}";
 
     private String expectedFormatting(String object) {
-        return "{" + object + ":" + TEST_JSON + "}";
+        return "{\"" + object + "\":" + TEST_JSON + "}";
     }
 
     @Before
