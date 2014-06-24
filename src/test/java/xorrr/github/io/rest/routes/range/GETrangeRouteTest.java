@@ -34,6 +34,8 @@ public class GETrangeRouteTest {
     @Mock
     RestHelperFacade h;
     @Mock
+    Range mockedRange;
+    @Mock
     Request req;
     @Mock
     Response resp;
@@ -51,6 +53,11 @@ public class GETrangeRouteTest {
     private void willReturnMediaIdAndUserIdParameters() {
         when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
         when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(USER_ID);
+    }
+
+    private void willTriggerAverages() {
+        when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
+        when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(null);
     }
 
     @Before
@@ -101,8 +108,7 @@ public class GETrangeRouteTest {
 
     @Test
     public void returnAveragesIfOnlyMediaIdProvided() {
-        when(req.params(MappedRoutesParams.ID)).thenReturn(MEDIA_ID);
-        when(req.queryParams(RouteQueryParams.USER_ID)).thenReturn(null);
+        willTriggerAverages();
         when(dsFacade.getAverageRange(MEDIA_ID)).thenReturn(range);
         when(trans.toRangeJson(range)).thenReturn(JSON);
 
@@ -127,5 +133,15 @@ public class GETrangeRouteTest {
         handleRequest();
 
         verify(resp, times(1)).header(HttpHeaderKeys.ACAOrigin, "*");
+    }
+
+    @Test
+    public void objectIdSetOnAverageRange() {
+        willTriggerAverages();
+        when(dsFacade.getAverageRange(MEDIA_ID)).thenReturn(mockedRange);
+
+        handleRequest();
+
+        verify(mockedRange, times(1)).setObjectId(anyString()); // sucks
     }
 }
