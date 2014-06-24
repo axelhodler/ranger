@@ -1,9 +1,12 @@
 package xorrr.github.io.model;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import xorrr.github.io.model.contracts.RangeContract;
 
 public class Range extends RangeContract{
 
+    private String objectId;
     private int startTime;
     private int endTime;
 
@@ -17,6 +20,15 @@ public class Range extends RangeContract{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @JsonProperty("_id")
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public int getStartTime() {
@@ -38,6 +50,8 @@ public class Range extends RangeContract{
         final int prime = 31;
         int result = 1;
         result = prime * result + endTime;
+        result = prime * result
+                + ((objectId == null) ? 0 : objectId.hashCode());
         result = prime * result + startTime;
         return result;
     }
@@ -53,6 +67,11 @@ public class Range extends RangeContract{
         Range other = (Range) obj;
         if (endTime != other.endTime)
             return false;
+        if (objectId == null) {
+            if (other.objectId != null)
+                return false;
+        } else if (!objectId.equals(other.objectId))
+            return false;
         if (startTime != other.startTime)
             return false;
         return true;
@@ -60,7 +79,8 @@ public class Range extends RangeContract{
 
     @Override
     public String toString() {
-        return "Range [startTime=" + startTime + ", endTime=" + endTime + "]";
+        return "Range [objectId=" + objectId + ", startTime=" + startTime
+                + ", endTime=" + endTime + "]";
     }
 
 }
