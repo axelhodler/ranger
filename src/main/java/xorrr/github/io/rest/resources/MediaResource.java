@@ -26,9 +26,7 @@ public class MediaResource {
     private Transformator transformator;
 
     @Inject
-    public MediaResource(DatastoreFacade f, Transformator t) {
-        this.facade = f;
-        this.transformator = t;
+    public MediaResource() {
     }
 
     @GET
