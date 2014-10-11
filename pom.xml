@@ -119,6 +119,7 @@
             <include>**/*.class</include>
           </includes>
           <excludedGroups>xorrr.github.io.utils.IntegrationTest</excludedGroups>
+          <argLine>-noverify</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -141,6 +142,7 @@
               <includes>
                 <include>**/*.class</include>
               </includes>
+              <argLine>-noverify</argLine>
             </configuration>
           </execution>
         </executions>
