@@ -19,7 +19,7 @@
     <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
     <guice.version>3.0</guice.version>
     <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
-    <spark-core.version>2.0.0</spark-core.version>
+    <dropwizard.version>0.7.0</dropwizard.version>
     <mongo-java-driver.version>2.12.2</mongo-java-driver.version>
     <junit.version>4.11</junit.version>
     <rest-assured.version>2.3.1</rest-assured.version>
@@ -41,9 +41,9 @@
       <version>${mongo-java-driver.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sparkjava</groupId>
-      <artifactId>spark-core</artifactId>
-      <version>${spark-core.version}</version>
+        <groupId>io.dropwizard</groupId>
+        <artifactId>dropwizard-core</artifactId>
+        <version>${dropwizard.version}</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>

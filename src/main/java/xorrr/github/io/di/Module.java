@@ -8,10 +8,6 @@ import xorrr.github.io.db.mongo.RangeMongoDatastore;
 import xorrr.github.io.db.mongo.UserMongoDatastore;
 import xorrr.github.io.frontend.JsonCompliance;
 import xorrr.github.io.frontend.ember.EmberCompliance;
-import xorrr.github.io.rest.RestHelperFacade;
-import xorrr.github.io.rest.RestRoutingFacade;
-import xorrr.github.io.rest.spark.SparkHelperFacade;
-import xorrr.github.io.rest.spark.SparkRoutingFacade;
 import xorrr.github.io.utils.logging.PutRangeRouteLogger;
 import xorrr.github.io.utils.logging.impl.PutRangeRouteSlf4jLogger;
 
@@ -26,10 +22,6 @@ public class Module extends AbstractModule {
         bind(MediaDatastore.class).to(MediaMongoDatastore.class);
 
         bind(UserDatastore.class).to(UserMongoDatastore.class);
-
-        bind(RestHelperFacade.class).to(SparkHelperFacade.class);
-
-        bind(RestRoutingFacade.class).to(SparkRoutingFacade.class);
 
         bind(RangeDatastore.class).to(RangeMongoDatastore.class);
 

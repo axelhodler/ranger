@@ -12,13 +12,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import xorrr.github.io.di.Module;
-import xorrr.github.io.rest.RestHelperFacade;
-import xorrr.github.io.rest.RestRoutingFacade;
-import xorrr.github.io.rest.routes.media.GETmediaByIdRoute;
-import xorrr.github.io.rest.routes.media.GETmediaRoute;
-import xorrr.github.io.rest.routes.media.POSTmediaRoute;
-import xorrr.github.io.rest.routes.media.PUTmediaRoute;
-import xorrr.github.io.rest.routes.user.POSTuserRoute;
 import xorrr.github.io.utils.EmbeddedMongo;
 import xorrr.github.io.utils.EnvVars;
 import xorrr.github.io.utils.IntegrationTest;
@@ -49,17 +42,6 @@ public class BasicIntegrationTest {
                 .getCollection(RangerDB.MEDIA_COL);
 
         Injector injector = Guice.createInjector(new Module());
-
-        RestRoutingFacade rest = injector.getInstance(RestRoutingFacade.class);
-        RestHelperFacade helper = injector.getInstance(RestHelperFacade.class);
-
-        helper.setPort(EnvVars.PORT);
-        rest.setPostMediaRoute(injector.getInstance(POSTmediaRoute.class));
-        rest.setGetMediaByIdRoute(injector.getInstance(GETmediaByIdRoute.class));
-        rest.setPutRangeToMediaRoute(injector.getInstance(PUTmediaRoute.class));
-        rest.setPostUserRoute(injector.getInstance(POSTuserRoute.class));
-        rest.setGetMediaRoute(injector.getInstance(GETmediaRoute.class));
-        rest.setWildcardRoutes();
 
         RestAssured.port = EnvVars.PORT;
     }

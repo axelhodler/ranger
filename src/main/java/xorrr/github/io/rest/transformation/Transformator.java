@@ -28,11 +28,6 @@ public class Transformator {
         return userJson;
     }
 
-    public User toUserPojo(String jsonUser) {
-        User user = deserializeJsonToUser(jsonUser);
-        return user;
-    }
-
     public String toMediaJson(Media m) {
         String mediaJson = serializeMediaToJson(m);
         String compliantMediaJson = compliance.formatMedia(mediaJson);
@@ -43,16 +38,6 @@ public class Transformator {
         String mediaJson = serializeMediaToJson(medias);
         String compliantMediaJson = compliance.formatMediaList(mediaJson);
         return compliantMediaJson;
-    }
-
-    public Media toMediaPojo(String jsonMedia) {
-        Media media = deserializeJsonToMedia(jsonMedia);
-        return media;
-    }
-
-    public Range toRangePojo(String jsonRange) {
-        Range range = deserializeRange(jsonRange);
-        return range;
     }
 
     public String toRangeJson(Range r) {
@@ -70,16 +55,6 @@ public class Transformator {
         return rangeJson;
     }
 
-    private Range deserializeRange(String jsonRange) {
-        Range range = null;
-        try {
-            range = mapper.readValue(jsonRange, Range.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return range;
-    }
-
     private String serializeUserToJson(User u) {
         String userJson = null;
         try {
@@ -88,16 +63,6 @@ public class Transformator {
             e.printStackTrace();
         }
         return userJson;
-    }
-
-    private User deserializeJsonToUser(String jsonUser) {
-        User user = null;
-        try {
-            user = mapper.readValue(jsonUser, User.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return user;
     }
 
     private String serializeMediaToJson(Media m) {
@@ -118,16 +83,6 @@ public class Transformator {
             e.printStackTrace();
         }
         return mediaJson;
-    }
-
-    private Media deserializeJsonToMedia(String jsonMedia) {
-        Media media = null;
-        try {
-            media = mapper.readValue(jsonMedia, Media.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return media;
     }
 
 }
