@@ -137,21 +137,6 @@ public class TestMediaResource {
         assertEquals(404, res.addMedia(uriInfo, MEDIA).getStatus());
     }
 
-    /*
-     *  PUT 
-     */
-    @Test
-    public void updatesMedia() {
-        res.updateMedia(MEDIA);
-
-        verify(ds, times(1)).storeMedia(MEDIA);
-    }
-
-    @Test
-    public void return400IfRangeInvalid() {
-
-    }
-
     private String getLocationHeader(Response resp) {
         return resp.getMetadata().get("Location").get(0).toString();
     }
