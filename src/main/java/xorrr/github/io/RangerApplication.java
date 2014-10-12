@@ -28,9 +28,11 @@ public class RangerApplication extends Application<RangerConfiguration> {
 
     @Override
     public void run(RangerConfiguration configuration, Environment env) throws Exception {
-        MediaResource mediaResource = new MediaResource(injector.getInstance(DatastoreFacade.class), injector
-                .getInstance(Transformator.class));
-        RangeResource rangeResource = new RangeResource();
+        DatastoreFacade dsf = injector.getInstance(DatastoreFacade.class);
+        Transformator tf = injector.getInstance(Transformator.class);
+
+        MediaResource mediaResource = new MediaResource(dsf, tf);
+        RangeResource rangeResource = new RangeResource(dsf, tf);
         UserResource userResource = new UserResource();
 
         env.jersey().register(mediaResource);

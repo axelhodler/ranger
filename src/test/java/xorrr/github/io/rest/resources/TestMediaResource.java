@@ -22,7 +22,7 @@ import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.rest.transformation.Transformator;
-import xorrr.github.io.utils.HttpHeaderKeys;
+import xorrr.github.io.utils.TestHelpers;
 
 import com.google.common.collect.Lists;
 
@@ -77,7 +77,7 @@ public class TestMediaResource {
     public void sameOriginPolicyIsDealthWithWhenAccessingSingleMedium() {
         Response resp = res.getMediaById(MEDIA_ID);
 
-        assertEquals("*", getSameOriginHeader(resp));
+        assertEquals("*", TestHelpers.getSameOriginHeader(resp));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class TestMediaResource {
     public void sameOriginPolicyIsDealthWith() {
         Response resp = res.getMedias();
 
-        assertEquals("*", getSameOriginHeader(resp));
+        assertEquals("*", TestHelpers.getSameOriginHeader(resp));
     }
 
     /*
@@ -139,9 +139,5 @@ public class TestMediaResource {
 
     private String getLocationHeader(Response resp) {
         return resp.getMetadata().get("Location").get(0).toString();
-    }
-
-    private Object getSameOriginHeader(Response resp) {
-        return resp.getMetadata().get(HttpHeaderKeys.ACAOrigin).get(0);
     }
 }
