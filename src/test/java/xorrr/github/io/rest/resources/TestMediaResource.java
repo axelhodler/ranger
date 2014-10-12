@@ -21,6 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
+import xorrr.github.io.model.User;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.TestHelpers;
 
@@ -82,7 +83,7 @@ public class TestMediaResource {
 
     @Test
     public void getsAllMedia() {
-        res.getMedias();
+        res.getMedias(new User());
 
         verify(ds, times(1)).getMedia();
     }
@@ -92,14 +93,14 @@ public class TestMediaResource {
         List<Media> media = Lists.newArrayList(MEDIA);
         when(ds.getMedia()).thenReturn(media);
 
-        res.getMedias();
+        res.getMedias(new User());
 
         verify(t, times(1)).toMediaListJson(media);
     }
 
     @Test
     public void sameOriginPolicyIsDealthWith() {
-        Response resp = res.getMedias();
+        Response resp = res.getMedias(new User());
 
         assertEquals("*", TestHelpers.getSameOriginHeader(resp));
     }

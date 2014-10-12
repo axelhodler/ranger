@@ -7,6 +7,14 @@ public class User {
     private String objectId;
     private String login;
 
+    public User() {
+        
+    }
+
+    public User(String username) {
+        this.login = username;
+    }
+
     @JsonProperty("_id")
     public String getObjectId() {
         return objectId;

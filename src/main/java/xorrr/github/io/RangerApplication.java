@@ -1,8 +1,10 @@
 package xorrr.github.io;
 
 import io.dropwizard.Application;
+import io.dropwizard.auth.basic.BasicAuthProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import xorrr.github.io.auth.SimpleAuthenticator;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.di.Module;
 import xorrr.github.io.rest.resources.MediaResource;
@@ -38,6 +40,8 @@ public class RangerApplication extends Application<RangerConfiguration> {
         env.jersey().register(mediaResource);
         env.jersey().register(rangeResource);
         env.jersey().register(userResource);
+
+        env.jersey().register(new BasicAuthProvider<>(new SimpleAuthenticator(), "SUPER SECRET STUFF"));
     }
 
 }

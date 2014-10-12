@@ -1,5 +1,7 @@
 package xorrr.github.io.rest.resources;
 
+import io.dropwizard.auth.Auth;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -16,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.model.Media;
+import xorrr.github.io.model.User;
 import xorrr.github.io.rest.Paths;
 import xorrr.github.io.rest.transformation.Transformator;
 import xorrr.github.io.utils.HttpHeaderKeys;
@@ -54,7 +57,7 @@ public class MediaResource {
 
     @GET
     @Path("/")
-    public Response getMedias() {
+    public Response getMedias(@Auth User user) {
         return Response.ok().entity(transformator.toMediaListJson(facade.getMedia())).header(HttpHeaderKeys.ACAOrigin,
                 "*").build();
     }
