@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import xorrr.github.io.auth.SimpleAuthenticator;
 import xorrr.github.io.db.DatastoreFacade;
 import xorrr.github.io.di.Module;
+import xorrr.github.io.healthcheck.DBHealthCheck;
 import xorrr.github.io.rest.resources.MediaResource;
 import xorrr.github.io.rest.resources.RangeResource;
 import xorrr.github.io.rest.resources.UserResource;
@@ -42,6 +43,9 @@ public class RangerApplication extends Application<RangerConfiguration> {
         env.jersey().register(userResource);
 
         env.jersey().register(new BasicAuthProvider<>(new SimpleAuthenticator(), "SUPER SECRET STUFF"));
+
+        DBHealthCheck healthCheck = new DBHealthCheck();
+        env.healthChecks().register("db", healthCheck);
     }
 
 }
