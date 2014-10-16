@@ -1,4 +1,5 @@
 language: java
-
+jdk:
+  - oraclejdk8
 env:
   - PORT=1337 MONGO_PORT=12345
