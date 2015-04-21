@@ -1,8 +1,8 @@
 package xorrr.github.io.frontend.ember;
 
-import xorrr.github.io.frontend.JsonCompliance;
+import xorrr.github.io.frontend.JsonFormatter;
 
-public class EmberCompliance implements JsonCompliance {
+public class EmberJsonFormatter implements JsonFormatter {
 
     @Override
     public String formatMediaList(String media) {

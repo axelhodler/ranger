@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import xorrr.github.io.frontend.JsonCompliance;
+import xorrr.github.io.frontend.JsonFormatter;
 import xorrr.github.io.model.Media;
 import xorrr.github.io.model.Range;
 import xorrr.github.io.model.User;
@@ -30,7 +30,7 @@ import xorrr.github.io.model.User;
 public class TransformatorTest {
 
     @Mock
-    JsonCompliance compliance;
+    JsonFormatter compliance;
 
     private Transformator transformator;
     private ObjectMapper mapper;

@@ -1,6 +1,6 @@
 package xorrr.github.io.frontend;
 
-public interface JsonCompliance {
+public interface JsonFormatter {
 
     public String formatMediaList(String medias);
 

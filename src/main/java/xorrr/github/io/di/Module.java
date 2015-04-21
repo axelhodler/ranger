@@ -6,8 +6,8 @@ import xorrr.github.io.db.UserDatastore;
 import xorrr.github.io.db.mongo.MediaMongoDatastore;
 import xorrr.github.io.db.mongo.RangeMongoDatastore;
 import xorrr.github.io.db.mongo.UserMongoDatastore;
-import xorrr.github.io.frontend.JsonCompliance;
-import xorrr.github.io.frontend.ember.EmberCompliance;
+import xorrr.github.io.frontend.JsonFormatter;
+import xorrr.github.io.frontend.ember.EmberJsonFormatter;
 import xorrr.github.io.utils.logging.PutRangeRouteLogger;
 import xorrr.github.io.utils.logging.impl.PutRangeRouteSlf4jLogger;
 
@@ -17,7 +17,7 @@ public class Module extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(JsonCompliance.class).to(EmberCompliance.class);
+        bind(JsonFormatter.class).to(EmberJsonFormatter.class);
 
         bind(MediaDatastore.class).to(MediaMongoDatastore.class);
 

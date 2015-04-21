@@ -5,11 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import xorrr.github.io.frontend.JsonCompliance;
+import xorrr.github.io.frontend.JsonFormatter;
 
-public class EmberComplianceTest {
+public class EmberJsonFormatterTest {
 
-    private JsonCompliance compliance;
+    private JsonFormatter compliance;
     private final String TEST_JSON = "{bla}";
 
     private String expectedFormatting(String object) {
@@ -18,7 +18,7 @@ public class EmberComplianceTest {
 
     @Before
     public void setUp() {
-        compliance = new EmberCompliance();
+        compliance = new EmberJsonFormatter();
     }
 
     @Test
