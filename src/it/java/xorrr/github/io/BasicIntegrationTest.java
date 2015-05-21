@@ -1,4 +1,4 @@
-package xorrr.github.io.integration;
+package xorrr.github.io;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,8 +40,6 @@ public class BasicIntegrationTest {
         MongoClient client = new MongoClient("localhost", EnvVars.MONGO_PORT);
         mediaCol = client.getDB(RangerDB.NAME)
                 .getCollection(RangerDB.MEDIA_COL);
-
-        Injector injector = Guice.createInjector(new Module());
 
         RestAssured.port = EnvVars.PORT;
     }
